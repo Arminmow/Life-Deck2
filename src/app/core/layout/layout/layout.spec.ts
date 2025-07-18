@@ -1,18 +1,26 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MenuOutline, MenuFoldOutline, MenuUnfoldOutline } from '@ant-design/icons-angular/icons';
 
-import { Layout } from './layout';
+
+import { LayoutComponent } from './layout';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { NZ_ICONS } from 'ng-zorro-antd/icon';
 
 describe('Layout', () => {
-  let component: Layout;
-  let fixture: ComponentFixture<Layout>;
+  let component: LayoutComponent;
+  let fixture: ComponentFixture<LayoutComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Layout]
+      imports: [LayoutComponent],
+      providers: [provideAnimations(), {
+        provide : NZ_ICONS,
+        useValue: [MenuOutline, MenuFoldOutline, MenuUnfoldOutline]
+      }]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(Layout);
+    fixture = TestBed.createComponent(LayoutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

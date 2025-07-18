@@ -1,0 +1,35 @@
+<ul nz-menu nzTheme="dark" nzMode="inline" class="custom-menu">
+  <ng-container *ngFor="let activity of activities">
+    <!-- Submenu version -->
+    <li
+      *ngIf="activity.subActivities.length > 0; else singleItem"
+      nz-submenu
+      [nzTitle]="activity.title"
+      class="activity-submenu force-unified"
+    >
+
+      <ul>
+        <li
+          nz-menu-item
+          *ngFor="let sub of activity.subActivities"
+          class="sub-activity-item"
+        >
+          <div class="sub-activity-content">
+            <span class="sub-title">{{ sub.title }}</span>
+            <span class="time-spent">{{ sub.timeSpent }} min</span>
+          </div>
+        </li>
+      </ul>
+    </li>
+
+    <!-- Regular single item -->
+    <ng-template #singleItem>
+      <li nz-menu-item class="activity-submenu force-unified">
+        <div class="activity-header">
+          <span class="activity-title">{{ activity.title }}</span>
+          <span class="activity-meta">{{ activity.created }}</span>
+        </div>
+      </li>
+    </ng-template>
+  </ng-container>
+</ul>

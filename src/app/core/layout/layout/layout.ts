@@ -6,10 +6,11 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { SidebarMenu } from "../sidebar-menu/sidebar-menu";
 
 @Component({
   selector: 'app-layout',
-  imports: [NzLayoutModule , NzMenuModule , NzIconModule, CommonModule , NzDrawerModule , NzButtonModule],
+  imports: [NzLayoutModule, NzMenuModule, NzIconModule, CommonModule, NzDrawerModule, NzButtonModule, SidebarMenu],
   templateUrl: './layout.html',
   styleUrl: './layout.scss'
 })
