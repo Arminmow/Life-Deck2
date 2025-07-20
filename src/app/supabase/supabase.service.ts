@@ -17,4 +17,14 @@ export class SupabaseService {
   get client() {
     return this.supabase;
   }
+
+  async signInWithGoogle() {
+    const { error } = await this.supabase.auth.signInWithOAuth({
+      provider: 'google',
+    });
+
+    if (error) {
+      console.error('Error signing in:', error.message);
+    }
+  }
 }
