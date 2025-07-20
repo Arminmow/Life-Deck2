@@ -27,13 +27,14 @@ export class LayoutComponent implements OnInit {
   isMobile = false;
   isSidebarCollapsed = false;
   isDrawerVisible = false;
+  userEmail: string = 'Not logged in';
 
   constructor(
     private breakpointObserver: BreakpointObserver,
     private supabaseService: SupabaseService
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.breakpointObserver
       .observe([Breakpoints.Handset])
       .subscribe((result) => {
@@ -42,6 +43,17 @@ export class LayoutComponent implements OnInit {
           this.isDrawerVisible = false;
         }
       });
+
+    // Check session on load
+    const {
+      data: { session },
+    } = await this.supabaseService.getSession();
+    this.userEmail = session?.user?.email || "'Not logged in'";
+
+    // Listen to future auth changes , this is test as well
+    this.supabaseService.onAuthStateChange((session) => {
+      this.userEmail = session?.user?.email || "Not logged in";
+    });
   }
 
   toggleSidebar() {

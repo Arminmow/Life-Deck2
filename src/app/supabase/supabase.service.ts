@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient, Session } from '@supabase/supabase-js';
 
 @Injectable({
   providedIn: 'root',
@@ -26,5 +26,19 @@ export class SupabaseService {
     if (error) {
       console.error('Error signing in:', error.message);
     }
+  }
+
+  getUser() {
+    return this.supabase.auth.getUser();
+  }
+
+  getSession() {
+    return this.supabase.auth.getSession();
+  }
+
+  onAuthStateChange(callback: (session: Session | null) => void) {
+    this.supabase.auth.onAuthStateChange((_event, session) => {
+      callback(session);
+    });
   }
 }
