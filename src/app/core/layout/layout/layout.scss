@@ -1,0 +1,15 @@
+::ng-deep .ant-drawer-body {
+  background-color: #001529; // Same as NG-ZORRO's default sider dark background
+  padding: 0;
+}
+
+::ng-deep .ant-drawer {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+::ng-deep .ant-drawer-body .ant-menu-dark {
+  background: transparent;
+}
+:host ::ng-deep nz-layout {
+  height: 100vh;
+}
