@@ -52,7 +52,7 @@ export class LayoutComponent implements OnInit {
 
     // Listen to future auth changes , this is test as well
     this.supabaseService.onAuthStateChange((session) => {
-      this.userEmail = session?.user?.email || "Not logged in";
+      this.userEmail = session?.user?.email || 'Not logged in';
     });
   }
 
@@ -66,5 +66,9 @@ export class LayoutComponent implements OnInit {
   // this is test will move to login page later
   async signIn() {
     this.supabaseService.signInWithGoogle();
+  }
+  //also test
+  async signOut() {
+    this.supabaseService.signOut();
   }
 }

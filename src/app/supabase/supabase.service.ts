@@ -28,6 +28,12 @@ export class SupabaseService {
     }
   }
 
+  async signOut() {
+    const { error } = await this.supabase.auth.signOut();
+    if (error) console.error('signout error :', error);
+    alert('Signed out successfully');
+  }
+
   getUser() {
     return this.supabase.auth.getUser();
   }
