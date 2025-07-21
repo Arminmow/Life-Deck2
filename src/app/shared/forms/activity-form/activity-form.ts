@@ -8,15 +8,26 @@ import {
 } from '@angular/forms';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { CommonModule } from '@angular/common';
+import { SupabaseService } from '../../../supabase/supabase.service';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @Component({
   selector: 'app-activity-form',
-  imports: [NzFormModule, ReactiveFormsModule, NzInputModule, CommonModule],
+  imports: [
+    NzFormModule,
+    ReactiveFormsModule,
+    NzInputModule,
+    CommonModule,
+    NzButtonModule,
+  ],
   templateUrl: './activity-form.html',
   styleUrl: './activity-form.scss',
 })
 export class ActivityForm implements OnInit {
-  constructor(private fb: NonNullableFormBuilder) {}
+  constructor(
+    private fb: NonNullableFormBuilder,
+    private supabase: SupabaseService
+  ) {}
 
   form!: FormGroup;
 
@@ -26,8 +37,32 @@ export class ActivityForm implements OnInit {
       description: [''],
       icon: [''],
       banner: [''],
-      lastActive: [''],
     });
+  }
+
+  async submit() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    try {
+      const formValue = this.form.value;
+
+      const newActivity = await this.supabase.addActivity({
+        title: formValue.title,
+        description: formValue.description,
+        icon: formValue.icon,
+        banner: formValue.banner,
+      });
+
+      console.log('Activity added:', newActivity);
+      alert('Activity added successfully!');
+      this.form.reset();
+    } catch (err: any) {
+      console.error('Failed to add activity:', err.message);
+      alert('Something went wrong while adding activity.');
+    }
   }
 
   get titleControl() {

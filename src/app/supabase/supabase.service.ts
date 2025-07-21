@@ -47,4 +47,40 @@ export class SupabaseService {
       callback(session);
     });
   }
+
+  async addActivity(data: {
+    title: string;
+    description?: string;
+    icon?: string;
+    banner?: string;
+  }) {
+    const {
+      data: { user },
+      error: userError,
+    } = await this.supabase.auth.getUser();
+
+    if (userError || !user) {
+      throw new Error('User not authenticated');
+    }
+
+    const { error, data: inserted } = await this.supabase
+      .from('Activity')
+      .insert({
+        title: data.title,
+        description: data.description,
+        icon: data.icon,
+        banner: data.banner,
+        created: new Date(),
+        lastPlayed: null,
+        userId: user.id,
+      })
+      .select()
+      .single();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return inserted;
+  }
 }
