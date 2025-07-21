@@ -7,7 +7,7 @@
       [nzTrigger]="null"
       [(nzCollapsed)]="isSidebarCollapsed"
     >
-      <app-sidebar-menu />
+      <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
     </nz-sider>
   </ng-container>
 
@@ -28,16 +28,26 @@
       [nzClosable]="false"
     >
       <ng-container *nzDrawerContent>
-        <app-sidebar-menu />
+        <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
       </ng-container>
     </nz-drawer>
     <nz-content>
       <!-- this is test for now , it will move to log in page later -->
-     <button (click)="signIn()">Sign in bro</button>
-     <h1>{{userEmail}}</h1>
-     <button *ngIf="userEmail !== 'Not logged in'" (click)="signOut()">Sign out</button>
-     
+      <button (click)="signIn()">Sign in bro</button>
+      <h1>{{userEmail}}</h1>
+      <button *ngIf="userEmail !== 'Not logged in'" (click)="signOut()">
+        Sign out
+      </button>
     </nz-content>
     <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer>
   </nz-layout>
 </nz-layout>
+
+<ng-template #sidebarContent>
+  <div class="sider-content">
+    <app-sidebar-menu />
+    <div class="sider-modal-bottom">
+      <app-activity-modal />
+    </div>
+  </div>
+</ng-template>
