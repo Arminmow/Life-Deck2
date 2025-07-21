@@ -6,27 +6,53 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { SidebarMenu } from "../sidebar-menu/sidebar-menu";
+import { SidebarMenu } from '../sidebar-menu/sidebar-menu';
+import { SupabaseService } from '../../../supabase/supabase.service';
 
 @Component({
   selector: 'app-layout',
-  imports: [NzLayoutModule, NzMenuModule, NzIconModule, CommonModule, NzDrawerModule, NzButtonModule, SidebarMenu],
+  imports: [
+    NzLayoutModule,
+    NzMenuModule,
+    NzIconModule,
+    CommonModule,
+    NzDrawerModule,
+    NzButtonModule,
+    SidebarMenu,
+  ],
   templateUrl: './layout.html',
-  styleUrl: './layout.scss'
+  styleUrl: './layout.scss',
 })
 export class LayoutComponent implements OnInit {
   isMobile = false;
   isSidebarCollapsed = false;
   isDrawerVisible = false;
+  userEmail: string = 'Not logged in';
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private supabaseService: SupabaseService
+  ) {}
 
-  ngOnInit(): void {
-    this.breakpointObserver.observe([Breakpoints.Handset]).subscribe(result => {
-      this.isMobile = result.matches;
-      if (!this.isMobile) {
-        this.isDrawerVisible = false;
-      }
+  async ngOnInit(): Promise<void> {
+    this.breakpointObserver
+      .observe([Breakpoints.Handset])
+      .subscribe((result) => {
+        this.isMobile = result.matches;
+        if (!this.isMobile) {
+          this.isDrawerVisible = false;
+        }
+      });
+
+    // Check session on load
+    const {
+      data: { session },
+    } = await this.supabaseService.getSession();
+    this.userEmail = session?.user?.email || "'Not logged in'";
+
+    // Listen to future auth changes , this is test as well
+    this.supabaseService.onAuthStateChange((session) => {
+      this.userEmail = session?.user?.email || 'Not logged in';
     });
   }
 
@@ -36,5 +62,13 @@ export class LayoutComponent implements OnInit {
     } else {
       this.isSidebarCollapsed = !this.isSidebarCollapsed;
     }
+  }
+  // this is test will move to login page later
+  async signIn() {
+    this.supabaseService.signInWithGoogle();
+  }
+  //also test
+  async signOut() {
+    this.supabaseService.signOut();
   }
 }

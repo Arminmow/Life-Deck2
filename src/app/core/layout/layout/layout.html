@@ -32,7 +32,11 @@
       </ng-container>
     </nz-drawer>
     <nz-content>
-      <div class="inner-content">Bill is a cat.</div>
+      <!-- this is test for now , it will move to log in page later -->
+     <button (click)="signIn()">Sign in bro</button>
+     <h1>{{userEmail}}</h1>
+     <button *ngIf="userEmail !== 'Not logged in'" (click)="signOut()">Sign out</button>
+     
     </nz-content>
     <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer>
   </nz-layout>
