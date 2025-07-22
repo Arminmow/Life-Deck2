@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { SupabaseService } from '../../../supabase/supabase.service';
+import { ActivityStore } from '../../stores/activity.store';
 
 @Component({
   selector: 'app-sidebar-menu',
@@ -11,16 +12,11 @@ import { SupabaseService } from '../../../supabase/supabase.service';
   styleUrl: './sidebar-menu.scss',
 })
 export class SidebarMenu implements OnInit {
-  constructor(private supabaseService: SupabaseService) {}
+  constructor(public activityStore: ActivityStore) {}
   activities: any[] = [];
 
   ngOnInit(): void {
-    this.loadActivities();
-    console.log(this.activities);
-  }
-
-  async loadActivities() {
-    this.activities = await this.supabaseService.getActivities();
+    this.activityStore.loadActivities();
   }
 
   onImageError(event: Event) {

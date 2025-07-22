@@ -1,45 +1,20 @@
-<ul nz-menu nzTheme="dark" nzMode="inline" class="custom-menu">
+<ul
+  *ngIf="activityStore.activities$ | async as activities"
+  nz-menu
+  nzTheme="dark"
+  nzMode="inline"
+  class="custom-menu"
+>
   <ng-container *ngFor="let activity of activities">
-    <!-- Submenu version -->
-    <li
-      *ngIf="activity.subActivities?.length > 0; else singleItem"
-      nz-submenu
-      [nzTitle]="activityTitleTemplate"
-      class="activity-submenu force-unified"
-    >
-      <!-- Template for submenu title with icon -->
-      <ng-template #activityTitleTemplate>
-        <div class="activity-title-with-icon">
-          <img [src]="activity.icon" class="activity-icon" />
-          <span>{{ activity.title }}</span>
-        </div>
-      </ng-template>
-
-      <ul>
-        <li
-          nz-menu-item
-          *ngFor="let sub of activity.subActivities"
-          class="sub-activity-item"
-        >
-          <div class="sub-activity-content">
-            <span class="sub-title">{{ sub.title }}</span>
-          </div>
-        </li>
-      </ul>
+    <li nz-menu-item class="activity-submenu force-unified">
+      <div class="activity-title-with-icon">
+        <img
+          [src]="activity.icon"
+          class="activity-icon"
+          (error)="onImageError($event)"
+        />
+        <span class="activity-title">{{ activity.title }}</span>
+      </div>
     </li>
-
-    <!-- Regular single item -->
-    <ng-template #singleItem>
-      <li nz-menu-item class="activity-submenu force-unified">
-        <div class="activity-title-with-icon">
-          <img
-            [src]="activity.icon"
-            class="activity-icon"
-            (error)="onImageError($event)"
-          />
-          <span class="activity-title">{{ activity.title }}</span>
-        </div>
-      </li>
-    </ng-template>
   </ng-container>
 </ul>
