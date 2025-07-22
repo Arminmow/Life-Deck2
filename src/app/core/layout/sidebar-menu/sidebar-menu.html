@@ -6,7 +6,11 @@
   class="custom-menu"
 >
   <ng-container *ngFor="let activity of activities">
-    <li nz-menu-item class="activity-submenu force-unified">
+    <li
+      nz-menu-item
+      class="activity-submenu force-unified"
+      (click)="select(activity.id)"
+    >
       <div class="activity-title-with-icon">
         <img
           [src]="activity.icon"

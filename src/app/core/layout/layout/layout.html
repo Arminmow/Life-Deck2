@@ -38,6 +38,16 @@
       <button *ngIf="userEmail !== 'Not logged in'" (click)="signOut()">
         Sign out
       </button>
+      <!-- this is also test -->
+      <ng-container
+        *ngIf="activityStore.selectedActivity$ | async as selectedActivity"
+      >
+        <h2>Selected Activity:</h2>
+        <p>Title: {{ selectedActivity.title }}</p>
+        <p>Description: {{ selectedActivity.description }}</p>
+        <p>created: {{ selectedActivity.created }}</p>
+        <p>Banner: {{ selectedActivity.banner }}</p>
+      </ng-container>
     </nz-content>
     <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer>
   </nz-layout>

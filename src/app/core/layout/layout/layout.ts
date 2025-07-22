@@ -9,6 +9,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { SidebarMenu } from '../sidebar-menu/sidebar-menu';
 import { SupabaseService } from '../../../supabase/supabase.service';
 import { ActivityModal } from "../../../shared/modals/activity-modal/activity-modal";
+import { ActivityStore } from '../../stores/activity.store';
 
 @Component({
   selector: 'app-layout',
@@ -33,7 +34,8 @@ export class LayoutComponent implements OnInit {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private supabaseService: SupabaseService
+    private supabaseService: SupabaseService,
+    public activityStore : ActivityStore
   ) {}
 
   async ngOnInit(): Promise<void> {

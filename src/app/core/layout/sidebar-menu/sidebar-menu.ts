@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-import { SupabaseService } from '../../../supabase/supabase.service';
 import { ActivityStore } from '../../stores/activity.store';
 
 @Component({
@@ -17,6 +16,10 @@ export class SidebarMenu implements OnInit {
 
   ngOnInit(): void {
     this.activityStore.loadActivities();
+  }
+
+  select(id : string) {
+    this.activityStore.selectActivity(id);
   }
 
   onImageError(event: Event) {
