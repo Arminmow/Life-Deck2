@@ -13,3 +13,15 @@
 :host ::ng-deep nz-layout {
   height: 100vh;
 }
+.sider-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sider-modal-bottom {
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 16px; // optional, for spacing from bottom
+}

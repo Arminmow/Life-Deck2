@@ -1,0 +1,70 @@
+<form nz-form [formGroup]="form" nzLayout="vertical" (ngSubmit)="submit()">
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="title">Title</nz-form-label>
+    <nz-form-control [nzErrorTip]="titleError">
+      <input
+        nz-input
+        formControlName="title"
+        id="title"
+        placeholder="What is your new activity called?"
+        autocomplete="off"
+      />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzFor="description">Description</nz-form-label>
+    <nz-form-control>
+      <input
+        nz-input
+        formControlName="description"
+        id="description"
+        placeholder="What it's all about?"
+        autocomplete="off"
+      />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzFor="icon">Icon</nz-form-label>
+    <nz-form-control>
+      <nz-input-group nzPrefixIcon="link">
+        <input
+          nz-input
+          type="url"
+          formControlName="icon"
+          id="icon"
+          placeholder="Image URL to use as icon"
+          autocomplete="off"
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzFor="banner">Banner</nz-form-label>
+    <nz-form-control>
+      <nz-input-group nzPrefixIcon="link"
+        ><input
+          nz-input
+          formControlName="banner"
+          id="banner"
+          placeholder="Image URL to use as banner"
+          autocomplete="off"
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+   <button nz-button nzType="primary" [disabled]="form.invalid" type="submit">
+    Add Activity
+  </button>
+</form>
+
+<ng-template #titleError>
+  <ng-container *ngIf="titleControl?.hasError('required')">
+    Title is required
+  </ng-container>
+  <ng-container *ngIf="titleControl?.hasError('minlength')">
+    Title must be at least 3 characters
+  </ng-container>
+</ng-template>

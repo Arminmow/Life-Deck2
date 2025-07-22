@@ -8,6 +8,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { SidebarMenu } from '../sidebar-menu/sidebar-menu';
 import { SupabaseService } from '../../../supabase/supabase.service';
+import { ActivityModal } from "../../../shared/modals/activity-modal/activity-modal";
 
 @Component({
   selector: 'app-layout',
@@ -19,7 +20,8 @@ import { SupabaseService } from '../../../supabase/supabase.service';
     NzDrawerModule,
     NzButtonModule,
     SidebarMenu,
-  ],
+    ActivityModal
+],
   templateUrl: './layout.html',
   styleUrl: './layout.scss',
 })

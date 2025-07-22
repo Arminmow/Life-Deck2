@@ -1,0 +1,14 @@
+<button nz-button [nzType]="'primary'" (click)="openModal()">
+  Add Activity
+</button>
+
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzCentered
+  nzTitle="ADD A NEW ACTIVITY"
+  (nzOnCancel)="closeModal()"
+>
+  <ng-container *nzModalContent>
+    <app-activity-form/>
+  </ng-container>
+</nz-modal>
