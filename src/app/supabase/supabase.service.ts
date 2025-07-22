@@ -83,4 +83,29 @@ export class SupabaseService {
 
     return inserted;
   }
+
+  async getActivities() {
+    const {
+      data: { user },
+      error: userError,
+    } = await this.supabase.auth.getUser();
+
+    if (userError || !user) {
+      console.error('User not found or error fetching user:', userError);
+      return [];
+    }
+
+    const { data: activities, error } = await this.supabase
+      .from('Activity')
+      .select('*')
+      .eq('userId', user.id)
+      .order('created', { ascending: false });
+
+    if (error) {
+      console.error('Failed to fetch activities:', error.message);
+      return [];
+    }
+
+    return activities;
+  }
 }
