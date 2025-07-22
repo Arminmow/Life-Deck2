@@ -47,6 +47,11 @@
         <p>Description: {{ selectedActivity.description }}</p>
         <p>created: {{ selectedActivity.created }}</p>
         <p>Banner: {{ selectedActivity.banner }}</p>
+        <button
+          nz-button
+          (click)="activityStore.removeActivityEffect(selectedActivity.id)"
+          >Remove</button
+        >
       </ng-container>
     </nz-content>
     <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer>

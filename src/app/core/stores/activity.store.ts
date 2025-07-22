@@ -45,9 +45,9 @@ export class ActivityStore extends ComponentStore<ActivityState> {
     activities: [...state.activities, activity],
   }));
 
-  readonly removeActivity = this.updater<Activity>((state, activity) => ({
+  readonly removeActivity = this.updater<string>((state, id) => ({
     ...state,
-    activities: state.activities.filter((a) => a.id !== activity.id),
+    activities: state.activities.filter((a) => a.id !== id),
   }));
 
   readonly selectActivity = this.updater<string | null>((state, id) => ({
@@ -87,8 +87,24 @@ export class ActivityStore extends ComponentStore<ActivityState> {
           },
           (error) => {
             // Rollback if backend call fails
-            this.removeActivity(newActivity);
+            this.removeActivity(newActivity.id);
             console.error('Failed to add activity to backend:', error);
+          }
+        )
+      )
+    )
+  );
+
+  //This needs to be studied fully + the best practices
+  readonly removeActivityEffect = this.effect<string>((id$) =>
+    id$.pipe(
+      switchMap((id) =>
+        this.supabaseService.removeActivity(id).then(
+          () => {
+            this.removeActivity(id);
+          },
+          (error) => {
+            console.error('Failed to remove activity from backend:', error);
           }
         )
       )

@@ -74,13 +74,27 @@ export class SupabaseService {
       .single();
 
     if (error) {
-      alert(error)
+      alert(error);
       throw new Error(error.message);
     }
 
     alert('Activity added successfully!');
 
     return inserted;
+  }
+
+  async removeActivity(id: string) {
+    const { error } = await this.supabase
+      .from('Activity')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      alert(error);
+      throw new Error(error.message);
+    }
+
+    alert('Activity removed successfully!');
   }
 
   async getActivities() {
