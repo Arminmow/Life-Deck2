@@ -2,7 +2,7 @@
   <ng-container *ngFor="let activity of activities">
     <!-- Submenu version -->
     <li
-      *ngIf="activity.subActivities.length > 0; else singleItem"
+      *ngIf="activity.subActivities?.length > 0; else singleItem"
       nz-submenu
       [nzTitle]="activity.title"
       class="activity-submenu force-unified"
@@ -16,7 +16,6 @@
         >
           <div class="sub-activity-content">
             <span class="sub-title">{{ sub.title }}</span>
-            <span class="time-spent">{{ sub.timeSpent }} min</span>
           </div>
         </li>
       </ul>
@@ -27,7 +26,6 @@
       <li nz-menu-item class="activity-submenu force-unified">
         <div class="activity-header">
           <span class="activity-title">{{ activity.title }}</span>
-          <span class="activity-meta">{{ activity.created }}</span>
         </div>
       </li>
     </ng-template>
