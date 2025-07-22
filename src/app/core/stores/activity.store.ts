@@ -10,7 +10,7 @@ export interface Activity {
   icon: string;
   banner: string;
   created: Date;
-  lastPlayed: Date;
+  lastPlayed: Date | null;
 }
 
 export interface ActivityState {
@@ -40,6 +40,16 @@ export class ActivityStore extends ComponentStore<ActivityState> {
       activities.find((a) => a.id === selectedId) || null
   );
 
+  readonly addActivity = this.updater<Activity>((state, activity) => ({
+    ...state,
+    activities: [...state.activities, activity],
+  }));
+
+  readonly removeActivity = this.updater<Activity>((state, activity) => ({
+    ...state,
+    activities: state.activities.filter((a) => a.id !== activity.id),
+  }));
+
   readonly selectActivity = this.updater<string | null>((state, id) => ({
     ...state,
     selectedActivityId: id,
@@ -59,6 +69,27 @@ export class ActivityStore extends ComponentStore<ActivityState> {
             error: (err) => console.error('Error loading activities:', err),
           }),
           catchError(() => EMPTY)
+        )
+      )
+    )
+  );
+
+  readonly addActivityEffect = this.effect<Activity>((newActivity$) =>
+    newActivity$.pipe(
+      // First add activity locally
+      tap((newActivity) => this.addActivity(newActivity)),
+
+      // Then call Supabase to add to backend
+      switchMap((newActivity) =>
+        this.supabaseService.addActivity(newActivity).then(
+          (insertedActivity) => {
+            // Optionally replace local temp activity with server response (like new ID)
+          },
+          (error) => {
+            // Rollback if backend call fails
+            this.removeActivity(newActivity);
+            console.error('Failed to add activity to backend:', error);
+          }
         )
       )
     )

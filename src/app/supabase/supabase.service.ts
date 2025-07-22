@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient, Session } from '@supabase/supabase-js';
+import { Activity } from '../core/stores/activity.store';
 
 @Injectable({
   providedIn: 'root',
@@ -48,12 +49,7 @@ export class SupabaseService {
     });
   }
 
-  async addActivity(data: {
-    title: string;
-    description?: string;
-    icon?: string;
-    banner?: string;
-  }) {
+  async addActivity(data: Activity) {
     const {
       data: { user },
       error: userError,
@@ -70,16 +66,19 @@ export class SupabaseService {
         description: data.description,
         icon: data.icon,
         banner: data.banner,
-        created: new Date(),
-        lastPlayed: null,
+        created: data.created,
+        lastPlayed: data.lastPlayed,
         userId: user.id,
       })
       .select()
       .single();
 
     if (error) {
+      alert(error)
       throw new Error(error.message);
     }
+
+    alert('Activity added successfully!');
 
     return inserted;
   }
@@ -99,7 +98,7 @@ export class SupabaseService {
       .from('Activity')
       .select('*')
       .eq('userId', user.id)
-      .order('created', { ascending: false });
+      .order('created', { ascending: true });
 
     if (error) {
       console.error('Failed to fetch activities:', error.message);
