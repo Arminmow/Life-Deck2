@@ -4,9 +4,16 @@
     <li
       *ngIf="activity.subActivities?.length > 0; else singleItem"
       nz-submenu
-      [nzTitle]="activity.title"
+      [nzTitle]="activityTitleTemplate"
       class="activity-submenu force-unified"
     >
+      <!-- Template for submenu title with icon -->
+      <ng-template #activityTitleTemplate>
+        <div class="activity-title-with-icon">
+          <img [src]="activity.icon" class="activity-icon" />
+          <span>{{ activity.title }}</span>
+        </div>
+      </ng-template>
 
       <ul>
         <li
@@ -24,7 +31,12 @@
     <!-- Regular single item -->
     <ng-template #singleItem>
       <li nz-menu-item class="activity-submenu force-unified">
-        <div class="activity-header">
+        <div class="activity-title-with-icon">
+          <img
+            [src]="activity.icon"
+            class="activity-icon"
+            (error)="onImageError($event)"
+          />
           <span class="activity-title">{{ activity.title }}</span>
         </div>
       </li>
