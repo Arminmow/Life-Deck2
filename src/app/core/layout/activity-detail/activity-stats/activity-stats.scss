@@ -1,0 +1,38 @@
+.activity-stats {
+  width: 100%;
+  background-color: rgb(135, 135, 151);
+  padding: 1.5rem;
+}
+
+.stats-wrapper {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stat-item-value {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    gap: 0;
+    font-size: 1rem;
+}
+
+.stats-icon {
+    font-size: 2rem;
+}
+
+.stat-title {
+    font-weight: 500;
+    font-size: 1rem;
+}
+
