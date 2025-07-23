@@ -1,15 +1,19 @@
 .activity-btn {
-    width: 100%;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    border: none;
-    font-size: 1rem;
-    cursor: pointer;
-    background-color: #d4af37;
-    color: #fff;
-    transition: background-color 0.3s ease;
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: #d4af37;
+  color: #fff;
+  transition: background-color 0.3s ease;
 
-    &:hover {
-        background-color: #e6c765;
-    }
+  &:hover {
+    background-color: #e6c765;
+  }
+
+  &.running {
+    background-color: blueviolet;
+  }
 }

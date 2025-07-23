@@ -1,12 +1,14 @@
 <div class="activity-stats">
-     <app-activity-btn/>
+  <app-activity-btn
+    [activityId]="activity.id"
+    [isRunning]="activity.isRunning"
+  />
   <div class="stats-wrapper">
-   
     <div class="stat-item">
       <nz-icon class="stats-icon" nzType="field-time" nzTheme="outline" />
       <div class="stat-item-value">
         <span class="stat-title">Time spent</span>
-        <span>2h 14m</span>
+        <span>{{activity.timeSpent? activity.timeSpent : "0"}}</span>
       </div>
     </div>
 

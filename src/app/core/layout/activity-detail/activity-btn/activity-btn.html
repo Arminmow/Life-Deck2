@@ -1,1 +1,10 @@
-<button class="activity-btn"><nz-icon nzType="caret-right" nzTheme="outline" />Start</button>
+<button
+  class="activity-btn"
+  [class.running]="isRunning"
+  (click)="startActivity()"
+>
+  <nz-icon
+    [nzType]="isRunning ? 'close' : 'caret-right'"
+    nzTheme="outline"
+  />{{isRunning ? "Stop" : "Start"}}
+</button>

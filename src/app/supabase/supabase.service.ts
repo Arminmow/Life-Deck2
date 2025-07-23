@@ -121,4 +121,31 @@ export class SupabaseService {
 
     return activities;
   }
+
+  async startActivity(id: string): Promise<void> {
+    try {
+      const {
+        data: { user },
+        error: userError,
+      } = await this.supabase.auth.getUser();
+
+      if (userError) throw new Error(`Auth error: ${userError.message}`);
+      if (!user) throw new Error('User is not authenticated.');
+
+      const { error: updateError } = await this.supabase
+        .from('Activity')
+        .update({
+          lastSessionStart: new Date(),
+          isRunning: true,
+        })
+        .eq('id', id);
+
+      if (updateError) throw new Error(`Update failed: ${updateError.message}`);
+
+      alert('Activity started successfully!');
+    } catch (err: any) {
+      console.error('Failed to start activity:', err);
+      alert(`Failed to start activity: ${err.message || err}`);
+    }
+  }
 }
