@@ -172,7 +172,7 @@ export class SupabaseService {
         throw new Error('No session start time found.');
 
       const now = new Date();
-      const lastStart = new Date(activity.lastSessionStart);
+      const lastStart = new Date(Date.parse(activity.lastSessionStart));
       const sessionDuration = Math.floor(
         (now.getTime() - lastStart.getTime()) / 1000
       ); // seconds
