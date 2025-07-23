@@ -1,7 +1,7 @@
 <button
   class="activity-btn"
   [class.running]="isRunning"
-  (click)="startActivity()"
+  (click)="handleClick()"
 >
   <nz-icon
     [nzType]="isRunning ? 'close' : 'caret-right'"

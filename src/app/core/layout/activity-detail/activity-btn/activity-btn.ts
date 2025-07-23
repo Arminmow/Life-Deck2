@@ -15,9 +15,11 @@ export class ActivityBtn {
 
   constructor(private activityStore: ActivityStore) {}
 
-  startActivity() {
-    console.log('starting...');
-    
-    this.activityStore.startActivityEffect(this.activityId);
+  handleClick() {
+    if (this.isRunning) {
+      this.activityStore.stopActivityEffect(this.activityId);
+    } else {
+      this.activityStore.startActivityEffect(this.activityId);
+    }
   }
 }

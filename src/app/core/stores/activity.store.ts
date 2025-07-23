@@ -52,6 +52,25 @@ export class ActivityStore extends ComponentStore<ActivityState> {
     return { ...state };
   });
 
+  readonly stopActivity = this.updater<string>((state, id) => {
+    const activity = state.activities.find((a) => a.id === id);
+    const now = new Date();
+
+    if (activity && activity.lastSessionStart) {
+      const lastStart = new Date(activity.lastSessionStart);
+      const timeSpentInSeconds = Math.floor(
+        (now.getTime() - lastStart.getTime()) / 1000
+      );
+      const totalTimeSpent = (activity.timeSpent || 0) + timeSpentInSeconds;
+
+      activity.lastSessionStart = null;
+      activity.isRunning = false;
+      activity.timeSpent = totalTimeSpent;
+      activity.lastPlayed = now;
+    }
+    return { ...state };
+  });
+
   readonly addActivity = this.updater<Activity>((state, activity) => ({
     ...state,
     activities: [...state.activities, activity],
@@ -132,6 +151,21 @@ export class ActivityStore extends ComponentStore<ActivityState> {
           },
           (error) => {
             console.error('Failed to start activity:', error);
+          }
+        )
+      )
+    )
+  );
+
+  readonly stopActivityEffect = this.effect<string>((id$) =>
+    id$.pipe(
+      switchMap((id) =>
+        this.supabaseService.stopActivity(id).then(
+          () => {
+            this.stopActivity(id);
+          },
+          (error) => {
+            console.error('Failed to stop activity:', error);
           }
         )
       )

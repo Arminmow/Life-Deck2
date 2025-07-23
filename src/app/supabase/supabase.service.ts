@@ -148,4 +148,53 @@ export class SupabaseService {
       alert(`Failed to start activity: ${err.message || err}`);
     }
   }
+
+  async stopActivity(id: string) {
+    try {
+      const {
+        data: { user },
+        error: userError,
+      } = await this.supabase.auth.getUser();
+
+      if (userError) throw new Error(`Auth error: ${userError.message}`);
+      if (!user) throw new Error('User is not authenticated.');
+
+      // Fetch the activity first to get lastSessionStart
+      const { data: activity, error: fetchError } = await this.supabase
+        .from('Activity')
+        .select('lastSessionStart, timeSpent')
+        .eq('id', id)
+        .single();
+
+      if (fetchError)
+        throw new Error(`Failed to fetch activity: ${fetchError.message}`);
+      if (!activity?.lastSessionStart)
+        throw new Error('No session start time found.');
+
+      const now = new Date();
+      const lastStart = new Date(activity.lastSessionStart);
+      const sessionDuration = Math.floor(
+        (now.getTime() - lastStart.getTime()) / 1000
+      ); // seconds
+
+      const totalTime = (activity.timeSpent || 0) + sessionDuration;
+
+      const { error: updateError } = await this.supabase
+        .from('Activity')
+        .update({
+          lastSessionStart: null,
+          isRunning: false,
+          lastPlayed: now,
+          timeSpent: totalTime,
+        })
+        .eq('id', id);
+
+      if (updateError) throw new Error(`Update failed: ${updateError.message}`);
+
+      alert('Activity stopped successfully!');
+    } catch (err: any) {
+      console.error('Failed to stop activity:', err);
+      alert(`Failed to stop activity: ${err.message || err}`);
+    }
+  }
 }
