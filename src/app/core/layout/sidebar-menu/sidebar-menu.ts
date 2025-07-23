@@ -3,10 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { ActivityStore } from '../../stores/activity.store';
+import { PrettyDurationPipe } from "../../../shared/pipes/time-spent-pipe";
 
 @Component({
   selector: 'app-sidebar-menu',
-  imports: [NzMenuModule, CommonModule, NzToolTipModule],
+  imports: [NzMenuModule, CommonModule, NzToolTipModule, PrettyDurationPipe],
   templateUrl: './sidebar-menu.html',
   styleUrl: './sidebar-menu.scss',
 })
