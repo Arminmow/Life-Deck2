@@ -58,6 +58,9 @@ export class ActivityForm implements OnInit {
         banner: formValue.banner,
         created: new Date(),
         lastPlayed: null,
+        isRunning: false,
+        lastSessionStart: null,
+        timeSpent: null
       });
 
    

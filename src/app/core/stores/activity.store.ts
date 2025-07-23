@@ -11,6 +11,9 @@ export interface Activity {
   banner: string;
   created: Date;
   lastPlayed: Date | null;
+  lastSessionStart: Date | null;
+  isRunning: boolean;
+  timeSpent: number | null;
 }
 
 export interface ActivityState {
@@ -39,6 +42,34 @@ export class ActivityStore extends ComponentStore<ActivityState> {
     (activities, selectedId) =>
       activities.find((a) => a.id === selectedId) || null
   );
+
+  readonly startActivity = this.updater<string>((state, id) => {
+    const activity = state.activities.find((a) => a.id === id);
+    if (activity) {
+      activity.lastSessionStart = new Date();
+      activity.isRunning = true;
+    }
+    return { ...state };
+  });
+
+  readonly stopActivity = this.updater<string>((state, id) => {
+    const activity = state.activities.find((a) => a.id === id);
+    const now = new Date();
+
+    if (activity && activity.lastSessionStart) {
+      const lastStart = new Date(activity.lastSessionStart);
+      const timeSpentInSeconds = Math.floor(
+        (now.getTime() - lastStart.getTime()) / 1000
+      );
+      const totalTimeSpent = (activity.timeSpent || 0) + timeSpentInSeconds;
+
+      activity.lastSessionStart = null;
+      activity.isRunning = false;
+      activity.timeSpent = totalTimeSpent;
+      activity.lastPlayed = now;
+    }
+    return { ...state };
+  });
 
   readonly addActivity = this.updater<Activity>((state, activity) => ({
     ...state,
@@ -105,6 +136,36 @@ export class ActivityStore extends ComponentStore<ActivityState> {
           },
           (error) => {
             console.error('Failed to remove activity from backend:', error);
+          }
+        )
+      )
+    )
+  );
+
+  readonly startActivityEffect = this.effect<string>((id$) =>
+    id$.pipe(
+      switchMap((id) =>
+        this.supabaseService.startActivity(id).then(
+          () => {
+            this.startActivity(id);
+          },
+          (error) => {
+            console.error('Failed to start activity:', error);
+          }
+        )
+      )
+    )
+  );
+
+  readonly stopActivityEffect = this.effect<string>((id$) =>
+    id$.pipe(
+      switchMap((id) =>
+        this.supabaseService.stopActivity(id).then(
+          () => {
+            this.stopActivity(id);
+          },
+          (error) => {
+            console.error('Failed to stop activity:', error);
           }
         )
       )

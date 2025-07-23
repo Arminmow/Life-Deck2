@@ -25,3 +25,8 @@
   justify-content: center;
   padding-bottom: 16px; // optional, for spacing from bottom
 }
+.toggle-btn{
+  position: absolute;
+  color: #fff;
+  z-index: 999;
+}
