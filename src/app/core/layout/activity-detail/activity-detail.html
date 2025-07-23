@@ -1,0 +1,8 @@
+<ng-container *ngIf="activity">
+  <div class="activity-banner-wrapper">
+    <img [src]="activity.banner" alt="Activity Banner" class="activity-banner" />
+    <div class="activity-title-overlay">
+      <h2 class="activity-title">{{ activity.title }}</h2>
+    </div>
+  </div>
+</ng-container>

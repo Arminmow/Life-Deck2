@@ -10,6 +10,7 @@ import { SidebarMenu } from '../sidebar-menu/sidebar-menu';
 import { SupabaseService } from '../../../supabase/supabase.service';
 import { ActivityModal } from "../../../shared/modals/activity-modal/activity-modal";
 import { ActivityStore } from '../../stores/activity.store';
+import { ActivityDetail } from "../activity-detail/activity-detail";
 
 @Component({
   selector: 'app-layout',
@@ -21,7 +22,8 @@ import { ActivityStore } from '../../stores/activity.store';
     NzDrawerModule,
     NzButtonModule,
     SidebarMenu,
-    ActivityModal
+    ActivityModal,
+    ActivityDetail
 ],
   templateUrl: './layout.html',
   styleUrl: './layout.scss',
