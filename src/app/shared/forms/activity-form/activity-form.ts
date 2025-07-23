@@ -10,6 +10,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { CommonModule } from '@angular/common';
 import { SupabaseService } from '../../../supabase/supabase.service';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { ActivityStore } from '../../../core/stores/activity.store';
 
 @Component({
   selector: 'app-activity-form',
@@ -26,7 +27,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 export class ActivityForm implements OnInit {
   constructor(
     private fb: NonNullableFormBuilder,
-    private supabase: SupabaseService
+    private activityStore: ActivityStore
   ) {}
 
   form!: FormGroup;
@@ -49,15 +50,17 @@ export class ActivityForm implements OnInit {
     try {
       const formValue = this.form.value;
 
-      const newActivity = await this.supabase.addActivity({
+      this.activityStore.addActivityEffect({
+        id: '',
         title: formValue.title,
         description: formValue.description,
         icon: formValue.icon,
         banner: formValue.banner,
+        created: new Date(),
+        lastPlayed: null,
       });
 
-      console.log('Activity added:', newActivity);
-      alert('Activity added successfully!');
+   
       this.form.reset();
     } catch (err: any) {
       console.error('Failed to add activity:', err.message);
