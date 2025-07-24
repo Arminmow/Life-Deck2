@@ -7,6 +7,15 @@
     />
     <div class="activity-title-overlay">
       <h2 class="activity-title">{{ activity.title }}</h2>
+      <!-- <div class="controls-wrapper">
+        <button class="control-btn" nz-button nzType="primary">
+          <nz-icon nzType="edit" nzTheme="outline" />
+        </button>
+        <button class="control-btn" nzDanger nz-button nzType="primary">
+          <nz-icon nzType="delete" nzTheme="outline" />
+        </button>
+      </div> -->
+      <app-activity-actions />
     </div>
   </div>
   <app-activity-stats [activity]="activity" />
