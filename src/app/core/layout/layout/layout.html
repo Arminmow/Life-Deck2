@@ -18,12 +18,13 @@
       nzPlacement="left"
       (nzOnClose)="isDrawerVisible = false"
       [nzClosable]="false"
+      nzWidth="75%"
     >
       <ng-container *nzDrawerContent>
         <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
       </ng-container>
     </nz-drawer>
-    <nz-content>
+    <nz-content class="nz-content">
       <button nz-button nzType="text" (click)="toggleSidebar()" class="toggle-btn">
         <i
           nz-icon
@@ -34,7 +35,7 @@
         [activity]="activityStore.selectedActivity$ | async"
       ></app-activity-detail>
     </nz-content>
-    <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer>
+    
   </nz-layout>
 </nz-layout>
 
