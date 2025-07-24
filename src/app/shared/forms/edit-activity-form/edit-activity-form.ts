@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Activity } from '../../../core/stores/activity.store';
+import { Activity, ActivityStore } from '../../../core/stores/activity.store';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import {
   FormGroup,
@@ -28,7 +28,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 export class EditActivityForm implements OnInit {
   @Input() activity!: Activity;
   form!: FormGroup;
-  constructor(private fb: NonNullableFormBuilder) {}
+  constructor(private fb: NonNullableFormBuilder , private activityStore : ActivityStore) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -46,5 +46,18 @@ export class EditActivityForm implements OnInit {
 
   get titleControl() {
     return this.form.get('title');
+  }
+
+  submit(){
+    console.log('Submitting...');
+    
+    if (this.form.valid) {
+      console.log("OK");
+      
+      const updatedActivity: Activity = this.form.value;
+      console.log(updatedActivity);
+      
+      this.activityStore.updateActivityEffect(updatedActivity);
+    }
   }
 }

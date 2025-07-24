@@ -142,6 +142,15 @@ export class ActivityStore extends ComponentStore<ActivityState> {
     )
   );
 
+  readonly updateActivity = this.updater<Activity>((state, activity) => {
+    return {
+      ...state,
+      activities: state.activities.map((a) =>
+        a.id === activity.id ? { ...activity } : a
+      ),
+    };
+  });
+
   readonly startActivityEffect = this.effect<string>((id$) =>
     id$.pipe(
       switchMap((id) =>
@@ -166,6 +175,21 @@ export class ActivityStore extends ComponentStore<ActivityState> {
           },
           (error) => {
             console.error('Failed to stop activity:', error);
+          }
+        )
+      )
+    )
+  );
+
+  readonly updateActivityEffect = this.effect<Activity>((activity$) =>
+    activity$.pipe(
+      switchMap((activity) =>
+        this.supabaseService.updateActivity(activity).then(
+          () => {
+            this.updateActivity(activity);
+          },
+          (error) => {
+            console.error('Failed to update activity:', error);
           }
         )
       )
