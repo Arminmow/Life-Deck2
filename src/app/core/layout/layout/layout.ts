@@ -11,6 +11,7 @@ import { SupabaseService } from '../../../supabase/supabase.service';
 import { ActivityModal } from '../../../shared/modals/activity-modal/activity-modal';
 import { ActivityStore } from '../../stores/activity.store';
 import { ActivityDetail } from '../activity-detail/activity-detail';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-layout',
@@ -38,6 +39,7 @@ export class LayoutComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     private supabaseService: SupabaseService,
     public activityStore: ActivityStore,
+    private router : Router
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -65,6 +67,7 @@ export class LayoutComponent implements OnInit {
     }
   }
   async signOut() {
-    this.supabaseService.signOut();
+    await this.supabaseService.signOut();
+    this.router.navigate(['login'])
   }
 }
