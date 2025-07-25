@@ -11,6 +11,7 @@ import { SupabaseService } from '../../../supabase/supabase.service';
 import { ActivityModal } from '../../../shared/modals/activity-modal/activity-modal';
 import { ActivityStore } from '../../stores/activity.store';
 import { ActivityDetail } from '../activity-detail/activity-detail';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-layout',
@@ -38,7 +39,7 @@ export class LayoutComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     private supabaseService: SupabaseService,
     public activityStore: ActivityStore,
-    private cdr : ChangeDetectorRef
+    private router : Router
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -56,7 +57,6 @@ export class LayoutComponent implements OnInit {
       data: { session },
     } = await this.supabaseService.getSession();
     this.user = session?.user?.email || "'Not logged in'";
-     this.cdr.detectChanges()
   }
 
   toggleSidebar() {
@@ -65,9 +65,9 @@ export class LayoutComponent implements OnInit {
     } else {
       this.isSidebarCollapsed = !this.isSidebarCollapsed;
     }
-     this.cdr.detectChanges()
   }
   async signOut() {
-    this.supabaseService.signOut();
+    await this.supabaseService.signOut();
+    this.router.navigate(['login'])
   }
 }

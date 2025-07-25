@@ -13,15 +13,5 @@ export class App {
 
   constructor(private supabase: SupabaseService, private router: Router) {}
 
-  ngOnInit() {
-    this.supabase.onAuthStateChange((session) => {
-      if (session) {
-        // user just signed in
-        this.router.navigate(['/dashboard']);
-      } else {
-        // user just signed out (or never signed in)
-        this.router.navigate(['/login']);
-      }
-    });
-  }
+  
 }
