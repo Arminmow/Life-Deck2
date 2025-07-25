@@ -13,6 +13,7 @@
     </div>
 
     <div class="stat-item">
+      <nz-icon class="stats-icon" nzType="history" nzTheme="outline" />
       <div class="stat-item-value">
         <span class="stat-title">Last active</span>
         <span>
@@ -23,10 +24,10 @@
     </div>
 
     <div class="stat-item">
-      <nz-icon class="stats-icon" nzType="trophy" nzTheme="outline" />
+      <nz-icon class="stats-icon" nzType="calendar" nzTheme="outline" />
       <div class="stat-item-value">
-        <span class="stat-title">Achievements</span>
-        <span>1 unlocked</span>
+        <span class="stat-title">First created</span>
+        <span>{{activity.created | date: 'd MMMM yyyy'}}</span>
       </div>
     </div>
   </div>

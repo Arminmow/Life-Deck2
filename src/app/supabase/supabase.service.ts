@@ -97,6 +97,20 @@ export class SupabaseService {
     alert('Activity removed successfully!');
   }
 
+  async updateActivity(activity: Activity) {
+    const { error } = await this.supabase
+      .from('Activity')
+      .update(activity)
+      .eq('id', activity.id);
+
+    if (error) {
+      alert(error);
+      throw new Error(error.message);
+    }
+
+    alert('Activity updated successfully!');
+  }
+
   async getActivities() {
     const {
       data: { user },

@@ -13,7 +13,6 @@ import { PrettyDurationPipe } from "../../../shared/pipes/time-spent-pipe";
 })
 export class SidebarMenu implements OnInit {
   constructor(public activityStore: ActivityStore) {}
-  activities: any[] = [];
 
   ngOnInit(): void {
     this.activityStore.loadActivities();

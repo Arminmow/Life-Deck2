@@ -7,6 +7,8 @@
     />
     <div class="activity-title-overlay">
       <h2 class="activity-title">{{ activity.title }}</h2>
+
+      <app-activity-actions [activity]="activity" />
     </div>
   </div>
   <app-activity-stats [activity]="activity" />
