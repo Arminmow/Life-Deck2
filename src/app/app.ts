@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { LayoutComponent } from "./core/layout/layout/layout";
 
 @Component({
   selector: 'app-root',
-  imports: [LayoutComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
 })
 export class App {
-  protected title = 'life-deck2';
+  protected title = 'Life Deck2';
 }
