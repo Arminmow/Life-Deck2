@@ -22,6 +22,9 @@ export class SupabaseService {
   async signInWithGoogle() {
     const { error } = await this.supabase.auth.signInWithOAuth({
       provider: 'google',
+      options: {
+        redirectTo: 'https://life-deck-2.netlify.app',
+      },
     });
 
     if (error) {
