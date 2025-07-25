@@ -38,7 +38,6 @@ export class LayoutComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     private supabaseService: SupabaseService,
     public activityStore: ActivityStore,
-    private cdr : ChangeDetectorRef
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -56,7 +55,6 @@ export class LayoutComponent implements OnInit {
       data: { session },
     } = await this.supabaseService.getSession();
     this.user = session?.user?.email || "'Not logged in'";
-     this.cdr.detectChanges()
   }
 
   toggleSidebar() {
@@ -65,7 +63,6 @@ export class LayoutComponent implements OnInit {
     } else {
       this.isSidebarCollapsed = !this.isSidebarCollapsed;
     }
-     this.cdr.detectChanges()
   }
   async signOut() {
     this.supabaseService.signOut();
