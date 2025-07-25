@@ -25,7 +25,12 @@
       </ng-container>
     </nz-drawer>
     <nz-content class="nz-content">
-      <button nz-button nzType="text" (click)="toggleSidebar()" class="toggle-btn">
+      <button
+        nz-button
+        nzType="text"
+        (click)="toggleSidebar()"
+        class="toggle-btn"
+      >
         <i
           nz-icon
           [nzType]="isMobile ? 'menu' : (isSidebarCollapsed ? 'menu-unfold' : 'menu-fold')"
@@ -35,12 +40,18 @@
         [activity]="activityStore.selectedActivity$ | async"
       ></app-activity-detail>
     </nz-content>
-    
   </nz-layout>
 </nz-layout>
 
 <ng-template #sidebarContent>
   <div class="sider-content">
+    <div class="user-info">
+      <span class="user-email">{{ user }}</span>
+      <button nz-button nzType="default" class="logout-btn" (click)="signOut()">
+        <i nz-icon nzType="logout"></i>
+      </button>
+    </div>
+
     <app-sidebar-menu />
     <div class="sider-modal-bottom">
       <app-activity-modal />
