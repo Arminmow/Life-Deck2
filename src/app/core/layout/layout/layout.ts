@@ -8,9 +8,9 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { SidebarMenu } from '../sidebar-menu/sidebar-menu';
 import { SupabaseService } from '../../../supabase/supabase.service';
-import { ActivityModal } from "../../../shared/modals/activity-modal/activity-modal";
+import { ActivityModal } from '../../../shared/modals/activity-modal/activity-modal';
 import { ActivityStore } from '../../stores/activity.store';
-import { ActivityDetail } from "../activity-detail/activity-detail";
+import { ActivityDetail } from '../activity-detail/activity-detail';
 
 @Component({
   selector: 'app-layout',
@@ -23,8 +23,8 @@ import { ActivityDetail } from "../activity-detail/activity-detail";
     NzButtonModule,
     SidebarMenu,
     ActivityModal,
-    ActivityDetail
-],
+    ActivityDetail,
+  ],
   templateUrl: './layout.html',
   styleUrl: './layout.scss',
 })
@@ -32,12 +32,12 @@ export class LayoutComponent implements OnInit {
   isMobile = false;
   isSidebarCollapsed = false;
   isDrawerVisible = false;
-  userEmail: string = 'Not logged in';
+  user: string = '';
 
   constructor(
     private breakpointObserver: BreakpointObserver,
     private supabaseService: SupabaseService,
-    public activityStore : ActivityStore
+    public activityStore: ActivityStore
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -54,12 +54,7 @@ export class LayoutComponent implements OnInit {
     const {
       data: { session },
     } = await this.supabaseService.getSession();
-    this.userEmail = session?.user?.email || "'Not logged in'";
-
-    // Listen to future auth changes , this is test as well
-    this.supabaseService.onAuthStateChange((session) => {
-      this.userEmail = session?.user?.email || 'Not logged in';
-    });
+    this.user = session?.user?.email || "'Not logged in'";
   }
 
   toggleSidebar() {
@@ -69,11 +64,6 @@ export class LayoutComponent implements OnInit {
       this.isSidebarCollapsed = !this.isSidebarCollapsed;
     }
   }
-  // this is test will move to login page later
-  async signIn() {
-    this.supabaseService.signInWithGoogle();
-  }
-  //also test
   async signOut() {
     this.supabaseService.signOut();
   }
