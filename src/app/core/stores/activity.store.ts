@@ -14,7 +14,7 @@ export interface Activity {
   lastSessionStart: Date | null;
   isRunning: boolean;
   timeSpent: number | null;
-  achievements?: Achievement[];
+  achievements: Achievement[];
 }
 
 export interface Achievement {

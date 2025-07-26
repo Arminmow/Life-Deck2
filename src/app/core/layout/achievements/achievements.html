@@ -6,3 +6,15 @@
     [nzShowInfo]="false"
   ></nz-progress>
 </div>
+<div class="achievement-wrapper">
+  <ng-container *ngIf="achievements.length > 0; else noAchievements">
+    <h1>Agha dare</h1>
+  </ng-container>
+</div>
+
+<ng-template #noAchievements>
+  <h3>No Achievements Yet</h3>
+  <span>Looks like this activity doesn't have any achievements. Want to add one?</span>
+  <button>Add Achievement</button>
+</ng-template>
+

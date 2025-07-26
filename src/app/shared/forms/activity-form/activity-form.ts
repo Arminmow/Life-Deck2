@@ -60,7 +60,8 @@ export class ActivityForm implements OnInit {
         lastPlayed: null,
         isRunning: false,
         lastSessionStart: null,
-        timeSpent: null
+        timeSpent: null,
+        achievements : []
       });
 
    

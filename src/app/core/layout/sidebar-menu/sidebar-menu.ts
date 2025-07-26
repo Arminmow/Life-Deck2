@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { ActivityStore } from '../../stores/activity.store';
-import { PrettyDurationPipe } from "../../../shared/pipes/time-spent-pipe";
+import { PrettyDurationPipe } from '../../../shared/pipes/time-spent-pipe';
 
 @Component({
   selector: 'app-sidebar-menu',
@@ -18,8 +18,10 @@ export class SidebarMenu implements OnInit {
     this.activityStore.loadActivities();
   }
 
-  select(id : string) {
+  select(id: string) {
     this.activityStore.selectActivity(id);
+
+    this.activityStore.loadSelectedAchievements(id);
   }
 
   onImageError(event: Event) {
