@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient, Session } from '@supabase/supabase-js';
-import { Activity } from '../core/stores/activity.store';
+import { Achievement, Activity } from '../core/stores/activity.store';
 
 @Injectable({
   providedIn: 'root',
@@ -210,6 +210,19 @@ export class SupabaseService {
       console.error('Failed to stop activity:', err);
       alert(`Failed to stop activity: ${err.message || err}`);
     }
+  }
+
+  async addAchievement(achievement: Achievement) {
+    const { error } = await this.supabase
+      .from('Achievement')
+      .insert([achievement]);
+
+    if (error) {
+      console.error('Failed to add achievement:', error.message);
+      throw new Error(error.message);
+    }
+
+    alert('Achievement added successfully!');
   }
 
   async getAchievements(id: string) {

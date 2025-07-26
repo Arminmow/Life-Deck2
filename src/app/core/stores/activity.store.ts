@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { SupabaseService } from '../../supabase/supabase.service';
-import { catchError, EMPTY, from, switchMap, tap } from 'rxjs';
+import { catchError, EMPTY, from, mergeMap, switchMap, tap } from 'rxjs';
 
 export interface Activity {
   id: string;
@@ -86,6 +86,21 @@ export class ActivityStore extends ComponentStore<ActivityState> {
     activities: [...state.activities, activity],
   }));
 
+  readonly addAchievement = this.updater<{
+    activityId: string;
+    achievement: Achievement;
+  }>((state, { activityId, achievement }) => ({
+    ...state,
+    activities: state.activities.map((activity) =>
+      activity.id === activityId
+        ? {
+            ...activity,
+            achievements: [...(activity.achievements || []), achievement],
+          }
+        : activity
+    ),
+  }));
+
   readonly removeActivity = this.updater<string>((state, id) => ({
     ...state,
     activities: state.activities.filter((a) => a.id !== id),
@@ -110,6 +125,26 @@ export class ActivityStore extends ComponentStore<ActivityState> {
             error: (err) => console.error('Error loading activities:', err),
           }),
           catchError(() => EMPTY)
+        )
+      )
+    )
+  );
+  // Needs study
+  readonly addAchievementEffect = this.effect<{
+    activityId: string;
+    achievement: Achievement;
+  }>((trigger$) =>
+    trigger$.pipe(
+      // Use mergeMap (so multiple clicks all get processed) and wrap the Promise in an Observable
+      mergeMap(({ activityId, achievement }) =>
+        from(this.supabaseService.addAchievement(achievement)).pipe(
+          // On success, update the local store
+          tap(() => this.addAchievement({ activityId, achievement })),
+          // On error, log and swallow so your stream doesn’t die
+          catchError((error) => {
+            console.error('Failed to add achievement:', error);
+            return EMPTY;
+          })
         )
       )
     )
