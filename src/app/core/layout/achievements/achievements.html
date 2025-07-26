@@ -1,20 +1,34 @@
-<div class="progress-wrapper">
-  <span>Achievements 30/100 (30%)</span>
-  <nz-progress
-    [nzPercent]="30"
-    nzSize="small"
-    [nzShowInfo]="false"
-  ></nz-progress>
-</div>
-<div class="achievement-wrapper">
-  <ng-container *ngIf="achievements.length > 0; else noAchievements">
-    <h1>Agha dare</h1>
-  </ng-container>
-</div>
+<div class="achievement-section">
+  <div class="progress-wrapper">
+    <span class="progress-label">Achievements 30/100 (30%)</span>
+    <nz-progress
+      [nzPercent]="30"
+      nzSize="small"
+      [nzShowInfo]="false"
+    ></nz-progress>
+  </div>
 
-<ng-template #noAchievements>
-  <h3>No Achievements Yet</h3>
-  <span>Looks like this activity doesn't have any achievements. Want to add one?</span>
-  <button>Add Achievement</button>
-</ng-template>
+  <div class="achievement-wrapper">
+    <ng-container *ngIf="achievements.length > 0; else noAchievements">
+      <h2 class="achievements-title">Unlocked Achievements</h2>
+      <!-- Achievements list goes here -->
+    </ng-container>
+  </div>
 
+  <ng-template #noAchievements>
+    <div class="no-achievements">
+      <div class="icon-wrapper">
+        <nz-icon
+          nzType="trophy"
+          nzTwoToneColor="#faad14"
+        ></nz-icon>
+      </div>
+      <h2>No Achievements Yet</h2>
+      <p class="description">
+        Nothing unlocked yet for this activity.<br />
+        Ready to set your first goal?
+      </p>
+      <app-achievement-modal></app-achievement-modal>
+    </div>
+  </ng-template>
+</div>

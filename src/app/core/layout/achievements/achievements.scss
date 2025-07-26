@@ -1,6 +1,73 @@
-.progress-wrapper {
-    background-color: rgb(15, 2, 27);
-    padding: 1rem;
-    border-radius: 1rem 1rem 0 0;
-    color: #fff;
+.achievement-section {
+  background-color: #001529;
+  border-radius: 1rem;
+  padding: 2rem;
+  color: #f0f0f0;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+  margin-top: 1rem;
+
+  .progress-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+
+    .progress-label {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #bae7ff;
+    }
+
+    nz-progress {
+      width: 100%;
+
+      ::ng-deep .ant-progress-bg {
+        background-color: #40a9ff !important;
+      }
+    }
+  }
+
+  .achievement-wrapper {
+    text-align: center;
+
+    .achievements-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #ffffffd9;
+    }
+  }
+
+  .no-achievements {
+    text-align: center;
+    padding: 2rem;
+    background: #0a1a2f;
+    border: 1px dashed #123;
+    border-radius: 1rem;
+    margin-top: 1rem;
+
+    .icon-wrapper {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+
+      nz-icon {
+        vertical-align: middle;
+      }
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #ffffffd9;
+      margin-bottom: 0.5rem;
+    }
+
+    .description {
+      font-size: 0.95rem;
+      color: #8c8c8c;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    
+  }
 }
