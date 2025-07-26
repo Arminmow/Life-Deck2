@@ -14,6 +14,16 @@ export interface Activity {
   lastSessionStart: Date | null;
   isRunning: boolean;
   timeSpent: number | null;
+  achievements?: Achievement[];
+}
+
+export interface Achievement {
+  id: string;
+  description: string;
+  created: Date;
+  is_done: boolean;
+  icon: string;
+  activity_id: string;
 }
 
 export interface ActivityState {
@@ -193,6 +203,28 @@ export class ActivityStore extends ComponentStore<ActivityState> {
           }
         )
       )
+    )
+  );
+
+  readonly loadSelectedAchievements = this.effect<string>((id$) =>
+    id$.pipe(
+      switchMap((id) =>
+        this.supabaseService.getAchievements(id).then(
+          (achievements) => ({ id, achievements }),
+          (err) => {
+            console.error('Failed to load achievements:', err);
+            return { id, achievements: [] as Achievement[] };
+          }
+        )
+      ),
+      tap(({ id, achievements }) => {
+        const updated = this.get().activities.map((activity) =>
+          activity.id === id
+            ? { ...activity, achievements: achievements }
+            : activity
+        );
+        this.setActivities(updated);
+      })
     )
   );
 }

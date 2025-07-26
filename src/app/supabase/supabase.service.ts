@@ -211,4 +211,18 @@ export class SupabaseService {
       alert(`Failed to stop activity: ${err.message || err}`);
     }
   }
+
+  async getAchievements(id: string) {
+    const { data, error } = await this.supabase
+      .from('Achievement')
+      .select('*')
+      .eq('activityId', id);
+
+    if (error) {
+      console.error('Failed to fetch achievements:', error.message);
+      return [];
+    }
+
+    return data;
+  }
 }
