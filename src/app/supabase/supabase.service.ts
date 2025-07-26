@@ -229,7 +229,7 @@ export class SupabaseService {
     const { data, error } = await this.supabase
       .from('Achievement')
       .select('*')
-      .eq('activityId', id);
+      .eq('activity_id', id);
 
     if (error) {
       console.error('Failed to fetch achievements:', error.message);

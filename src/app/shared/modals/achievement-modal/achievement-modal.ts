@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { AchievementForm } from "../../forms/achievement-form/achievement-form";
 
 @Component({
   selector: 'app-achievement-modal',
-  imports: [NzModalModule , NzButtonModule],
+  imports: [NzModalModule, NzButtonModule, AchievementForm],
   templateUrl: './achievement-modal.html',
   styleUrl: './achievement-modal.scss',
 })

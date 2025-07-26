@@ -1,0 +1,60 @@
+.achievement-form {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 1rem 0;
+
+  .form-item {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-label {
+    display: block;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+  }
+
+  .form-input,
+  .form-textarea {
+    display: block;
+    width: 100%;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #333;
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 0.5rem;
+
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &:focus {
+      border-color: #40a9ff;
+      box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+      outline: none;
+    }
+
+    &::placeholder {
+      color: #999;
+    }
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  /* Error state */
+  ::ng-deep .ant-form-item-has-error {
+    .form-input,
+    .form-textarea {
+      border-color: #ff4d4f;
+      box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.2);
+    }
+    .ant-form-item-explain {
+      color: #ff4d4f;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+  }
+}

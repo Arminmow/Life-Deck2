@@ -7,10 +7,9 @@
   nzTitle="Add a new achievement"
   (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()"
+  nzCentered
 >
   <ng-container *nzModalContent>
-    <p>Content one</p>
-    <p>Content two</p>
-    <p>Content three</p>
+    <app-achievement-form />
   </ng-container>
 </nz-modal>

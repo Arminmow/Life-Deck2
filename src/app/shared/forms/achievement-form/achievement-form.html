@@ -1,0 +1,82 @@
+<form
+  nz-form
+  nzLayout="vertical"
+  [formGroup]="achievementForm"
+  class="achievement-form"
+  (ngSubmit)="onSubmit()"
+>
+  <!-- Title -->
+  <nz-form-item class="form-item">
+    <nz-form-label nzFor="title" nzRequired class="form-label">
+      Title
+    </nz-form-label>
+    <nz-form-control [nzErrorTip]="titleError">
+      <input
+        nz-input
+        id="title"
+        formControlName="title"
+        placeholder="e.g. Speedrunner"
+        class="form-input"
+        
+      />
+    </nz-form-control>
+  </nz-form-item>
+
+  <!-- Description -->
+  <nz-form-item class="form-item">
+    <nz-form-label nzFor="description" class="form-label">
+      Description
+    </nz-form-label>
+    <nz-form-control>
+      <textarea
+        nz-input
+        id="description"
+        formControlName="description"
+        rows="3"
+        placeholder="Describe the achievement..."
+        class="form-textarea"
+      ></textarea>
+    </nz-form-control>
+  </nz-form-item>
+
+  <!-- Icon -->
+  <nz-form-item>
+    <nz-form-label nzFor="icon">Icon</nz-form-label>
+    <nz-form-control>
+      <nz-input-group nzPrefixIcon="link">
+        <input
+          nz-input
+          type="url"
+          formControlName="icon"
+          id="icon"
+          placeholder="Image URL to use as icon"
+          autocomplete="off"
+          class="form-input"
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <!-- Submit Button -->
+  <nz-form-item class="form-item">
+    <nz-form-control>
+      <button
+        nz-button
+        nzType="primary"
+        type="submit"
+        [disabled]="achievementForm.invalid"
+        class="form-submit-button"
+      >
+        Save Achievement
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+<ng-template #titleError>
+  <ng-container *ngIf="titleControl?.hasError('required')">
+    Title is required
+  </ng-container>
+  <ng-container *ngIf="titleControl?.hasError('minlength')">
+    Title must be at least 3 characters
+  </ng-container>
+</ng-template>
