@@ -9,16 +9,21 @@
   </div>
 
   <div class="achievement-wrapper">
-   
+    <!-- 1) Grab the array as `achs` -->
+    <ng-container *ngIf="achievementStore.selectedAchievements$ | async as achs">
+      <!-- 2) If it has items, render them; otherwise show fallback -->
+      <ng-container *ngIf="achs.length > 0; else noAchievements">
+        <h2 *ngFor="let ach of achs" class="achievements-title">
+          {{ ach.title }}
+        </h2>
+      </ng-container>
+    </ng-container>
   </div>
 
   <ng-template #noAchievements>
     <div class="no-achievements">
       <div class="icon-wrapper">
-        <nz-icon
-          nzType="trophy"
-          nzTwoToneColor="#faad14"
-        ></nz-icon>
+        <nz-icon nzType="trophy" nzTwoToneColor="#faad14"></nz-icon>
       </div>
       <h2>No Achievements Yet</h2>
       <p class="description">

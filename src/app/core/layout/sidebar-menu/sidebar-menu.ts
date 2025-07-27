@@ -22,18 +22,10 @@ export class SidebarMenu implements OnInit {
   ngOnInit(): void {
     this.activityStore.loadActivities();
     this.achievementStore.loadAchievements();
-
-    
   }
 
   select(id: string) {
     this.activityStore.selectActivity(id);
-
-     this.achievementStore.selectedAchievements$
-    .pipe(take(1))                    // only need the current value
-    .subscribe((achs) => {
-      console.log('🏹 Selected achievements for', id, achs);
-    });
   }
 
   onImageError(event: Event) {

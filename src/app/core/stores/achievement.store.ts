@@ -15,6 +15,7 @@ import { ActivityStore } from './activity.store';
 
 export interface Achievement {
   id: string;
+  title : string;
   description: string;
   created: Date;
   is_done: boolean;
