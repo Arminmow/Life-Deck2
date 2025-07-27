@@ -20,8 +20,6 @@ export class SidebarMenu implements OnInit {
 
   select(id: string) {
     this.activityStore.selectActivity(id);
-
-    this.activityStore.loadSelectedAchievements(id);
   }
 
   onImageError(event: Event) {

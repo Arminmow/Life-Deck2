@@ -14,16 +14,6 @@ export interface Activity {
   lastSessionStart: Date | null;
   isRunning: boolean;
   timeSpent: number | null;
-  achievements: Achievement[];
-}
-
-export interface Achievement {
-  id: string;
-  description: string;
-  created: Date;
-  is_done: boolean;
-  icon: string;
-  activity_id: string;
 }
 
 export interface ActivityState {
@@ -86,21 +76,6 @@ export class ActivityStore extends ComponentStore<ActivityState> {
     activities: [...state.activities, activity],
   }));
 
-  readonly addAchievement = this.updater<{
-    activityId: string;
-    achievement: Achievement;
-  }>((state, { activityId, achievement }) => ({
-    ...state,
-    activities: state.activities.map((activity) =>
-      activity.id === activityId
-        ? {
-            ...activity,
-            achievements: [...(activity.achievements || []), achievement],
-          }
-        : activity
-    ),
-  }));
-
   readonly removeActivity = this.updater<string>((state, id) => ({
     ...state,
     activities: state.activities.filter((a) => a.id !== id),
@@ -125,26 +100,6 @@ export class ActivityStore extends ComponentStore<ActivityState> {
             error: (err) => console.error('Error loading activities:', err),
           }),
           catchError(() => EMPTY)
-        )
-      )
-    )
-  );
-  // Needs study
-  readonly addAchievementEffect = this.effect<{
-    activityId: string;
-    achievement: Achievement;
-  }>((trigger$) =>
-    trigger$.pipe(
-      // Use mergeMap (so multiple clicks all get processed) and wrap the Promise in an Observable
-      mergeMap(({ activityId, achievement }) =>
-        from(this.supabaseService.addAchievement(achievement)).pipe(
-          // On success, update the local store
-          tap(() => this.addAchievement({ activityId, achievement })),
-          // On error, log and swallow so your stream doesn’t die
-          catchError((error) => {
-            console.error('Failed to add achievement:', error);
-            return EMPTY;
-          })
         )
       )
     )
@@ -238,28 +193,6 @@ export class ActivityStore extends ComponentStore<ActivityState> {
           }
         )
       )
-    )
-  );
-
-  readonly loadSelectedAchievements = this.effect<string>((id$) =>
-    id$.pipe(
-      switchMap((id) =>
-        this.supabaseService.getAchievements(id).then(
-          (achievements) => ({ id, achievements }),
-          (err) => {
-            console.error('Failed to load achievements:', err);
-            return { id, achievements: [] as Achievement[] };
-          }
-        )
-      ),
-      tap(({ id, achievements }) => {
-        const updated = this.get().activities.map((activity) =>
-          activity.id === id
-            ? { ...activity, achievements: achievements }
-            : activity
-        );
-        this.setActivities(updated);
-      })
     )
   );
 }

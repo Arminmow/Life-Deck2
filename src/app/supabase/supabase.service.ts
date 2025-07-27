@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient, Session } from '@supabase/supabase-js';
-import { Achievement, Activity } from '../core/stores/activity.store';
+import {Activity } from '../core/stores/activity.store';
+import { Achievement } from '../core/stores/achievement.store';
 
 @Injectable({
   providedIn: 'root',
