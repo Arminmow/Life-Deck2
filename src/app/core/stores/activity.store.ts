@@ -13,7 +13,7 @@ export interface Activity {
   lastPlayed: Date | null;
   lastSessionStart: Date | null;
   isRunning: boolean;
-  timeSpent: number | null;
+  timeSpent: number | null; 
 }
 
 export interface ActivityState {

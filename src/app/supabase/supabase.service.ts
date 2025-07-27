@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient, Session } from '@supabase/supabase-js';
-import {Activity } from '../core/stores/activity.store';
+import { Activity } from '../core/stores/activity.store';
 import { Achievement } from '../core/stores/achievement.store';
 
 @Injectable({
@@ -226,17 +226,27 @@ export class SupabaseService {
     alert('Achievement added successfully!');
   }
 
-  async getAchievements(id: string) {
+  async getAchievements(): Promise<Achievement[]> {
+    const {
+      data: { user },
+      error: userError,
+    } = await this.supabase.auth.getUser();
+
+    if (userError || !user) {
+      console.error('User not found or error fetching user:', userError);
+      return [];
+    }
+
     const { data, error } = await this.supabase
       .from('Achievement')
       .select('*')
-      .eq('activity_id', id);
+      .eq('user_id', user.id);
 
     if (error) {
       console.error('Failed to fetch achievements:', error.message);
       return [];
     }
 
-    return data;
+    return (data ?? []) as Achievement[];
   }
 }
