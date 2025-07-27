@@ -18,13 +18,14 @@ export interface Activity {
 }
 
 export interface Category {
-  id: string,
-  title : string,
-  icon : string
+  id: string;
+  title: string;
+  icon: string;
 }
 
 export interface ActivityState {
   activities: Activity[];
+  categories: Category[];
   selectedActivityId: string | null;
 }
 
@@ -33,11 +34,14 @@ export class ActivityStore extends ComponentStore<ActivityState> {
   constructor(private supabaseService: SupabaseService) {
     super({
       activities: [],
+      categories: [],
       selectedActivityId: null,
     });
   }
 
   readonly activities$ = this.select((state) => state.activities);
+
+  readonly categories$ = this.select((state) => state.categories);
 
   readonly selectedActivityId$ = this.select(
     (state) => state.selectedActivityId
