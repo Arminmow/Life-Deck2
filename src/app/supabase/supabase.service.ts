@@ -211,4 +211,27 @@ export class SupabaseService {
       alert(`Failed to stop activity: ${err.message || err}`);
     }
   }
+
+  async getCategories() {
+    const {
+      data: { user },
+      error: userError,
+    } = await this.supabase.auth.getUser();
+
+    if (userError || !user) {
+      console.error('User not authenticated:', userError);
+      return [];
+    }
+
+    const { data, error } = await this.supabase
+      .from('category')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('name', { ascending: true });
+    if (error) {
+      console.error('Failed to fetch categories:', error.message);
+      return [];
+    }
+    return data;
+  }
 }

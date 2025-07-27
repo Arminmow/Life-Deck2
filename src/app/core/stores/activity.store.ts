@@ -17,6 +17,12 @@ export interface Activity {
   categoryId: string | null;
 }
 
+export interface Category {
+  id: string,
+  title : string,
+  icon : string
+}
+
 export interface ActivityState {
   activities: Activity[];
   selectedActivityId: string | null;
