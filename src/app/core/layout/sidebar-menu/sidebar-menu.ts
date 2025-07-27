@@ -2,8 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-import { ActivityStore } from '../../stores/activity.store';
-import { PrettyDurationPipe } from "../../../shared/pipes/time-spent-pipe";
+import { Activity, ActivityStore, Category } from '../../stores/activity.store';
+import { PrettyDurationPipe } from '../../../shared/pipes/time-spent-pipe';
+import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar-menu',
@@ -12,13 +13,32 @@ import { PrettyDurationPipe } from "../../../shared/pipes/time-spent-pipe";
   styleUrl: './sidebar-menu.scss',
 })
 export class SidebarMenu implements OnInit {
+  categories$!: Observable<Category[]>;
+
+  uncategorizedActivities$!: Observable<Activity[]>;
+
   constructor(public activityStore: ActivityStore) {}
 
   ngOnInit(): void {
     this.activityStore.loadActivities();
+    this.activityStore.loadCategories();
+
+    this.categories$ = this.activityStore.categories$;
+
+    this.uncategorizedActivities$ = this.activityStore.activities$.pipe(
+      map((activities) => activities.filter((a) => !a.category_id))
+    );
   }
 
-  select(id : string) {
+  getActivitiesByCategory(category_id: string): Observable<Activity[]> {
+    return this.activityStore.activities$.pipe(
+      map((activities) =>
+        activities.filter((a) => a.category_id === category_id)
+      )
+    );
+  }
+
+  select(id: string) {
     this.activityStore.selectActivity(id);
   }
 

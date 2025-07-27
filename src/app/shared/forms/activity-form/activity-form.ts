@@ -61,7 +61,7 @@ export class ActivityForm implements OnInit {
         isRunning: false,
         lastSessionStart: null,
         timeSpent: null,
-        categoryId: null,
+        category_id: null,
       });
 
       this.form.reset();

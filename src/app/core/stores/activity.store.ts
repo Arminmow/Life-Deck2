@@ -14,7 +14,7 @@ export interface Activity {
   lastSessionStart: Date | null;
   isRunning: boolean;
   timeSpent: number | null;
-  categoryId: string | null;
+  category_id: string | null;
 }
 
 export interface Category {

@@ -1,3 +1,33 @@
+<ul *ngIf="activityStore.categories$ | async as categories">
+  <li *ngFor="let category of categories">
+    <h3 class="category-title">{{ category.title }}</h3>
+
+    <!-- Activities for this category -->
+    <ul class="activity-list">
+      <li
+        *ngFor="
+          let act of getActivitiesByCategory(category.id) | async;
+        
+        "
+        (click)="select(act.id)"
+        class="activity-item"
+      >
+        {{ act.title }}
+      </li>
+
+      <!-- optional “no activities” fallback -->
+      <li
+        *ngIf="
+          (getActivitiesByCategory(category.id) | async)?.length === 0
+        "
+        class="no-activities"
+      >
+        No activities in this category
+      </li>
+    </ul>
+  </li>
+</ul>
+
 <ul
   *ngIf="activityStore.activities$ | async as activities"
   nz-menu

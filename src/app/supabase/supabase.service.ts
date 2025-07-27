@@ -227,7 +227,7 @@ export class SupabaseService {
       .from('category')
       .select('*')
       .eq('user_id', user.id)
-      .order('name', { ascending: true });
+      .order('title', { ascending: true });
     if (error) {
       console.error('Failed to fetch categories:', error.message);
       return [];
