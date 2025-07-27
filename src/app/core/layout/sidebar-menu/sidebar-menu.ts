@@ -38,6 +38,16 @@ export class SidebarMenu implements OnInit {
     );
   }
 
+  getCategoryTime(category_id: string): Observable<number> {
+    return this.activityStore.activities$.pipe(
+      map((acts) =>
+        acts
+          .filter((a) => a.category_id === category_id)
+          .reduce((sum, a) => sum + (a.timeSpent || 0), 0)
+      )
+    );
+  }
+
   select(id: string) {
     this.activityStore.selectActivity(id);
   }

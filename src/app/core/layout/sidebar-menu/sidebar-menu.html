@@ -1,57 +1,64 @@
-<ul *ngIf="activityStore.categories$ | async as categories">
-  <li *ngFor="let category of categories">
-    <h3 class="category-title">{{ category.title }}</h3>
-
-    <!-- Activities for this category -->
-    <ul class="activity-list">
-      <li
-        *ngFor="
-          let act of getActivitiesByCategory(category.id) | async;
-        
-        "
-        (click)="select(act.id)"
-        class="activity-item"
-      >
-        {{ act.title }}
-      </li>
-
-      <!-- optional “no activities” fallback -->
-      <li
-        *ngIf="
-          (getActivitiesByCategory(category.id) | async)?.length === 0
-        "
-        class="no-activities"
-      >
-        No activities in this category
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<ul
-  *ngIf="activityStore.activities$ | async as activities"
-  nz-menu
-  nzTheme="dark"
-  nzMode="inline"
-  class="custom-menu"
->
-  <ng-container *ngFor="let activity of activities">
-    <li
-      nz-menu-item
-      class="activity-submenu force-unified"
-      (click)="select(activity.id)"
-    >
+<ul nz-menu nzTheme="dark" nzMode="inline" class="custom-menu">
+  <li
+    nz-submenu
+    *ngFor="let category of categories$ | async"
+    [nzTitle]="categoryTitle"
+    class="sub-menu"
+  >
+    <ng-template #categoryTitle>
       <div class="activity-title-with-icon">
         <img
-          [src]="activity.icon"
+          [src]="category.icon"
           class="activity-icon"
           (error)="onImageError($event)"
         />
         <div class="active-info-wrapper">
-          <span class="activity-title">{{ activity.title }}</span>
-          <span>{{activity.timeSpent | timeSpent}}</span>
+          <span class="activity-title">{{ category.title }}</span>
+          <span
+            class="activity-duration"
+            >{{ getCategoryTime(category.id) | async | timeSpent }}</span
+          >
         </div>
       </div>
-    </li>
-  </ng-container>
+    </ng-template>
+    <ul class="sub-menu-ul">
+      <li
+        nz-menu-item
+        *ngFor="let activity of getActivitiesByCategory(category.id) | async"
+        (click)="select(activity.id)"
+        class="sub-menu-item"
+      >
+        <div class="activity-title-with-icon">
+          <img
+            [src]="activity.icon"
+            class="activity-icon"
+            (error)="onImageError($event)"
+          />
+          <div class="active-info-wrapper">
+            <span class="activity-title">{{ activity.title }}</span>
+            <span>{{activity.timeSpent | timeSpent}}</span>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </li>
+
+  <li
+    nz-menu-item
+    *ngFor="let activity of uncategorizedActivities$ | async"
+    class="activity-submenu force-unified"
+    (click)="select(activity.id)"
+  >
+    <div class="activity-title-with-icon">
+      <img
+        [src]="activity.icon"
+        class="activity-icon"
+        (error)="onImageError($event)"
+      />
+      <div class="active-info-wrapper">
+        <span class="activity-title">{{ activity.title }}</span>
+        <span>{{activity.timeSpent | timeSpent}}</span>
+      </div>
+    </div>
+  </li>
 </ul>
