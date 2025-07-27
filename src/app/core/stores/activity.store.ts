@@ -43,6 +43,11 @@ export class ActivityStore extends ComponentStore<ActivityState> {
 
   readonly categories$ = this.select((state) => state.categories);
 
+  readonly setCategories = this.updater<Category[]>((state, categories) => ({
+    ...state,
+    categories,
+  }));
+
   readonly selectedActivityId$ = this.select(
     (state) => state.selectedActivityId
   );
@@ -202,6 +207,20 @@ export class ActivityStore extends ComponentStore<ActivityState> {
           (error) => {
             console.error('Failed to update activity:', error);
           }
+        )
+      )
+    )
+  );
+
+  readonly loadCategories = this.effect<void>((trigger$) =>
+    trigger$.pipe(
+      switchMap(() =>
+        from(this.supabaseService.getCategories()).pipe(
+          tap({
+            next: (categories) => this.setCategories(categories),
+            error: (err) => console.error('Error loading categories:', err),
+          }),
+          catchError(() => EMPTY)
         )
       )
     )
