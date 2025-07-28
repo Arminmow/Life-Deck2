@@ -12,6 +12,7 @@ import { ActivityModal } from '../../../shared/modals/activity-modal/activity-mo
 import { ActivityStore } from '../../stores/activity.store';
 import { ActivityDetail } from '../activity-detail/activity-detail';
 import { Route, Router } from '@angular/router';
+import { CategoryModal } from "../../../shared/modals/category-modal/category-modal";
 
 @Component({
   selector: 'app-layout',
@@ -25,7 +26,8 @@ import { Route, Router } from '@angular/router';
     SidebarMenu,
     ActivityModal,
     ActivityDetail,
-  ],
+    CategoryModal
+],
   templateUrl: './layout.html',
   styleUrl: './layout.scss',
 })
