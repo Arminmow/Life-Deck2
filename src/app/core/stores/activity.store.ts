@@ -92,6 +92,21 @@ export class ActivityStore extends ComponentStore<ActivityState> {
     activities: [...state.activities, activity],
   }));
 
+  readonly addActivityToCategory = this.updater<{
+    activityId: string[];
+    categoryId: string;
+  }>((state, { activityId, categoryId }) => {
+    activityId.forEach((id) => {
+      const activity = state.activities.find((a) => a.id === id);
+      if (activity) {
+        activity.category_id = categoryId;
+      }
+    });
+    console.log({ ...state });
+
+    return { ...state };
+  });
+
   readonly addCategory = this.updater<Category>((state, category) => ({
     ...state,
     categories: [...state.categories, category],
@@ -236,18 +251,27 @@ export class ActivityStore extends ComponentStore<ActivityState> {
     )
   );
 
-  readonly addCategoryEffect = this.effect<Category>((cat$) =>
-    cat$.pipe(
-      switchMap((category) =>
-        from(this.supabaseService.addCategory(category)).pipe(
-          tap({
-            next: (category) => this.addCategory(category),
-            error: (err) => console.error('Failed to add category:', err),
-          }),
-          catchError(() => EMPTY)
+  readonly addCategoryEffect = this.effect<Category & { activities: string[] }>(
+    (cat$) =>
+      cat$.pipe(
+        switchMap((category) =>
+          from(this.supabaseService.addCategory(category)).pipe(
+            tap({
+              next: (addedCat) => {
+                this.addCategory(addedCat);
+                if (category.activities.length > 0) {
+                  this.addActivityToCategory({
+                    activityId: category.activities,
+                    categoryId: addedCat.id,
+                  });
+                }
+              },
+              error: (err) => console.error('Failed to add category:', err),
+            }),
+            catchError(() => EMPTY)
+          )
         )
       )
-    )
   );
 
   readonly deleteCategoryEffect = this.effect<string>((id$) =>

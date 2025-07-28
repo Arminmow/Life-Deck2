@@ -36,7 +36,7 @@ export class CategoryForm implements OnInit {
     this.form = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3)]],
       icon: [''],
-      activities: [ []],
+      activities: [[]],
     });
   }
 
@@ -47,7 +47,7 @@ export class CategoryForm implements OnInit {
       this.form.markAllAsTouched();
       return;
     }
-    const newCategory: Category = this.form.value;
+    const newCategory: Category & { activities: string[] } = this.form.value;
     this.activityStore.addCategoryEffect(newCategory);
     this.form.reset();
   }

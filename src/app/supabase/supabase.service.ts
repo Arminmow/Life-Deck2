@@ -235,7 +235,7 @@ export class SupabaseService {
     return data;
   }
 
-  async addCategory(newCategory: Category) {
+  async addCategory(newCategory: Category & { activities: string[] }) {
     const {
       data: { user },
       error: userError,
@@ -248,18 +248,55 @@ export class SupabaseService {
       .from('category')
       .insert([
         {
-          ...newCategory,
+          title: newCategory.title,
+          icon: newCategory.icon,
           user_id: user.id,
         },
       ])
       .select()
       .single();
+
     if (error) {
       alert(error.message);
       throw new Error(error.message);
     }
-    alert('Category added successfully!');
-    return data;
+
+    try {
+      if (newCategory.activities?.length) {
+        await this.addActivitiesToCategory(newCategory.activities, data.id);
+      }
+    } catch (linkError) {
+      await this.supabase.from('category').delete().eq('id', data.id);
+      alert('Failed to link activities, category rolled back.');
+      throw linkError;
+    }
+
+    alert('Category and activities added successfully!');
+    return data; // handy if the caller needs the new category object
+  }
+
+  async addActivitiesToCategory(activities: string[], categoryId: string) {
+    const {
+      data: { user },
+      error: userError,
+    } = await this.supabase.auth.getUser();
+    if (userError || !user) {
+      throw new Error('User not authenticated');
+    }
+
+    const { error } = await this.supabase
+      .from('Activity')
+      .update({ category_id: categoryId })
+      .in('id', activities)
+      .eq('userId', user.id); // optionally scope to this user
+
+    if (error) {
+      console.error('Failed to add activities to category:', error);
+      alert(error);
+      throw new Error(error.message);
+    }
+
+    alert('Activities added successfully!');
   }
 
   async deleteCategory(categoryId: string) {
