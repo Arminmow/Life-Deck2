@@ -14,8 +14,7 @@
         />
         <div class="active-info-wrapper">
           <span class="activity-title">{{ category.title }}</span>
-          <span
-            class="activity-duration"
+          <span class="activity-duration"
             >{{ getCategoryTime(category.id) | async | timeSpent }}</span
           >
         </div>
@@ -41,6 +40,22 @@
         </div>
       </li>
     </ul>
+    <div class="action-wrapper">
+      <span
+        class="action-icon edit-icon"
+        nz-icon
+        nzType="edit"
+        nzTheme="outline"
+        aria-label="Edit category"
+      ></span>
+      <span
+        class="action-icon delete-icon"
+        nz-icon
+        nzType="delete"
+        nzTheme="outline"
+        aria-label="Delete category"
+      ></span>
+    </div>
   </li>
 
   <li

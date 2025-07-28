@@ -5,10 +5,11 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { Activity, ActivityStore, Category } from '../../stores/activity.store';
 import { PrettyDurationPipe } from '../../../shared/pipes/time-spent-pipe';
 import { map, Observable } from 'rxjs';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @Component({
   selector: 'app-sidebar-menu',
-  imports: [NzMenuModule, CommonModule, NzToolTipModule, PrettyDurationPipe],
+  imports: [NzMenuModule, CommonModule, NzToolTipModule, PrettyDurationPipe , NzIconModule],
   templateUrl: './sidebar-menu.html',
   styleUrl: './sidebar-menu.scss',
 })
