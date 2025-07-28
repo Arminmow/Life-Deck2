@@ -58,10 +58,10 @@
       ></span>
     </div>
   </li>
-
-  <li
+<ng-container *ngIf="activityStore.unassignedActivities$ | async as filteredActivities">
+ <li
     nz-menu-item
-    *ngFor="let activity of uncategorizedActivities$ | async"
+    *ngFor="let activity of filteredActivities"
     class="activity-submenu force-unified"
     (click)="select(activity.id)"
   >
@@ -77,4 +77,6 @@
       </div>
     </div>
   </li>
+</ng-container>
+ 
 </ul>

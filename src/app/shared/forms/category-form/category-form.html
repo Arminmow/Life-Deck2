@@ -33,7 +33,7 @@
       >Assign Activities</nz-form-label
     >
     <nz-form-control nzErrorTip="Please select at least one activity">
-      <ng-container *ngIf="activityStore.activities$ | async as activities">
+      <ng-container *ngIf="activityStore.unassignedActivities$ | async as filteredActivities">
         <nz-select
           id="activities"
           nzMode="multiple"
@@ -43,7 +43,7 @@
           [nzDropdownClassName]="'mobile-friendly-dropdown'"
         >
           <nz-option
-            *ngFor="let activity of activities"
+            *ngFor="let activity of filteredActivities"
             [nzLabel]="activity.title"
             [nzValue]="activity.id"
           ></nz-option>

@@ -23,8 +23,6 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 export class SidebarMenu implements OnInit {
   categories$!: Observable<Category[]>;
 
-  uncategorizedActivities$!: Observable<Activity[]>;
-
   constructor(
     public activityStore: ActivityStore,
     private modal: NzModalService
@@ -35,10 +33,6 @@ export class SidebarMenu implements OnInit {
     this.activityStore.loadCategories();
 
     this.categories$ = this.activityStore.categories$;
-
-    this.uncategorizedActivities$ = this.activityStore.activities$.pipe(
-      map((activities) => activities.filter((a) => !a.category_id))
-    );
   }
 
   getActivitiesByCategory(category_id: string): Observable<Activity[]> {

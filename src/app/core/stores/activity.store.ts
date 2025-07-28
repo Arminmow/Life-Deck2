@@ -59,6 +59,10 @@ export class ActivityStore extends ComponentStore<ActivityState> {
       activities.find((a) => a.id === selectedId) || null
   );
 
+  readonly unassignedActivities$ = this.select(this.activities$, (activities) =>
+    activities.filter((a) => !a.category_id)
+  );
+
   readonly startActivity = this.updater<string>((state, id) => {
     const activity = state.activities.find((a) => a.id === id);
     if (activity) {
