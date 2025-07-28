@@ -308,6 +308,19 @@ export class SupabaseService {
       throw new Error('User not authenticated');
     }
 
+    const { data: unassignedActivities, error: unassignError } =
+      await this.supabase
+        .from('Activity')
+        .update({ category_id: null })
+        .eq('category_id', categoryId)
+        .eq('userId', user.id)
+        .select();
+
+    if (unassignError) {
+      alert(unassignError.message);
+      throw new Error(unassignError.message);
+    }
+
     const { error: deleteError } = await this.supabase
       .from('category')
       .delete()
@@ -320,5 +333,7 @@ export class SupabaseService {
     }
 
     alert('Category deleted successfully!');
+
+    return unassignedActivities;
   }
 }
