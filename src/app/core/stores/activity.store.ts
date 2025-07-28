@@ -97,18 +97,20 @@ export class ActivityStore extends ComponentStore<ActivityState> {
   }));
 
   readonly addActivityToCategory = this.updater<{
-    activityId: string[];
+    activityIds: string[];
     categoryId: string;
-  }>((state, { activityId, categoryId }) => {
-    activityId.forEach((id) => {
-      const activity = state.activities.find((a) => a.id === id);
-      if (activity) {
-        activity.category_id = categoryId;
-      }
-    });
-    console.log({ ...state });
+  }>((state, { activityIds, categoryId }) => {
+    const updatedActivities = state.activities.map((activity) =>
+      activityIds.includes(activity.id)
+        ? { ...activity, category_id: categoryId }
+        : activity
+    );
 
-    return { ...state };
+    // 4) Return a new state object with a NEW activities array reference
+    return {
+      ...state,
+      activities: updatedActivities,
+    };
   });
 
   readonly addCategory = this.updater<Category>((state, category) => ({
@@ -282,7 +284,7 @@ export class ActivityStore extends ComponentStore<ActivityState> {
                 this.addCategory(addedCat);
                 if (category.activities.length > 0) {
                   this.addActivityToCategory({
-                    activityId: category.activities,
+                    activityIds: category.activities,
                     categoryId: addedCat.id,
                   });
                 }
