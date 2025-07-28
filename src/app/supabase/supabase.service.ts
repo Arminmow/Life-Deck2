@@ -261,4 +261,27 @@ export class SupabaseService {
     alert('Category added successfully!');
     return data;
   }
+
+  async deleteCategory(categoryId: string) {
+    const {
+      data: { user },
+      error: userError,
+    } = await this.supabase.auth.getUser();
+    if (userError || !user) {
+      throw new Error('User not authenticated');
+    }
+
+    const { error: deleteError } = await this.supabase
+      .from('category')
+      .delete()
+      .eq('id', categoryId)
+      .eq('user_id', user.id);
+
+    if (deleteError) {
+      alert(deleteError.message);
+      throw new Error(deleteError.message);
+    }
+
+    alert('Category deleted successfully!');
+  }
 }

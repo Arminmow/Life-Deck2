@@ -163,6 +163,11 @@ export class ActivityStore extends ComponentStore<ActivityState> {
     )
   );
 
+  readonly deleteCategory = this.updater<string>((state, id) => ({
+    ...state,
+    categories: state.categories.filter((c) => c.id !== id),
+  }));
+
   readonly updateActivity = this.updater<Activity>((state, activity) => {
     return {
       ...state,
@@ -238,6 +243,20 @@ export class ActivityStore extends ComponentStore<ActivityState> {
           tap({
             next: (category) => this.addCategory(category),
             error: (err) => console.error('Failed to add category:', err),
+          }),
+          catchError(() => EMPTY)
+        )
+      )
+    )
+  );
+
+  readonly deleteCategoryEffect = this.effect<string>((id$) =>
+    id$.pipe(
+      switchMap((id) =>
+        from(this.supabaseService.deleteCategory(id)).pipe(
+          tap({
+            next: () => this.deleteCategory(id),
+            error: (err) => console.error('Failed to delete category:', err),
           }),
           catchError(() => EMPTY)
         )
