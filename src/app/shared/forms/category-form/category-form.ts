@@ -10,6 +10,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { ActivityStore, Category } from '../../../core/stores/activity.store';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 @Component({
   selector: 'app-category-form',
@@ -19,6 +20,7 @@ import { ActivityStore, Category } from '../../../core/stores/activity.store';
     NzButtonModule,
     ReactiveFormsModule,
     CommonModule,
+    NzSelectModule,
   ],
   templateUrl: './category-form.html',
   styleUrl: './category-form.scss',
@@ -26,7 +28,7 @@ import { ActivityStore, Category } from '../../../core/stores/activity.store';
 export class CategoryForm implements OnInit {
   constructor(
     private fb: NonNullableFormBuilder,
-    private activityStore: ActivityStore
+    public activityStore: ActivityStore
   ) {}
   form!: FormGroup;
 
@@ -34,10 +36,13 @@ export class CategoryForm implements OnInit {
     this.form = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3)]],
       icon: [''],
+      activities: [ []],
     });
   }
 
   submit() {
+    console.log(this.form.value);
+
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;

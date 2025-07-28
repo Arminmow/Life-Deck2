@@ -28,6 +28,30 @@
     </nz-form-control>
   </nz-form-item>
 
+  <nz-form-item>
+    <nz-form-label nzFor="activities" nzRequired
+      >Assign Activities</nz-form-label
+    >
+    <nz-form-control nzErrorTip="Please select at least one activity">
+      <ng-container *ngIf="activityStore.activities$ | async as activities">
+        <nz-select
+          id="activities"
+          nzMode="multiple"
+          nzPlaceHolder="Select activities for this category"
+          formControlName="activities"
+          [nzSize]="'large'"
+          [nzDropdownClassName]="'mobile-friendly-dropdown'"
+        >
+          <nz-option
+            *ngFor="let activity of activities"
+            [nzLabel]="activity.title"
+            [nzValue]="activity.id"
+          ></nz-option>
+        </nz-select>
+      </ng-container>
+    </nz-form-control>
+  </nz-form-item>
+
   <button nz-button nzType="primary" [disabled]="form.invalid" type="submit">
     Add Category
   </button>
