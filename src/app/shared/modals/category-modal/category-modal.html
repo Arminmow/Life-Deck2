@@ -1,8 +1,15 @@
-<button nz-button [nzType]="'primary'" (click)="showModal()"><span>Add category</span></button>
-    <nz-modal [(nzVisible)]="isVisible" nzTitle="Add a new category" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
-      <ng-container *nzModalContent>
-        <p>Content one</p>
-        <p>Content two</p>
-        <p>Content three</p>
-      </ng-container>
-    </nz-modal>
+<button nz-button [nzType]="'primary'" (click)="showModal()">
+  <span>Add category</span>
+</button>
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="Add a new category"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzFooter]="null"
+  nzCentered
+>
+  <ng-container *nzModalContent>
+    <app-category-form />
+  </ng-container>
+</nz-modal>

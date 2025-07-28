@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { CategoryForm } from '../../forms/category-form/category-form';
+
 
 @Component({
   selector: 'app-category-modal',
-  imports: [NzModalModule, NzButtonModule],
+  imports: [NzModalModule, NzButtonModule, CategoryForm],
   templateUrl: './category-modal.html',
   styleUrl: './category-modal.scss',
 })
