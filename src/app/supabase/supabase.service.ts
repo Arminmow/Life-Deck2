@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient, Session } from '@supabase/supabase-js';
-import { Activity } from '../core/stores/activity.store';
+import { Activity, Category } from '../core/stores/activity.store';
 
 @Injectable({
   providedIn: 'root',
@@ -232,6 +232,33 @@ export class SupabaseService {
       console.error('Failed to fetch categories:', error.message);
       return [];
     }
+    return data;
+  }
+
+  async addCategory(newCategory: Category) {
+    const {
+      data: { user },
+      error: userError,
+    } = await this.supabase.auth.getUser();
+    if (userError || !user) {
+      throw new Error('User not authenticated');
+    }
+
+    const { data, error } = await this.supabase
+      .from('category')
+      .insert([
+        {
+          ...newCategory,
+          user_id: user.id,
+        },
+      ])
+      .select()
+      .single();
+    if (error) {
+      alert(error.message);
+      throw new Error(error.message);
+    }
+    alert('Category added successfully!');
     return data;
   }
 }

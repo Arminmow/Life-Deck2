@@ -92,6 +92,11 @@ export class ActivityStore extends ComponentStore<ActivityState> {
     activities: [...state.activities, activity],
   }));
 
+  readonly addCategory = this.updater<Category>((state, category) => ({
+    ...state,
+    categories: [...state.categories, category],
+  }));
+
   readonly removeActivity = this.updater<string>((state, id) => ({
     ...state,
     activities: state.activities.filter((a) => a.id !== id),
@@ -219,6 +224,20 @@ export class ActivityStore extends ComponentStore<ActivityState> {
           tap({
             next: (categories) => this.setCategories(categories),
             error: (err) => console.error('Error loading categories:', err),
+          }),
+          catchError(() => EMPTY)
+        )
+      )
+    )
+  );
+
+  readonly addCategoryEffect = this.effect<Category>((cat$) =>
+    cat$.pipe(
+      switchMap((category) =>
+        from(this.supabaseService.addCategory(category)).pipe(
+          tap({
+            next: (category) => this.addCategory(category),
+            error: (err) => console.error('Failed to add category:', err),
           }),
           catchError(() => EMPTY)
         )
