@@ -2,16 +2,7 @@
   <button class="control-btn" nz-button nzType="primary" (click)="showModal()">
     <nz-icon nzType="edit" nzTheme="outline" />
   </button>
-  <nz-modal
-    [(nzVisible)]="isVisible"
-    nzTitle="Edit Activity"
-    (nzOnCancel)="handleCancel()"
-    [nzFooter]="null"
-  >
-    <ng-container *nzModalContent>
-      <app-edit-activity-form [activity]="activity" />
-    </ng-container>
-  </nz-modal>
+
   <button
     class="control-btn"
     nzDanger
@@ -21,4 +12,27 @@
   >
     <nz-icon nzType="delete" nzTheme="outline" />
   </button>
+
+  <ng-container *ngIf="activity.category_id">
+    <button
+      class="control-btn"
+      nzDanger
+      nz-button
+      nzType="primary"
+      (click)="confirmRemove()"
+    >
+      <nz-icon nzType="minus" nzTheme="outline" />
+    </button>
+  </ng-container>
 </div>
+
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="Edit Activity"
+  (nzOnCancel)="handleCancel()"
+  [nzFooter]="null"
+>
+  <ng-container *nzModalContent>
+    <app-edit-activity-form [activity]="activity" />
+  </ng-container>
+</nz-modal>
