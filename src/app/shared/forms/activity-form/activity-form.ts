@@ -60,10 +60,10 @@ export class ActivityForm implements OnInit {
         lastPlayed: null,
         isRunning: false,
         lastSessionStart: null,
-        timeSpent: null
+        timeSpent: null,
+        category_id: null,
       });
 
-   
       this.form.reset();
     } catch (err: any) {
       console.error('Failed to add activity:', err.message);

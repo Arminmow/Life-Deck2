@@ -14,10 +14,18 @@ export interface Activity {
   lastSessionStart: Date | null;
   isRunning: boolean;
   timeSpent: number | null;
+  category_id: string | null;
+}
+
+export interface Category {
+  id: string;
+  title: string;
+  icon: string;
 }
 
 export interface ActivityState {
   activities: Activity[];
+  categories: Category[];
   selectedActivityId: string | null;
 }
 
@@ -26,11 +34,19 @@ export class ActivityStore extends ComponentStore<ActivityState> {
   constructor(private supabaseService: SupabaseService) {
     super({
       activities: [],
+      categories: [],
       selectedActivityId: null,
     });
   }
 
   readonly activities$ = this.select((state) => state.activities);
+
+  readonly categories$ = this.select((state) => state.categories);
+
+  readonly setCategories = this.updater<Category[]>((state, categories) => ({
+    ...state,
+    categories,
+  }));
 
   readonly selectedActivityId$ = this.select(
     (state) => state.selectedActivityId
@@ -41,6 +57,10 @@ export class ActivityStore extends ComponentStore<ActivityState> {
     this.selectedActivityId$,
     (activities, selectedId) =>
       activities.find((a) => a.id === selectedId) || null
+  );
+
+  readonly unassignedActivities$ = this.select(this.activities$, (activities) =>
+    activities.filter((a) => !a.category_id)
   );
 
   readonly startActivity = this.updater<string>((state, id) => {
@@ -76,6 +96,43 @@ export class ActivityStore extends ComponentStore<ActivityState> {
     activities: [...state.activities, activity],
   }));
 
+  readonly addActivityToCategory = this.updater<{
+    activityIds: string[];
+    categoryId: string;
+  }>((state, { activityIds, categoryId }) => {
+    const updatedActivities = state.activities.map((activity) =>
+      activityIds.includes(activity.id)
+        ? { ...activity, category_id: categoryId }
+        : activity
+    );
+
+    // 4) Return a new state object with a NEW activities array reference
+    return {
+      ...state,
+      activities: updatedActivities,
+    };
+  });
+
+  readonly removeActivitiesFromCategory = this.updater<{
+    activityIds: string[];
+  }>((state, { activityIds }) => {
+    const updatedActivities = state.activities.map((activity) =>
+      activityIds.includes(activity.id)
+        ? { ...activity, category_id: null }
+        : activity
+    );
+
+    return {
+      ...state,
+      activities: updatedActivities,
+    };
+  });
+
+  readonly addCategory = this.updater<Category>((state, category) => ({
+    ...state,
+    categories: [...state.categories, category],
+  }));
+
   readonly removeActivity = this.updater<string>((state, id) => ({
     ...state,
     activities: state.activities.filter((a) => a.id !== id),
@@ -85,6 +142,36 @@ export class ActivityStore extends ComponentStore<ActivityState> {
     ...state,
     selectedActivityId: id,
   }));
+
+  readonly updateCategory = this.updater<{
+    category_id: string;
+    updatedCategory: Category;
+  }>((state, { category_id, updatedCategory }) => {
+    const updatedCategories = state.categories.map((c) =>
+      c.id === category_id ? { ...updatedCategory } : c
+    );
+    return {
+      ...state,
+      categories: updatedCategories,
+    };
+  });
+
+  readonly unassignActivities = this.updater<Activity[]>(
+    (state, activitiesToUnassign) => {
+      const idsToUnassign = activitiesToUnassign.map((a) => a.id);
+
+      const updatedActivities = state.activities.map((activity) =>
+        idsToUnassign.includes(activity.id)
+          ? { ...activity, category_id: null }
+          : activity
+      );
+
+      return {
+        ...state,
+        activities: updatedActivities,
+      };
+    }
+  );
 
   readonly setActivities = this.updater<Activity[]>((state, activities) => ({
     ...state,
@@ -142,6 +229,11 @@ export class ActivityStore extends ComponentStore<ActivityState> {
     )
   );
 
+  readonly deleteCategory = this.updater<string>((state, id) => ({
+    ...state,
+    categories: state.categories.filter((c) => c.id !== id),
+  }));
+
   readonly updateActivity = this.updater<Activity>((state, activity) => {
     return {
       ...state,
@@ -191,6 +283,124 @@ export class ActivityStore extends ComponentStore<ActivityState> {
           (error) => {
             console.error('Failed to update activity:', error);
           }
+        )
+      )
+    )
+  );
+
+  readonly loadCategories = this.effect<void>((trigger$) =>
+    trigger$.pipe(
+      switchMap(() =>
+        from(this.supabaseService.getCategories()).pipe(
+          tap({
+            next: (categories) => this.setCategories(categories),
+            error: (err) => console.error('Error loading categories:', err),
+          }),
+          catchError(() => EMPTY)
+        )
+      )
+    )
+  );
+
+  readonly addCategoryEffect = this.effect<Category & { activities: string[] }>(
+    (cat$) =>
+      cat$.pipe(
+        switchMap((category) =>
+          from(this.supabaseService.addCategory(category)).pipe(
+            tap({
+              next: (addedCat) => {
+                this.addCategory(addedCat);
+                if (category.activities.length > 0) {
+                  this.addActivityToCategory({
+                    activityIds: category.activities,
+                    categoryId: addedCat.id,
+                  });
+                }
+              },
+              error: (err) => console.error('Failed to add category:', err),
+            }),
+            catchError(() => EMPTY)
+          )
+        )
+      )
+  );
+
+  readonly addActivitiesToCategoryEffect = this.effect<{
+    categoryId: string;
+    activityIds: string[];
+  }>((payload$) =>
+    payload$.pipe(
+      switchMap(({ categoryId, activityIds }) =>
+        from(
+          this.supabaseService.addActivitiesToCategory(activityIds, categoryId)
+        ).pipe(
+          tap({
+            next: () => {
+              this.addActivityToCategory({ activityIds, categoryId });
+            },
+            error: (err) =>
+              console.error('Failed to add activities to category:', err),
+          }),
+          catchError(() => EMPTY)
+        )
+      )
+    )
+  );
+
+  readonly removeActivitiesFromCategoryEffect = this.effect<string[]>(
+    (payload$) =>
+      payload$.pipe(
+        switchMap((activityIds) =>
+          from(
+            this.supabaseService.removeActivitiesFromCategory(activityIds)
+          ).pipe(
+            tap({
+              next: () => {
+                this.removeActivitiesFromCategory({ activityIds });
+              },
+              error: (err) =>
+                console.error(
+                  'Failed to remove activities from category:',
+                  err
+                ),
+            }),
+            catchError(() => EMPTY)
+          )
+        )
+      )
+  );
+
+  readonly deleteCategoryEffect = this.effect<string>((id$) =>
+    id$.pipe(
+      switchMap((id) =>
+        from(this.supabaseService.deleteCategory(id)).pipe(
+          tap({
+            next: (unassignedActivities) => {
+              this.deleteCategory(id);
+              this.unassignActivities(unassignedActivities);
+            },
+            error: (err) => console.error('Failed to delete category:', err),
+          }),
+          catchError(() => EMPTY)
+        )
+      )
+    )
+  );
+
+  readonly updateCategoryEffect = this.effect<{
+    category_id: string;
+    updatedCategory: Category;
+  }>((input$) =>
+    input$.pipe(
+      switchMap(({ category_id, updatedCategory }) =>
+        from(
+          this.supabaseService.updateCategory(category_id, updatedCategory)
+        ).pipe(
+          tap(() => this.updateCategory({ category_id, updatedCategory })),
+          catchError((err) => {
+            console.error('Failed to update category:', err);
+            return EMPTY;
+          })
         )
       )
     )

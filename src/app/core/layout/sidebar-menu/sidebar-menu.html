@@ -1,13 +1,53 @@
-<ul
-  *ngIf="activityStore.activities$ | async as activities"
-  nz-menu
-  nzTheme="dark"
-  nzMode="inline"
-  class="custom-menu"
->
-  <ng-container *ngFor="let activity of activities">
+<ul nz-menu nzTheme="dark" nzMode="inline" class="custom-menu">
+  <li
+    nz-submenu
+    *ngFor="let category of categories$ | async"
+    [nzTitle]="categoryTitle"
+    class="sub-menu"
+  >
+    <ng-template #categoryTitle>
+      <div class="activity-title-with-icon">
+        <img
+          [src]="category.icon"
+          class="activity-icon"
+          (error)="onImageError($event)"
+        />
+        <div class="active-info-wrapper">
+          <span class="activity-title">{{ category.title }}</span>
+          <span class="activity-duration"
+            >{{ getCategoryTime(category.id) | async | timeSpent }}</span
+          >
+        </div>
+      </div>
+    </ng-template>
+    <ul class="sub-menu-ul">
+      <li
+        nz-menu-item
+        *ngFor="let activity of getActivitiesByCategory(category.id) | async"
+        (click)="select(activity.id)"
+        class="sub-menu-item"
+      >
+        <div class="activity-title-with-icon">
+          <img
+            [src]="activity.icon"
+            class="activity-icon"
+            (error)="onImageError($event)"
+          />
+          <div class="active-info-wrapper">
+            <span class="activity-title">{{ activity.title }}</span>
+            <span>{{activity.timeSpent | timeSpent}}</span>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <app-category-actions [category]="category"/>
+  </li>
+  <ng-container
+    *ngIf="activityStore.unassignedActivities$ | async as filteredActivities"
+  >
     <li
       nz-menu-item
+      *ngFor="let activity of filteredActivities"
       class="activity-submenu force-unified"
       (click)="select(activity.id)"
     >

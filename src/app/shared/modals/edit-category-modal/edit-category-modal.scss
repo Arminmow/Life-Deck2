@@ -1,0 +1,14 @@
+.action-icon {
+  cursor: pointer;
+  font-size: 1.3rem;
+  color: #8c8c8c;
+  padding: 14px; /* 16px icon + 14px padding = 44px tap target */
+
+  &:hover {
+    transform: translateY(-3px);
+  }
+}
+
+.edit-icon {
+  color: #1890ff; /* Blue on tap/click */
+}

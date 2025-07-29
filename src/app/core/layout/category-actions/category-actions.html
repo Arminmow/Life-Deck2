@@ -1,0 +1,12 @@
+<div class="action-wrapper">
+<app-edit-category-modal [category]="category" />
+  <span
+    class="action-icon delete-icon"
+    nz-icon
+    nzType="delete"
+    nzTheme="outline"
+    aria-label="Delete category"
+    (click)="confirmDelete(category.id)"
+  ></span>
+  <app-add-to-category-modal [category]="category" />
+</div>

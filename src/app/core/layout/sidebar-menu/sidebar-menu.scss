@@ -10,10 +10,7 @@
 }
 
 /* Top-level menu items and submenu items */
-.custom-menu > li,
-.custom-menu > li[nz-submenu] > ul > li {
-  display: flex;
-  align-items: center;
+.custom-menu > li[nz-menu-item] {
   cursor: pointer;
   transition: background-color 0.2s ease;
   justify-content: flex-start;
@@ -21,6 +18,16 @@
   margin: 0;
   background-color: rgb(43, 29, 56);
   border-radius: 8px;
+}
+
+.sub-menu-item {
+  padding: 1.8rem 1rem !important;
+}
+
+.sub-menu {
+  background-color: rgb(43, 29, 56);
+  border-radius: 8px;
+  padding: 0.3rem;
 }
 
 /* Hover effect */
@@ -45,42 +52,6 @@
   border-radius: 10px;
 }
 
-/* Submenu title container (override ant styles) */
-.activity-submenu > .ant-menu-submenu-title {
-  padding: 1.25rem 1.5rem !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  justify-content: flex-start;
-}
-
-/* Sub-activity items container */
-.sub-activity-content {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-}
-
-/* Sub-activity title text */
-.sub-title {
-  font-size: 0.95rem;
-  color: #ccc;
-}
-
-/* Slight indent for submenu items */
-.custom-menu li[nz-submenu] ul li {
-  padding-left: 3rem; /* more left padding for hierarchy */
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Remove border on last items */
-.custom-menu > li:last-child,
-.custom-menu > li[nz-submenu] > ul > li:last-child {
-  border-bottom: none;
-}
-
 .active-info-wrapper {
   display: flex;
   justify-content: space-between;
@@ -91,3 +62,4 @@
   background-color: rgba(255, 255, 255, 0.1) !important;
   color: #ffffff !important;
 }
+

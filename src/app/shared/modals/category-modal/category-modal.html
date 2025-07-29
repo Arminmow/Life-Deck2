@@ -1,0 +1,15 @@
+<button nz-button [nzType]="'primary'" (click)="showModal()">
+  <span>Add category</span>
+</button>
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="Add a new category"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzFooter]="null"
+  nzCentered
+>
+  <ng-container *nzModalContent>
+    <app-category-form />
+  </ng-container>
+</nz-modal>
