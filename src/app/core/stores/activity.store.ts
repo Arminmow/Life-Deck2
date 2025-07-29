@@ -113,6 +113,21 @@ export class ActivityStore extends ComponentStore<ActivityState> {
     };
   });
 
+  readonly removeActivitiesFromCategory = this.updater<{
+    activityIds: string[];
+  }>((state, { activityIds }) => {
+    const updatedActivities = state.activities.map((activity) =>
+      activityIds.includes(activity.id)
+        ? { ...activity, category_id: null }
+        : activity
+    );
+
+    return {
+      ...state,
+      activities: updatedActivities,
+    };
+  });
+
   readonly addCategory = this.updater<Category>((state, category) => ({
     ...state,
     categories: [...state.categories, category],
@@ -317,6 +332,29 @@ export class ActivityStore extends ComponentStore<ActivityState> {
         )
       )
     )
+  );
+
+  readonly removeActivitiesFromCategoryEffect = this.effect<string[]>(
+    (payload$) =>
+      payload$.pipe(
+        switchMap((activityIds) =>
+          from(
+            this.supabaseService.removeActivitiesFromCategory(activityIds)
+          ).pipe(
+            tap({
+              next: () => {
+                this.removeActivitiesFromCategory({ activityIds });
+              },
+              error: (err) =>
+                console.error(
+                  'Failed to remove activities from category:',
+                  err
+                ),
+            }),
+            catchError(() => EMPTY)
+          )
+        )
+      )
   );
 
   readonly deleteCategoryEffect = this.effect<string>((id$) =>

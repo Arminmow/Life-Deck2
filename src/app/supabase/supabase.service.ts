@@ -275,6 +275,30 @@ export class SupabaseService {
     return data; // handy if the caller needs the new category object
   }
 
+  async removeActivitiesFromCategory(activities: string[]) {
+    const {
+      data: { user },
+      error: userError,
+    } = await this.supabase.auth.getUser();
+    if (userError || !user) {
+      throw new Error('User not authenticated');
+    }
+
+    const { error } = await this.supabase
+      .from('Activity')
+      .update({ category_id: null })
+      .in('id', activities)
+      .eq('userId', user.id);
+
+    if (error) {
+      console.error('Failed to remove activities from category:', error);
+      alert(error);
+      throw new Error(error.message);
+    }
+
+    alert('Activities removed successfully!');
+  }
+
   async addActivitiesToCategory(activities: string[], categoryId: string) {
     const {
       data: { user },
