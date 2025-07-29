@@ -1,0 +1,21 @@
+<span
+  class="action-icon edit-icon"
+  nz-icon
+  nzType="edit"
+  nzTheme="outline"
+  aria-label="Edit category"
+  (click)="showModal()"
+></span>
+
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="Edit Category"
+  (nzOnCancel)="hideModal()"
+  [nzFooter]="null"
+>
+  <ng-container *nzModalContent>
+    <p>Content one</p>
+    <p>Content two</p>
+    <p>Content three</p>
+  </ng-container>
+</nz-modal>

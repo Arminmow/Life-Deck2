@@ -6,6 +6,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormsModule, NonNullableFormBuilder } from '@angular/forms';
 import { AddToCategoryModal } from "../../../shared/modals/add-to-category-modal/add-to-category-modal";
+import { EditCategoryModal } from "../../../shared/modals/edit-category-modal/edit-category-modal";
 
 @Component({
   selector: 'app-category-actions',
@@ -16,6 +17,7 @@ import { AddToCategoryModal } from "../../../shared/modals/add-to-category-modal
     CommonModule,
     FormsModule,
     AddToCategoryModal,
+    EditCategoryModal
 ],
   templateUrl: './category-actions.html',
   styleUrl: './category-actions.scss',
