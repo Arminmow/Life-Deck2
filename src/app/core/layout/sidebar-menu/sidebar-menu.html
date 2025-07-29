@@ -40,43 +40,28 @@
         </div>
       </li>
     </ul>
-    <div class="action-wrapper">
-      <span
-        class="action-icon edit-icon"
-        nz-icon
-        nzType="edit"
-        nzTheme="outline"
-        aria-label="Edit category"
-      ></span>
-      <span
-        class="action-icon delete-icon"
-        nz-icon
-        nzType="delete"
-        nzTheme="outline"
-        aria-label="Delete category"
-        (click)="confirmDelete(category.id)"
-      ></span>
-    </div>
+    <app-category-actions [category]="category"/>
   </li>
-<ng-container *ngIf="activityStore.unassignedActivities$ | async as filteredActivities">
- <li
-    nz-menu-item
-    *ngFor="let activity of filteredActivities"
-    class="activity-submenu force-unified"
-    (click)="select(activity.id)"
+  <ng-container
+    *ngIf="activityStore.unassignedActivities$ | async as filteredActivities"
   >
-    <div class="activity-title-with-icon">
-      <img
-        [src]="activity.icon"
-        class="activity-icon"
-        (error)="onImageError($event)"
-      />
-      <div class="active-info-wrapper">
-        <span class="activity-title">{{ activity.title }}</span>
-        <span>{{activity.timeSpent | timeSpent}}</span>
+    <li
+      nz-menu-item
+      *ngFor="let activity of filteredActivities"
+      class="activity-submenu force-unified"
+      (click)="select(activity.id)"
+    >
+      <div class="activity-title-with-icon">
+        <img
+          [src]="activity.icon"
+          class="activity-icon"
+          (error)="onImageError($event)"
+        />
+        <div class="active-info-wrapper">
+          <span class="activity-title">{{ activity.title }}</span>
+          <span>{{activity.timeSpent | timeSpent}}</span>
+        </div>
       </div>
-    </div>
-  </li>
-</ng-container>
- 
+    </li>
+  </ng-container>
 </ul>
