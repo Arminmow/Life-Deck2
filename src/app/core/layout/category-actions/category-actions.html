@@ -1,24 +1,53 @@
 <div class="action-wrapper">
-      <span
-        class="action-icon edit-icon"
-        nz-icon
-        nzType="edit"
-        nzTheme="outline"
-        aria-label="Edit category"
-      ></span>
-      <span
-        class="action-icon delete-icon"
-        nz-icon
-        nzType="delete"
-        nzTheme="outline"
-        aria-label="Delete category"
-        (click)="confirmDelete(category.id)"
-      ></span>
-      <span
-        class="action-icon plus-icon"
-        nz-icon
-        nzType="plus"
-        nzTheme="outline"
-        aria-label="Delete category"
-      ></span>
-    </div>
+  <span
+    class="action-icon edit-icon"
+    nz-icon
+    nzType="edit"
+    nzTheme="outline"
+    aria-label="Edit category"
+  ></span>
+  <span
+    class="action-icon delete-icon"
+    nz-icon
+    nzType="delete"
+    nzTheme="outline"
+    aria-label="Delete category"
+    (click)="confirmDelete(category.id)"
+  ></span>
+  <span
+    class="action-icon plus-icon"
+    nz-icon
+    nzType="plus"
+    nzTheme="outline"
+    aria-label="Delete category"
+    (click)="showAddModal()"
+  ></span>
+  <nz-modal
+    [(nzVisible)]="addModalVisible"
+    nzTitle="Add activities to this category"
+    (nzOnCancel)="hideAddModal()"
+  >
+    <ng-container *nzModalContent>
+      <ng-container
+        *ngIf="activityStore.unassignedActivities$ | async as filteredActivities"
+      >
+        <nz-select
+          id="activities"
+          nzMode="multiple"
+          nzPlaceHolder="Select activities for this category"
+          [(ngModel)]="selectedActivities"
+          name="activities"
+          [nzSize]="'large'"
+          [nzDropdownClassName]="'mobile-friendly-dropdown'"
+        >
+          <nz-option
+            *ngFor="let activity of filteredActivities"
+            [nzLabel]="activity.title"
+            [nzValue]="activity.id"
+          ></nz-option>
+        </nz-select>
+        <button (click)="submit()">Add</button>
+      </ng-container>
+    </ng-container>
+  </nz-modal>
+</div>

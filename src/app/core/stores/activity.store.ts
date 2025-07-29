@@ -297,6 +297,28 @@ export class ActivityStore extends ComponentStore<ActivityState> {
       )
   );
 
+  readonly addActivitiesToCategoryEffect = this.effect<{
+    categoryId: string;
+    activityIds: string[];
+  }>((payload$) =>
+    payload$.pipe(
+      switchMap(({ categoryId, activityIds }) =>
+        from(
+          this.supabaseService.addActivitiesToCategory(activityIds, categoryId)
+        ).pipe(
+          tap({
+            next: () => {
+              this.addActivityToCategory({ activityIds, categoryId });
+            },
+            error: (err) =>
+              console.error('Failed to add activities to category:', err),
+          }),
+          catchError(() => EMPTY)
+        )
+      )
+    )
+  );
+
   readonly deleteCategoryEffect = this.effect<string>((id$) =>
     id$.pipe(
       switchMap((id) =>
