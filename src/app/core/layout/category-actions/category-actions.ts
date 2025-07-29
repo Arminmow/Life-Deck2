@@ -5,6 +5,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormsModule, NonNullableFormBuilder } from '@angular/forms';
+import { AddToCategoryModal } from "../../../shared/modals/add-to-category-modal/add-to-category-modal";
 
 @Component({
   selector: 'app-category-actions',
@@ -14,7 +15,8 @@ import { FormGroup, FormsModule, NonNullableFormBuilder } from '@angular/forms';
     NzSelectModule,
     CommonModule,
     FormsModule,
-  ],
+    AddToCategoryModal,
+],
   templateUrl: './category-actions.html',
   styleUrl: './category-actions.scss',
 })
@@ -22,8 +24,8 @@ export class CategoryActions {
   @Input() category!: Category;
 
   editModalVisible: boolean = false;
-  addModalVisible: boolean = false;
-  selectedActivities: string[] = [];
+  
+  
 
   constructor(
     private modal: NzModalService,
@@ -34,25 +36,12 @@ export class CategoryActions {
     this.editModalVisible = true;
   }
 
-  showAddModal(): void {
-    this.addModalVisible = true;
-  }
-
-  hideAddModal(): void {
-    this.addModalVisible = false;
-  }
-
+ 
   delete(id: string) {
     this.activityStore.deleteCategoryEffect(id);
   }
 
-  submit() {
-    console.log(this.selectedActivities);
-    this.activityStore.addActivitiesToCategoryEffect({
-      activityIds: this.selectedActivities,
-      categoryId: this.category.id,
-    });
-  }
+ 
 
   confirmDelete(id: string): void {
     this.modal.confirm({

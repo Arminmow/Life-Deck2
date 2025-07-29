@@ -1,0 +1,45 @@
+<span
+  class="action-icon plus-icon"
+  nz-icon
+  nzType="plus"
+  nzTheme="outline"
+  aria-label="Delete category"
+  (click)="showAddModal()"
+></span>
+<nz-modal
+  [(nzVisible)]="addModalVisible"
+  nzTitle="Add activities to this category"
+  (nzOnCancel)="hideAddModal()"
+  [nzFooter]="null"
+>
+  <ng-container *nzModalContent>
+    <ng-container
+      *ngIf="activityStore.unassignedActivities$ | async as filteredActivities"
+    >
+      <nz-select
+        id="activities"
+        nzMode="multiple"
+        nzPlaceHolder="Select activities for this category"
+        [(ngModel)]="selectedActivities"
+        name="activities"
+        [nzSize]="'large'"
+        [nzDropdownClassName]="'mobile-friendly-dropdown'"
+      >
+        <nz-option
+          *ngFor="let activity of filteredActivities"
+          [nzLabel]="activity.title"
+          [nzValue]="activity.id"
+        ></nz-option>
+      </nz-select>
+      <button
+        nz-button
+        nzType="primary"
+        [disabled]="selectedActivities.length === 0"
+        (click)="submit()"
+        class="submit-button"
+      >
+        Add
+      </button>
+    </ng-container>
+  </ng-container>
+</nz-modal>
