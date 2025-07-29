@@ -360,4 +360,27 @@ export class SupabaseService {
 
     return unassignedActivities;
   }
+
+  async updateCategory(categoryId: string, updatedData: Category) {
+    const {
+      data: { user },
+      error: userError,
+    } = await this.supabase.auth.getUser();
+    if (userError || !user) {
+      throw new Error('User not authenticated');
+    }
+
+    const { error } = await this.supabase
+      .from('category')
+      .update(updatedData)
+      .eq('id', categoryId)
+      .eq('user_id', user.id);
+
+    if (error) {
+      alert(error.message);
+      throw new Error(error.message);
+    }
+
+    alert('Category updated successfully!');
+  }
 }

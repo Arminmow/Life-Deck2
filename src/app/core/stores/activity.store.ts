@@ -143,6 +143,19 @@ export class ActivityStore extends ComponentStore<ActivityState> {
     selectedActivityId: id,
   }));
 
+  readonly updateCategory = this.updater<{
+    category_id: string;
+    updatedCategory: Category;
+  }>((state, { category_id, updatedCategory }) => {
+    const updatedCategories = state.categories.map((c) =>
+      c.id === category_id ? { ...updatedCategory } : c
+    );
+    return {
+      ...state,
+      categories: updatedCategories,
+    };
+  });
+
   readonly unassignActivities = this.updater<Activity[]>(
     (state, activitiesToUnassign) => {
       const idsToUnassign = activitiesToUnassign.map((a) => a.id);
@@ -369,6 +382,25 @@ export class ActivityStore extends ComponentStore<ActivityState> {
             error: (err) => console.error('Failed to delete category:', err),
           }),
           catchError(() => EMPTY)
+        )
+      )
+    )
+  );
+
+  readonly updateCategoryEffect = this.effect<{
+    category_id: string;
+    updatedCategory: Category;
+  }>((input$) =>
+    input$.pipe(
+      switchMap(({ category_id, updatedCategory }) =>
+        from(
+          this.supabaseService.updateCategory(category_id, updatedCategory)
+        ).pipe(
+          tap(() => this.updateCategory({ category_id, updatedCategory })),
+          catchError((err) => {
+            console.error('Failed to update category:', err);
+            return EMPTY;
+          })
         )
       )
     )
