@@ -1,5 +1,4 @@
 <ul nz-menu nzTheme="dark" nzMode="inline" class="custom-menu">
-  <span *ngIf="logRender"></span>
   <li
     nz-submenu
     *ngFor="let category of categories$ | async"
@@ -8,11 +7,7 @@
   >
     <ng-template #categoryTitle>
       <div class="activity-title-with-icon">
-        <img
-          [src]="category.icon"
-          class="activity-icon"
-          (error)="onImageError($event)"
-        />
+        <img [src]="category.icon" class="activity-icon" />
         <div class="active-info-wrapper">
           <span class="activity-title">{{ category.title }}</span>
           <span class="activity-duration"
@@ -29,11 +24,7 @@
         class="sub-menu-item"
       >
         <div class="activity-title-with-icon">
-          <img
-            [src]="activity.icon"
-            class="activity-icon"
-            (error)="onImageError($event)"
-          />
+          <img [src]="activity.icon" class="activity-icon" />
           <div class="active-info-wrapper">
             <span class="activity-title">{{ activity.title }}</span>
             <span>{{activity.timeSpent | timeSpent}}</span>
@@ -53,11 +44,7 @@
       (click)="select(activity.id)"
     >
       <div class="activity-title-with-icon">
-        <img
-          [src]="activity.icon"
-          class="activity-icon"
-          (error)="onImageError($event)"
-        />
+        <img [src]="activity.icon" class="activity-icon" />
         <div class="active-info-wrapper">
           <span class="activity-title">{{ activity.title }}</span>
           <span>{{activity.timeSpent | timeSpent}}</span>

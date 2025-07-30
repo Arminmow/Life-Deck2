@@ -62,14 +62,4 @@ export class SidebarMenu implements OnInit {
   trackByActivityId(index: number, activity: Activity): string {
     return activity.id;
   }
-
-  onImageError(event: Event) {
-    const target = event.target as HTMLImageElement;
-    target.src = 'https://cdn-icons-png.flaticon.com/512/2686/2686454.png';
-  }
-
-  get logRender() {
-    console.log('🧪 Sidebar rendered');
-    return true;
-  }
 }
