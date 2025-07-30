@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
@@ -12,7 +12,7 @@ import { ActivityModal } from '../../../shared/modals/activity-modal/activity-mo
 import { ActivityStore } from '../../stores/activity.store';
 import { ActivityDetail } from '../activity-detail/activity-detail';
 import { Route, Router } from '@angular/router';
-import { CategoryModal } from "../../../shared/modals/category-modal/category-modal";
+import { CategoryModal } from '../../../shared/modals/category-modal/category-modal';
 
 @Component({
   selector: 'app-layout',
@@ -26,10 +26,11 @@ import { CategoryModal } from "../../../shared/modals/category-modal/category-mo
     SidebarMenu,
     ActivityModal,
     ActivityDetail,
-    CategoryModal
-],
+    CategoryModal,
+  ],
   templateUrl: './layout.html',
   styleUrl: './layout.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LayoutComponent implements OnInit {
   isMobile = false;
@@ -41,13 +42,14 @@ export class LayoutComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     private supabaseService: SupabaseService,
     public activityStore: ActivityStore,
-    private router : Router
+    private router: Router
   ) {}
 
   async ngOnInit(): Promise<void> {
     this.breakpointObserver
       .observe([Breakpoints.Handset])
       .subscribe((result) => {
+
         this.isMobile = result.matches;
         if (!this.isMobile) {
           this.isDrawerVisible = false;
@@ -70,6 +72,11 @@ export class LayoutComponent implements OnInit {
   }
   async signOut() {
     await this.supabaseService.signOut();
-    this.router.navigate(['login'])
+    this.router.navigate(['login']);
+  }
+
+  get logRender() {
+    console.log('🧪 Layout rendered');
+    return true;
   }
 }

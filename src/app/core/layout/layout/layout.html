@@ -1,4 +1,5 @@
 <nz-layout>
+  <span *ngIf="logRender"></span>
   <ng-container *ngIf="!isMobile">
     <nz-sider
       nzCollapsible
@@ -55,7 +56,7 @@
     <app-sidebar-menu />
     <div class="sider-modal-bottom">
       <app-activity-modal />
-      <app-category-modal/>
+      <app-category-modal />
     </div>
   </div>
 </ng-template>

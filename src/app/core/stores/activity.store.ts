@@ -64,31 +64,45 @@ export class ActivityStore extends ComponentStore<ActivityState> {
   );
 
   readonly startActivity = this.updater<string>((state, id) => {
-    const activity = state.activities.find((a) => a.id === id);
-    if (activity) {
-      activity.lastSessionStart = new Date();
-      activity.isRunning = true;
-    }
-    return { ...state };
+    return {
+      ...state,
+      activities: state.activities.map((activity) =>
+        activity.id === id
+          ? {
+              ...activity,
+              lastSessionStart: new Date(),
+              isRunning: true,
+            }
+          : activity
+      ),
+    };
   });
-
+  
   readonly stopActivity = this.updater<string>((state, id) => {
-    const activity = state.activities.find((a) => a.id === id);
     const now = new Date();
 
-    if (activity && activity.lastSessionStart) {
-      const lastStart = new Date(activity.lastSessionStart);
-      const timeSpentInSeconds = Math.floor(
-        (now.getTime() - lastStart.getTime()) / 1000
-      );
-      const totalTimeSpent = (activity.timeSpent || 0) + timeSpentInSeconds;
+    return {
+      ...state,
+      activities: state.activities.map((activity) => {
+        if (activity.id !== id) return activity;
 
-      activity.lastSessionStart = null;
-      activity.isRunning = false;
-      activity.timeSpent = totalTimeSpent;
-      activity.lastPlayed = now;
-    }
-    return { ...state };
+        if (!activity.lastSessionStart) return activity;
+
+        const lastStart = new Date(activity.lastSessionStart);
+        const timeSpentInSeconds = Math.floor(
+          (now.getTime() - lastStart.getTime()) / 1000
+        );
+        const totalTimeSpent = (activity.timeSpent || 0) + timeSpentInSeconds;
+
+        return {
+          ...activity,
+          lastSessionStart: null,
+          isRunning: false,
+          timeSpent: totalTimeSpent,
+          lastPlayed: now,
+        };
+      }),
+    };
   });
 
   readonly addActivity = this.updater<Activity>((state, activity) => ({

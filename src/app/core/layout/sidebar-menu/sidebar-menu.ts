@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { Activity, ActivityStore, Category } from '../../stores/activity.store';
@@ -20,9 +20,12 @@ import { CategoryActions } from '../category-actions/category-actions';
   ],
   templateUrl: './sidebar-menu.html',
   styleUrl: './sidebar-menu.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarMenu implements OnInit {
   categories$!: Observable<Category[]>;
+  activitiesByCategory: { [categoryId: string]: Observable<Activity[]> } = {};
+  categoryTimes: { [categoryId: string]: Observable<number> } = {};
 
   constructor(public activityStore: ActivityStore) {}
 
@@ -31,32 +34,42 @@ export class SidebarMenu implements OnInit {
     this.activityStore.loadCategories();
 
     this.categories$ = this.activityStore.categories$;
-  }
 
-  getActivitiesByCategory(category_id: string): Observable<Activity[]> {
-    return this.activityStore.activities$.pipe(
-      map((activities) =>
-        activities.filter((a) => a.category_id === category_id)
-      )
-    );
-  }
+    this.categories$.subscribe((categories) => {
+      for (const category of categories) {
+        this.categoryTimes[category.id] = this.activityStore.activities$.pipe(
+          map((acts) =>
+            acts
+              .filter((a) => a.category_id === category.id)
+              .reduce((sum, a) => sum + (a.timeSpent || 0), 0)
+          )
+        );
 
-  getCategoryTime(category_id: string): Observable<number> {
-    return this.activityStore.activities$.pipe(
-      map((acts) =>
-        acts
-          .filter((a) => a.category_id === category_id)
-          .reduce((sum, a) => sum + (a.timeSpent || 0), 0)
-      )
-    );
+        this.activitiesByCategory[category.id] =
+          this.activityStore.activities$.pipe(
+            map((activities) =>
+              activities.filter((a) => a.category_id === category.id)
+            )
+          );
+      }
+    });
   }
 
   select(id: string) {
     this.activityStore.selectActivity(id);
   }
 
+  trackByActivityId(index: number, activity: Activity): string {
+    return activity.id;
+  }
+
   onImageError(event: Event) {
     const target = event.target as HTMLImageElement;
     target.src = 'https://cdn-icons-png.flaticon.com/512/2686/2686454.png';
+  }
+
+  get logRender() {
+    console.log('🧪 Sidebar rendered');
+    return true;
   }
 }
