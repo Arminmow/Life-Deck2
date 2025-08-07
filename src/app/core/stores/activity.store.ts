@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { catchError, EMPTY, from, switchMap, tap } from 'rxjs';
 import { SupabaseService } from '../../shared/services/supabase/supabase.service';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 export interface Activity {
   id: string;
@@ -31,7 +32,10 @@ export interface ActivityState {
 
 @Injectable({ providedIn: 'root' })
 export class ActivityStore extends ComponentStore<ActivityState> {
-  constructor(private supabaseService: SupabaseService) {
+  constructor(
+    private supabaseService: SupabaseService,
+    private notification: NzNotificationService
+  ) {
     super({
       activities: [],
       categories: [],
@@ -264,8 +268,10 @@ export class ActivityStore extends ComponentStore<ActivityState> {
     try {
       await this.supabaseService.startActivity(id);
       this.startActivity(id); // update state
+      this.notification.success('', 'Activity Started successfully');
     } catch (error) {
       console.error('Failed to start activity:', error);
+      this.notification.error('Failed to start activity', `${error}`);
     }
   };
 
@@ -273,8 +279,10 @@ export class ActivityStore extends ComponentStore<ActivityState> {
     try {
       await this.supabaseService.stopActivity(id);
       this.stopActivity(id);
+      this.notification.success('', 'Activity Stopped successfully');
     } catch (error) {
       console.error('Failed to stop activity:', error);
+      this.notification.error('Failed to stop activity', `${error}`);
     }
   };
 

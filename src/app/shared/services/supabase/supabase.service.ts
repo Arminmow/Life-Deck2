@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient, Session } from '@supabase/supabase-js';
 import { Activity, Category } from '../../../core/stores/activity.store';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -156,8 +155,6 @@ export class SupabaseService {
         .eq('id', id);
 
       if (updateError) throw new Error(`Update failed: ${updateError.message}`);
-
-      alert('Activity started successfully!');
     } catch (err: any) {
       console.error('Failed to start activity:', err);
       alert(`Failed to start activity: ${err.message || err}`);
@@ -205,8 +202,6 @@ export class SupabaseService {
         .eq('id', id);
 
       if (updateError) throw new Error(`Update failed: ${updateError.message}`);
-
-      alert('Activity stopped successfully!');
     } catch (err: any) {
       console.error('Failed to stop activity:', err);
       alert(`Failed to stop activity: ${err.message || err}`);
