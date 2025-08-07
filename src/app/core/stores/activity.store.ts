@@ -260,35 +260,23 @@ export class ActivityStore extends ComponentStore<ActivityState> {
     };
   });
 
-  readonly startActivityEffect = this.effect<string>((id$) =>
-    id$.pipe(
-      switchMap((id) =>
-        this.supabaseService.startActivity(id).then(
-          () => {
-            this.startActivity(id);
-          },
-          (error) => {
-            console.error('Failed to start activity:', error);
-          }
-        )
-      )
-    )
-  );
+  readonly startActivityEffect = async (id: string): Promise<void> => {
+    try {
+      await this.supabaseService.startActivity(id);
+      this.startActivity(id); // update state
+    } catch (error) {
+      console.error('Failed to start activity:', error);
+    }
+  };
 
-  readonly stopActivityEffect = this.effect<string>((id$) =>
-    id$.pipe(
-      switchMap((id) =>
-        this.supabaseService.stopActivity(id).then(
-          () => {
-            this.stopActivity(id);
-          },
-          (error) => {
-            console.error('Failed to stop activity:', error);
-          }
-        )
-      )
-    )
-  );
+  readonly stopActivityEffect = async (id: string): Promise<void> => {
+    try {
+      await this.supabaseService.stopActivity(id);
+      this.stopActivity(id);
+    } catch (error) {
+      console.error('Failed to stop activity:', error);
+    }
+  };
 
   readonly updateActivityEffect = this.effect<Activity>((activity$) =>
     activity$.pipe(

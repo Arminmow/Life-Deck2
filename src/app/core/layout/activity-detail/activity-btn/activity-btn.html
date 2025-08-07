@@ -2,9 +2,17 @@
   class="activity-btn"
   [class.running]="isRunning"
   (click)="handleClick()"
+  [disabled]="loading"
 >
-  <nz-icon
-    [nzType]="isRunning ? 'close' : 'caret-right'"
-    nzTheme="outline"
-  />{{isRunning ? "Stop" : "Start"}}
+  <ng-container *ngIf="!loading ; else loadingTemplate">
+    <nz-icon
+      [nzType]="isRunning ? 'close' : 'caret-right'"
+      nzTheme="outline"
+    />{{isRunning ? "Stop" : "Start"}}
+  </ng-container>
 </button>
+
+<ng-template  #loadingTemplate>
+  <!-- <nz-spin nzSimple class="loading"></nz-spin> Ugly af --> 
+   <span>Wait...</span>
+</ng-template>
