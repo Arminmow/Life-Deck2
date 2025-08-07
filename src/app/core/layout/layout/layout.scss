@@ -17,6 +17,8 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  overflow-y: auto;
+  scrollbar-width: none; 
 }
 
 .sider-modal-bottom {
@@ -53,22 +55,22 @@
   align-items: center;
   justify-content: space-between;
   padding: 0.5rem 1rem;
-  background: rgba(0,0,0,0.3); 
+  background: rgba(0, 0, 0, 0.3);
   border-radius: 0.5rem;
 }
 
 .user-email {
   font-weight: 600;
-  color: #f0f0f0;               
+  color: #f0f0f0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .logout-btn {
-  background: #ff4d4f;          
+  background: #ff4d4f;
   border: none;
-  padding: 0.25rem;             
+  padding: 0.25rem;
   border-radius: 0.5rem;
   display: flex;
   align-items: center;
@@ -79,12 +81,11 @@
 }
 
 .logout-btn i {
-  font-size: 1rem;            
+  font-size: 1rem;
   color: #fff;
 }
 
 .logout-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
-

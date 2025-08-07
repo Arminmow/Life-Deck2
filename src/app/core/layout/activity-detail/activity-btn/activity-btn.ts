@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { ActivityStore } from '../../../stores/activity.store';
@@ -8,6 +8,7 @@ import { ActivityStore } from '../../../stores/activity.store';
   imports: [NzButtonModule, NzIconModule],
   templateUrl: './activity-btn.html',
   styleUrl: './activity-btn.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActivityBtn {
   @Input() activityId!: string;
