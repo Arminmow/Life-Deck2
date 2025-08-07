@@ -8,7 +8,6 @@ import {
 } from '@angular/forms';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { CommonModule } from '@angular/common';
-import { SupabaseService } from '../../../supabase/supabase.service';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { ActivityStore } from '../../../core/stores/activity.store';
 

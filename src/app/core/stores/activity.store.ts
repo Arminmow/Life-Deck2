@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
-import { SupabaseService } from '../../supabase/supabase.service';
 import { catchError, EMPTY, from, switchMap, tap } from 'rxjs';
+import { SupabaseService } from '../../shared/services/supabase/supabase.service';
 
 export interface Activity {
   id: string;

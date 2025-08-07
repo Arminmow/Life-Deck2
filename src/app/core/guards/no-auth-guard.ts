@@ -1,7 +1,7 @@
 // src/app/core/guards/no-auth.guard.ts
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
-import { SupabaseService } from '../../supabase/supabase.service';
+import { SupabaseService } from '../../shared/services/supabase/supabase.service';
 
 @Injectable({
   providedIn: 'root',
