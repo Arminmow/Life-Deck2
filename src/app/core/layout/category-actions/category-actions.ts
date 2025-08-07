@@ -1,12 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { ActivityStore, Category } from '../../stores/activity.store';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { CommonModule } from '@angular/common';
-import { FormGroup, FormsModule, NonNullableFormBuilder } from '@angular/forms';
-import { AddToCategoryModal } from "../../../shared/modals/add-to-category-modal/add-to-category-modal";
-import { EditCategoryModal } from "../../../shared/modals/edit-category-modal/edit-category-modal";
+import { FormsModule } from '@angular/forms';
+import { AddToCategoryModal } from '../../../shared/modals/add-to-category-modal/add-to-category-modal';
+import { EditCategoryModal } from '../../../shared/modals/edit-category-modal/edit-category-modal';
 
 @Component({
   selector: 'app-category-actions',
@@ -17,17 +17,16 @@ import { EditCategoryModal } from "../../../shared/modals/edit-category-modal/ed
     CommonModule,
     FormsModule,
     AddToCategoryModal,
-    EditCategoryModal
-],
+    EditCategoryModal,
+  ],
   templateUrl: './category-actions.html',
   styleUrl: './category-actions.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoryActions {
   @Input() category!: Category;
 
   editModalVisible: boolean = false;
-  
-  
 
   constructor(
     private modal: NzModalService,
@@ -38,12 +37,9 @@ export class CategoryActions {
     this.editModalVisible = true;
   }
 
- 
   delete(id: string) {
     this.activityStore.deleteCategoryEffect(id);
   }
-
- 
 
   confirmDelete(id: string): void {
     this.modal.confirm({
@@ -54,5 +50,11 @@ export class CategoryActions {
       nzOnOk: () => this.delete(id),
       nzCancelText: 'Cancel',
     });
+  }
+
+  get log() {
+    console.log('Category actions Rendered');
+
+    return true;
   }
 }

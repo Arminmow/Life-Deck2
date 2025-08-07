@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { ActivityStore, Category } from '../../../core/stores/activity.store';
@@ -15,10 +15,11 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     CommonModule,
     FormsModule,
     NzIconModule,
-    NzButtonModule
+    NzButtonModule,
   ],
   templateUrl: './add-to-category-modal.html',
   styleUrl: './add-to-category-modal.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddToCategoryModal {
   @Input() category!: Category;
