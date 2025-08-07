@@ -4,6 +4,7 @@
     *ngFor="let category of categories$ | async"
     [nzTitle]="categoryTitle"
     class="sub-menu"
+    [ngClass]="{'has-active-child': (hasActiveChild(category.id) | async)}"
   >
     <ng-template #categoryTitle>
       <div class="activity-title-with-icon">
@@ -22,6 +23,7 @@
         *ngFor="let activity of activitiesByCategory[category.id] | async ; trackBy: trackByActivityId"
         (click)="select(activity.id)"
         class="sub-menu-item"
+        [ngClass]="{'active' : activity.isRunning}"
       >
         <div class="activity-title-with-icon">
           <img [src]="activity.icon" class="activity-icon" />
@@ -31,7 +33,7 @@
           </div>
         </div>
       </li>
-    </ul> 
+    </ul>
     <app-category-actions [category]="category" />
   </li>
   <ng-container
@@ -42,6 +44,7 @@
       *ngFor="let activity of filteredActivities"
       class="activity-submenu force-unified"
       (click)="select(activity.id)"
+      [ngClass]="{'active' : activity.isRunning}"
     >
       <div class="activity-title-with-icon">
         <img [src]="activity.icon" class="activity-icon" />

@@ -18,22 +18,29 @@
   margin: 0;
   background-color: rgb(43, 29, 56);
   border-radius: 8px;
+
+  &.active {
+    background-color: rgb(134, 40, 221);
+  }
 }
 
 .sub-menu-item {
   padding: 1.8rem 1rem !important;
+  background-color: transparent;
+
+  &.active {
+    background-color: rgb(134, 40, 221);
+  }
 }
 
 .sub-menu {
   background-color: rgb(43, 29, 56);
   border-radius: 8px;
   padding: 0.3rem;
-}
 
-/* Hover effect */
-.custom-menu > li:hover,
-.custom-menu > li[nz-submenu] > ul > li:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  &.has-active-child {
+    background-color: rgb(66, 22, 107); 
+  }
 }
 
 /* Container holding icon and title */
@@ -58,8 +65,10 @@
   width: 100%;
 }
 
-::ng-deep .custom-menu .ant-menu-item-selected {
-  background-color: rgba(255, 255, 255, 0.1) !important;
-  color: #ffffff !important;
+::ng-deep .custom-menu .sub-menu .ant-menu-item-selected {
+  background-color: transparent !important; 
 }
-
+/* Ensure selected active items retain active background */
+::ng-deep .custom-menu .ant-menu-item-selected.active {
+  background-color: rgb(134, 40, 221) !important; // Retain active background
+}
