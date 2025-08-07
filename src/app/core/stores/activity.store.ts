@@ -35,7 +35,7 @@ export class ActivityStore extends ComponentStore<ActivityState> {
     super({
       activities: [],
       categories: [],
-      selectedActivityId: null,
+      selectedActivityId: localStorage.getItem('activeId') ?? null,
     });
   }
 
@@ -77,7 +77,7 @@ export class ActivityStore extends ComponentStore<ActivityState> {
       ),
     };
   });
-  
+
   readonly stopActivity = this.updater<string>((state, id) => {
     const now = new Date();
 
@@ -152,10 +152,13 @@ export class ActivityStore extends ComponentStore<ActivityState> {
     activities: state.activities.filter((a) => a.id !== id),
   }));
 
-  readonly selectActivity = this.updater<string | null>((state, id) => ({
-    ...state,
-    selectedActivityId: id,
-  }));
+  readonly selectActivity = this.updater<string | null>((state, id) => {
+    localStorage.setItem('activeId', id ?? '');
+    return {
+      ...state,
+      selectedActivityId: id,
+    };
+  });
 
   readonly updateCategory = this.updater<{
     category_id: string;
