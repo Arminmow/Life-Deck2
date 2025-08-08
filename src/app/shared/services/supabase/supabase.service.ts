@@ -304,7 +304,7 @@ export class SupabaseService {
       .from('Activity')
       .update({ category_id: categoryId })
       .in('id', activities)
-      .eq('userId', user.id); // optionally scope to this user
+      .eq('userId', user.id); 
 
     if (error) {
       console.error('Failed to add activities to category:', error);

@@ -1,7 +1,7 @@
 .activity-banner-wrapper {
   position: relative;
   width: 100%;
-  height: 30%; // or set a fixed height like 200px if you want uniform sizing
+  height: 30%; 
   overflow: hidden;
 }
 
@@ -20,9 +20,9 @@
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 40%; // Make it as tall as you want
+  height: 40%; 
   display: flex;
-  align-items: flex-end; // Stick title at the bottom inside
+  align-items: flex-end; 
   padding: 12px;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
   color: white;
@@ -54,14 +54,14 @@
     font-size: 1.75rem;
     font-weight: 600;
     margin: 0 0 0.5rem;
-    color: #ffffff; // white for contrast
+    color: #ffffff; 
   }
 
   .no-activity-subtitle {
     font-size: 1rem;
     line-height: 1.5;
     margin: 0 0 2rem;
-    color: rgba(255, 255, 255, 0.65); // softer white for secondary text
+    color: rgba(255, 255, 255, 0.65); 
   }
 
   app-activity-modal {

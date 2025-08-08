@@ -124,7 +124,6 @@ export class ActivityStore extends ComponentStore<ActivityState> {
         : activity
     );
 
-    // 4) Return a new state object with a NEW activities array reference
     return {
       ...state,
       activities: updatedActivities,
@@ -252,7 +251,7 @@ export class ActivityStore extends ComponentStore<ActivityState> {
   readonly startActivityEffect = async (id: string): Promise<void> => {
     try {
       await this.supabaseService.startActivity(id);
-      this.startActivity(id); // update state
+      this.startActivity(id);
       this.notification.success('', 'Activity Started successfully');
     } catch (error) {
       console.error('Failed to start activity:', error);
@@ -303,7 +302,6 @@ export class ActivityStore extends ComponentStore<ActivityState> {
     try {
       const addedCat = await this.supabaseService.addCategory(category);
 
-      // Update local state
       this.addCategory(addedCat);
       if (category.activities.length > 0) {
         this.addActivityToCategory({
@@ -328,7 +326,10 @@ export class ActivityStore extends ComponentStore<ActivityState> {
       );
 
       this.addActivityToCategory({ activityIds, categoryId });
-      this.notification.success('', 'Activities Added To Category Successfully');
+      this.notification.success(
+        '',
+        'Activities Added To Category Successfully'
+      );
     } catch (error) {
       console.error('Failed to add activities to category:', error);
     }
