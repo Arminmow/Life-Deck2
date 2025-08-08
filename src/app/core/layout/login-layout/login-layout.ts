@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { SupabaseService } from '../../../supabase/supabase.service';
+import { SupabaseService } from '../../../shared/services/supabase/supabase.service';
 
 @Component({
   selector: 'app-login-layout',

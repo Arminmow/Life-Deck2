@@ -62,4 +62,10 @@ export class SidebarMenu implements OnInit {
   trackByActivityId(index: number, activity: Activity): string {
     return activity.id;
   }
+
+  hasActiveChild(categoryId: string): Observable<boolean> {
+    return this.activitiesByCategory[categoryId].pipe(
+      map((activities) => activities.some((activity) => activity.isRunning))
+    );
+  }
 }

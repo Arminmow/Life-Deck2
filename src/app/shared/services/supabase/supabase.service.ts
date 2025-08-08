@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient, Session } from '@supabase/supabase-js';
-import { Activity, Category } from '../core/stores/activity.store';
+import { Activity, Category } from '../../../core/stores/activity.store';
 
 @Injectable({
   providedIn: 'root',
@@ -78,8 +78,6 @@ export class SupabaseService {
       throw new Error(error.message);
     }
 
-    alert('Activity added successfully!');
-
     return inserted;
   }
 
@@ -93,22 +91,22 @@ export class SupabaseService {
       alert(error);
       throw new Error(error.message);
     }
-
-    alert('Activity removed successfully!');
   }
 
   async updateActivity(activity: Activity) {
-    const { error } = await this.supabase
+    const { data, error } = await this.supabase
       .from('Activity')
       .update(activity)
-      .eq('id', activity.id);
+      .eq('id', activity.id)
+      .select()
+      .single();
 
     if (error) {
       alert(error);
       throw new Error(error.message);
     }
 
-    alert('Activity updated successfully!');
+    return data;
   }
 
   async getActivities() {
@@ -155,8 +153,6 @@ export class SupabaseService {
         .eq('id', id);
 
       if (updateError) throw new Error(`Update failed: ${updateError.message}`);
-
-      alert('Activity started successfully!');
     } catch (err: any) {
       console.error('Failed to start activity:', err);
       alert(`Failed to start activity: ${err.message || err}`);
@@ -204,8 +200,6 @@ export class SupabaseService {
         .eq('id', id);
 
       if (updateError) throw new Error(`Update failed: ${updateError.message}`);
-
-      alert('Activity stopped successfully!');
     } catch (err: any) {
       console.error('Failed to stop activity:', err);
       alert(`Failed to stop activity: ${err.message || err}`);
@@ -271,8 +265,7 @@ export class SupabaseService {
       throw linkError;
     }
 
-    alert('Category and activities added successfully!');
-    return data; // handy if the caller needs the new category object
+    return data;
   }
 
   async removeActivitiesFromCategory(activities: string[]) {
@@ -296,7 +289,6 @@ export class SupabaseService {
       throw new Error(error.message);
     }
 
-    alert('Activities removed successfully!');
   }
 
   async addActivitiesToCategory(activities: string[], categoryId: string) {
@@ -312,7 +304,7 @@ export class SupabaseService {
       .from('Activity')
       .update({ category_id: categoryId })
       .in('id', activities)
-      .eq('userId', user.id); // optionally scope to this user
+      .eq('userId', user.id); 
 
     if (error) {
       console.error('Failed to add activities to category:', error);
@@ -320,7 +312,6 @@ export class SupabaseService {
       throw new Error(error.message);
     }
 
-    alert('Activities added successfully!');
   }
 
   async deleteCategory(categoryId: string) {
@@ -356,8 +347,6 @@ export class SupabaseService {
       throw new Error(deleteError.message);
     }
 
-    alert('Category deleted successfully!');
-
     return unassignedActivities;
   }
 
@@ -381,6 +370,5 @@ export class SupabaseService {
       throw new Error(error.message);
     }
 
-    alert('Category updated successfully!');
   }
 }

@@ -29,7 +29,7 @@
   </nz-form-item>
 
   <nz-form-item>
-    <nz-form-label nzFor="activities" nzRequired
+    <nz-form-label nzFor="activities"
       >Assign Activities</nz-form-label
     >
     <nz-form-control nzErrorTip="Please select at least one activity">
@@ -52,7 +52,7 @@
     </nz-form-control>
   </nz-form-item>
 
-  <button nz-button nzType="primary" [disabled]="form.invalid" type="submit">
+  <button nz-button nzType="primary" [disabled]="form.invalid" type="submit" class="submit-btn">
     Add Category
   </button>
 </form>

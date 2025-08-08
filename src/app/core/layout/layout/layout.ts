@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
@@ -7,12 +7,12 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { SidebarMenu } from '../sidebar-menu/sidebar-menu';
-import { SupabaseService } from '../../../supabase/supabase.service';
 import { ActivityModal } from '../../../shared/modals/activity-modal/activity-modal';
 import { ActivityStore } from '../../stores/activity.store';
 import { ActivityDetail } from '../activity-detail/activity-detail';
 import { Route, Router } from '@angular/router';
 import { CategoryModal } from '../../../shared/modals/category-modal/category-modal';
+import { SupabaseService } from '../../../shared/services/supabase/supabase.service';
 
 @Component({
   selector: 'app-layout',

@@ -7,8 +7,9 @@
   nzCentered
   nzTitle="ADD A NEW ACTIVITY"
   (nzOnCancel)="closeModal()"
+  [nzFooter]="null"
 >
   <ng-container *nzModalContent>
-    <app-activity-form/>
+    <app-activity-form (formSubmited)="closeModal()" />
   </ng-container>
 </nz-modal>

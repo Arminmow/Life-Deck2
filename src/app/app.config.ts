@@ -14,6 +14,8 @@ import { FormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideNzConfig } from 'ng-zorro-antd/core/config';
+import { ngZorroConfig } from './ngZorroConfig';
 
 registerLocaleData(en);
 
@@ -28,5 +30,6 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(FormsModule),
     provideAnimationsAsync(),
     provideHttpClient(),
+    provideNzConfig(ngZorroConfig),
   ],
 };

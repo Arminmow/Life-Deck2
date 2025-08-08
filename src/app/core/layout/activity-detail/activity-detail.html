@@ -1,4 +1,4 @@
-<ng-container *ngIf="activity">
+<ng-container *ngIf="activity ; else noActivity">
   <div class="activity-banner-wrapper">
     <img
       [src]="activity.banner"
@@ -13,3 +13,14 @@
   </div>
   <app-activity-stats [activity]="activity" />
 </ng-container>
+
+<ng-template #noActivity>
+  <div class="no-activity-wrapper">
+    <i nz-icon nzType="frown" nzTheme="outline" class="no-activity-icon"></i>
+    <h2 class="no-activity-title">No Activity Selected</h2>
+    <p class="no-activity-subtitle">
+      Select an activity from the sidebar<br />or create a new one below
+    </p>
+    <app-activity-modal></app-activity-modal>
+  </div>
+</ng-template>

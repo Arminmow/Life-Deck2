@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
-import { SupabaseService } from './supabase/supabase.service';
+import { RouterOutlet } from '@angular/router';
+
 
 @Component({
   selector: 'app-root',
@@ -11,7 +11,6 @@ import { SupabaseService } from './supabase/supabase.service';
 export class App {
   protected title = 'Life Deck2';
 
-  constructor(private supabase: SupabaseService, private router: Router) {}
 
   
 }

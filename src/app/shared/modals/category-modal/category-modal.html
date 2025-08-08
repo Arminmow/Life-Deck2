@@ -10,6 +10,6 @@
   nzCentered
 >
   <ng-container *nzModalContent>
-    <app-category-form />
+    <app-category-form (formSubmited)="handleCancel()"/>
   </ng-container>
 </nz-modal>
