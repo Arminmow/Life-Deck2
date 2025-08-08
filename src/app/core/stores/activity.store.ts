@@ -271,20 +271,17 @@ export class ActivityStore extends ComponentStore<ActivityState> {
     }
   };
 
-  readonly updateActivityEffect = this.effect<Activity>((activity$) =>
-    activity$.pipe(
-      switchMap((activity) =>
-        this.supabaseService.updateActivity(activity).then(
-          () => {
-            this.updateActivity(activity);
-          },
-          (error) => {
-            console.error('Failed to update activity:', error);
-          }
-        )
-      )
-    )
-  );
+  readonly updateActivityEffect = async (activity: Activity) => {
+    try {
+      const updatedActivity = await this.supabaseService.updateActivity(
+        activity
+      );
+      this.updateActivity(updatedActivity);
+      this.notification.success('', 'Activity Updated successfully');
+    } catch (error) {
+      console.error('Failed to update activity:', error);
+    }
+  };
 
   readonly loadCategories = this.effect<void>((trigger$) =>
     trigger$.pipe(
@@ -300,107 +297,80 @@ export class ActivityStore extends ComponentStore<ActivityState> {
     )
   );
 
-  readonly addCategoryEffect = this.effect<Category & { activities: string[] }>(
-    (cat$) =>
-      cat$.pipe(
-        switchMap((category) =>
-          from(this.supabaseService.addCategory(category)).pipe(
-            tap({
-              next: (addedCat) => {
-                this.addCategory(addedCat);
-                if (category.activities.length > 0) {
-                  this.addActivityToCategory({
-                    activityIds: category.activities,
-                    categoryId: addedCat.id,
-                  });
-                }
-              },
-              error: (err) => console.error('Failed to add category:', err),
-            }),
-            catchError(() => EMPTY)
-          )
-        )
-      )
-  );
+  readonly addCategoryEffect = async (
+    category: Category & { activities: string[] }
+  ): Promise<void> => {
+    try {
+      const addedCat = await this.supabaseService.addCategory(category);
 
-  readonly addActivitiesToCategoryEffect = this.effect<{
-    categoryId: string;
-    activityIds: string[];
-  }>((payload$) =>
-    payload$.pipe(
-      switchMap(({ categoryId, activityIds }) =>
-        from(
-          this.supabaseService.addActivitiesToCategory(activityIds, categoryId)
-        ).pipe(
-          tap({
-            next: () => {
-              this.addActivityToCategory({ activityIds, categoryId });
-            },
-            error: (err) =>
-              console.error('Failed to add activities to category:', err),
-          }),
-          catchError(() => EMPTY)
-        )
-      )
-    )
-  );
+      // Update local state
+      this.addCategory(addedCat);
+      if (category.activities.length > 0) {
+        this.addActivityToCategory({
+          activityIds: category.activities,
+          categoryId: addedCat.id,
+        });
+      }
+      this.notification.success('', 'Category Added successfully');
+    } catch (error) {
+      console.error('Failed to add category:', error);
+    }
+  };
 
-  readonly removeActivitiesFromCategoryEffect = this.effect<string[]>(
-    (payload$) =>
-      payload$.pipe(
-        switchMap((activityIds) =>
-          from(
-            this.supabaseService.removeActivitiesFromCategory(activityIds)
-          ).pipe(
-            tap({
-              next: () => {
-                this.removeActivitiesFromCategory({ activityIds });
-              },
-              error: (err) =>
-                console.error(
-                  'Failed to remove activities from category:',
-                  err
-                ),
-            }),
-            catchError(() => EMPTY)
-          )
-        )
-      )
-  );
+  readonly addActivitiesToCategoryEffect = async (
+    categoryId: string,
+    activityIds: string[]
+  ): Promise<void> => {
+    try {
+      await this.supabaseService.addActivitiesToCategory(
+        activityIds,
+        categoryId
+      );
 
-  readonly deleteCategoryEffect = this.effect<string>((id$) =>
-    id$.pipe(
-      switchMap((id) =>
-        from(this.supabaseService.deleteCategory(id)).pipe(
-          tap({
-            next: (unassignedActivities) => {
-              this.deleteCategory(id);
-              this.unassignActivities(unassignedActivities);
-            },
-            error: (err) => console.error('Failed to delete category:', err),
-          }),
-          catchError(() => EMPTY)
-        )
-      )
-    )
-  );
+      this.addActivityToCategory({ activityIds, categoryId });
+      this.notification.success('', 'Activities added successfully');
+    } catch (error) {
+      console.error('Failed to add activities to category:', error);
+    }
+  };
 
-  readonly updateCategoryEffect = this.effect<{
-    category_id: string;
-    updatedCategory: Category;
-  }>((input$) =>
-    input$.pipe(
-      switchMap(({ category_id, updatedCategory }) =>
-        from(
-          this.supabaseService.updateCategory(category_id, updatedCategory)
-        ).pipe(
-          tap(() => this.updateCategory({ category_id, updatedCategory })),
-          catchError((err) => {
-            console.error('Failed to update category:', err);
-            return EMPTY;
-          })
-        )
-      )
-    )
-  );
+  readonly removeActivitiesFromCategoryEffect = async (
+    activityIds: string[]
+  ) => {
+    try {
+      await this.supabaseService.removeActivitiesFromCategory(activityIds);
+
+      this.removeActivitiesFromCategory({ activityIds });
+      this.notification.success('', 'Activity Removed successfully');
+    } catch (error) {
+      console.error('Failed to remove activity from category', `${error}`);
+    }
+  };
+
+  readonly deleteCategoryEffect = async (categoryId: string) => {
+    try {
+      const unassignedActivities = await this.supabaseService.deleteCategory(
+        categoryId
+      );
+      this.deleteCategory(categoryId);
+      this.unassignActivities(unassignedActivities);
+      this.notification.success('', 'Category Deleted successfully');
+    } catch (error) {
+      console.error('Failed to delete category:', `${error}`);
+    }
+  };
+
+  readonly updateCategoryEffect = async (
+    category_id: string,
+    updatedCategory: Category
+  ): Promise<void> => {
+    try {
+      await this.supabaseService.updateCategory(category_id, updatedCategory);
+
+      this.updateCategory({ category_id, updatedCategory });
+      this.notification.success('', 'Category Updated successfully');
+    } catch (error) {
+      console.error('Failed to update category:', error);
+    }
+  };
 }

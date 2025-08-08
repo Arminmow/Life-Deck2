@@ -50,10 +50,7 @@ export class EditCategoryForm implements OnInit {
 
   submit() {
     if (this.form.valid) {
-      this.activityStore.updateCategoryEffect({
-        category_id: this.category.id,
-        updatedCategory: this.form.value,
-      });
+      this.activityStore.updateCategoryEffect(this.category.id , this.form.value);
     }
   }
 }

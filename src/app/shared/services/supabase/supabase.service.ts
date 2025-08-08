@@ -94,17 +94,19 @@ export class SupabaseService {
   }
 
   async updateActivity(activity: Activity) {
-    const { error } = await this.supabase
+    const { data, error } = await this.supabase
       .from('Activity')
       .update(activity)
-      .eq('id', activity.id);
+      .eq('id', activity.id)
+      .select()
+      .single();
 
     if (error) {
       alert(error);
       throw new Error(error.message);
     }
 
-    alert('Activity updated successfully!');
+    return data;
   }
 
   async getActivities() {
@@ -263,8 +265,7 @@ export class SupabaseService {
       throw linkError;
     }
 
-    alert('Category and activities added successfully!');
-    return data; // handy if the caller needs the new category object
+    return data;
   }
 
   async removeActivitiesFromCategory(activities: string[]) {
@@ -288,7 +289,6 @@ export class SupabaseService {
       throw new Error(error.message);
     }
 
-    alert('Activities removed successfully!');
   }
 
   async addActivitiesToCategory(activities: string[], categoryId: string) {
@@ -312,7 +312,6 @@ export class SupabaseService {
       throw new Error(error.message);
     }
 
-    alert('Activities added successfully!');
   }
 
   async deleteCategory(categoryId: string) {
@@ -348,8 +347,6 @@ export class SupabaseService {
       throw new Error(deleteError.message);
     }
 
-    alert('Category deleted successfully!');
-
     return unassignedActivities;
   }
 
@@ -373,6 +370,5 @@ export class SupabaseService {
       throw new Error(error.message);
     }
 
-    alert('Category updated successfully!');
   }
 }

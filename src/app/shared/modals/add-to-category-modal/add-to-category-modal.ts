@@ -37,9 +37,9 @@ export class AddToCategoryModal {
 
   submit() {
     console.log(this.selectedActivities);
-    this.activityStore.addActivitiesToCategoryEffect({
-      activityIds: this.selectedActivities,
-      categoryId: this.category.id,
-    });
+    this.activityStore.addActivitiesToCategoryEffect(
+      this.category.id,
+      this.selectedActivities
+    );
   }
 }
