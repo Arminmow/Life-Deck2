@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import {
   FormGroup,
   NonNullableFormBuilder,
@@ -26,6 +26,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
   styleUrl: './category-form.scss',
 })
 export class CategoryForm implements OnInit {
+  @Output() formSubmited = new EventEmitter<void>();
+
   constructor(
     private fb: NonNullableFormBuilder,
     public activityStore: ActivityStore
@@ -40,7 +42,7 @@ export class CategoryForm implements OnInit {
     });
   }
 
-  submit() {
+  async submit() {
     console.log(this.form.value);
 
     if (this.form.invalid) {
@@ -48,8 +50,9 @@ export class CategoryForm implements OnInit {
       return;
     }
     const newCategory: Category & { activities: string[] } = this.form.value;
-    this.activityStore.addCategoryEffect(newCategory);
+    await this.activityStore.addCategoryEffect(newCategory);
     this.form.reset();
+    this.formSubmited.emit();
   }
 
   get titleControl() {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import {
   FormGroup,
@@ -24,6 +24,9 @@ import { ActivityStore } from '../../../core/stores/activity.store';
   styleUrl: './activity-form.scss',
 })
 export class ActivityForm implements OnInit {
+
+  @Output() formSubmited = new EventEmitter<void>();
+
   constructor(
     private fb: NonNullableFormBuilder,
     private activityStore: ActivityStore
@@ -49,7 +52,7 @@ export class ActivityForm implements OnInit {
     try {
       const formValue = this.form.value;
 
-      this.activityStore.addActivityEffect({
+      await this.activityStore.addActivityEffect({
         id: '',
         title: formValue.title,
         description: formValue.description,
@@ -64,6 +67,7 @@ export class ActivityForm implements OnInit {
       });
 
       this.form.reset();
+      this.formSubmited.emit()
     } catch (err: any) {
       console.error('Failed to add activity:', err.message);
       alert('Something went wrong while adding activity.');

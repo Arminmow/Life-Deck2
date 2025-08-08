@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Activity, ActivityStore } from '../../../core/stores/activity.store';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import {
@@ -27,8 +27,12 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 })
 export class EditActivityForm implements OnInit {
   @Input() activity!: Activity;
+  @Output() formSubmited = new EventEmitter<void>();
   form!: FormGroup;
-  constructor(private fb: NonNullableFormBuilder , private activityStore : ActivityStore) {}
+  constructor(
+    private fb: NonNullableFormBuilder,
+    private activityStore: ActivityStore
+  ) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -48,16 +52,17 @@ export class EditActivityForm implements OnInit {
     return this.form.get('title');
   }
 
-  submit(){
+  async submit() {
     console.log('Submitting...');
-    
+
     if (this.form.valid) {
-      console.log("OK");
-      
+      console.log('OK');
+
       const updatedActivity: Activity = this.form.value;
       console.log(updatedActivity);
-      
-      this.activityStore.updateActivityEffect(updatedActivity);
+
+      await this.activityStore.updateActivityEffect(updatedActivity);
+      this.formSubmited.emit();
     }
   }
 }

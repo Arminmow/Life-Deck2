@@ -328,7 +328,7 @@ export class ActivityStore extends ComponentStore<ActivityState> {
       );
 
       this.addActivityToCategory({ activityIds, categoryId });
-      this.notification.success('', 'Activities added successfully');
+      this.notification.success('', 'Activities Added To Category Successfully');
     } catch (error) {
       console.error('Failed to add activities to category:', error);
     }

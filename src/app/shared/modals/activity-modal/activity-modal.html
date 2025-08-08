@@ -10,6 +10,6 @@
   [nzFooter]="null"
 >
   <ng-container *nzModalContent>
-    <app-activity-form/>
+    <app-activity-form (formSubmited)="closeModal()" />
   </ng-container>
 </nz-modal>

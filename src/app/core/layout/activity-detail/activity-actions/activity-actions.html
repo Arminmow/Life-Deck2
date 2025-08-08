@@ -33,6 +33,9 @@
   [nzFooter]="null"
 >
   <ng-container *nzModalContent>
-    <app-edit-activity-form [activity]="activity" />
+    <app-edit-activity-form
+      [activity]="activity"
+      (formSubmited)="handleCancel()"
+    />
   </ng-container>
 </nz-modal>

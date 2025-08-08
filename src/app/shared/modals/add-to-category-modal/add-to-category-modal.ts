@@ -35,11 +35,12 @@ export class AddToCategoryModal {
     this.addModalVisible = false;
   }
 
-  submit() {
+  async submit() {
     console.log(this.selectedActivities);
-    this.activityStore.addActivitiesToCategoryEffect(
+    await this.activityStore.addActivitiesToCategoryEffect(
       this.category.id,
       this.selectedActivities
     );
+    this.addModalVisible = false;
   }
 }
