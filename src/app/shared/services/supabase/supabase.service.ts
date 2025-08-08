@@ -78,8 +78,6 @@ export class SupabaseService {
       throw new Error(error.message);
     }
 
-    alert('Activity added successfully!');
-
     return inserted;
   }
 
@@ -93,8 +91,6 @@ export class SupabaseService {
       alert(error);
       throw new Error(error.message);
     }
-
-    alert('Activity removed successfully!');
   }
 
   async updateActivity(activity: Activity) {

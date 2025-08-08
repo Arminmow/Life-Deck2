@@ -213,42 +213,27 @@ export class ActivityStore extends ComponentStore<ActivityState> {
     )
   );
 
-  readonly addActivityEffect = this.effect<Activity>((newActivity$) =>
-    newActivity$.pipe(
-      // First add activity locally
-      tap((newActivity) => this.addActivity(newActivity)),
+  readonly addActivityEffect = async (newActivity: Activity): Promise<void> => {
+    try {
+      const insertedActivity = await this.supabaseService.addActivity(
+        newActivity
+      );
+      this.addActivity(insertedActivity);
+      this.notification.success('', 'Activity Added successfully');
+    } catch (error) {
+      console.error('Failed to add activity to backend:', error);
+    }
+  };
 
-      // Then call Supabase to add to backend
-      switchMap((newActivity) =>
-        this.supabaseService.addActivity(newActivity).then(
-          (insertedActivity) => {
-            // Optionally replace local temp activity with server response (like new ID)
-          },
-          (error) => {
-            // Rollback if backend call fails
-            this.removeActivity(newActivity.id);
-            console.error('Failed to add activity to backend:', error);
-          }
-        )
-      )
-    )
-  );
-
-  //This needs to be studied fully + the best practices
-  readonly removeActivityEffect = this.effect<string>((id$) =>
-    id$.pipe(
-      switchMap((id) =>
-        this.supabaseService.removeActivity(id).then(
-          () => {
-            this.removeActivity(id);
-          },
-          (error) => {
-            console.error('Failed to remove activity from backend:', error);
-          }
-        )
-      )
-    )
-  );
+  readonly removeActivityEffect = async (activityId: string): Promise<void> => {
+    try {
+      await this.supabaseService.removeActivity(activityId);
+      this.removeActivity(activityId);
+      this.notification.success('', 'Activity Deleted successfully');
+    } catch (error) {
+      console.error('Failed to delete activity:', error);
+    }
+  };
 
   readonly deleteCategory = this.updater<string>((state, id) => ({
     ...state,
