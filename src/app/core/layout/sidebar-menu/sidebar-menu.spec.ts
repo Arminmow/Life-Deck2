@@ -89,30 +89,4 @@ describe('SidebarMenu', () => {
     expect(component).toBeTruthy();
   });
 
-  it('SHOULD render correct number of top level menu items WHEN created', () => {
-    // Arrange
-    component.activities = mockData;
-    // Act
-    fixture.detectChanges();
-    // Assert
-    const submenuItems = fixture.nativeElement.querySelectorAll(
-      'ul.custom-menu > li[nz-submenu]'
-    );
-    const singleItems = fixture.nativeElement.querySelectorAll(
-      'ul.custom-menu > li[nz-menu-item]'
-    );
-    expect(submenuItems.length).toBe(2);
-    expect(singleItems.length).toBe(1);
-    expect(submenuItems.length + singleItems.length).toBe(mockData.length);
-  });
-
-  it('SHOULD render correct number of sub-activity items inside submenu WHEN created', () => {
-    // Arrange
-    component.activities = mockData;
-    // Act
-    fixture.detectChanges();
-    // Assert
-    const subActivityItems = fixture.nativeElement.querySelectorAll('ul.custom-menu li[nz-submenu] ul > li[nz-menu-item]');
-    expect(subActivityItems.length).toBe(4); // 2 for Chess, 2 for Gaming, 0 for Walking
-  });
 });

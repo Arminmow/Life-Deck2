@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ModalForm } from './category-form';
+import { CategoryForm } from './category-form';
 
 describe('ModalForm', () => {
-  let component: ModalForm;
-  let fixture: ComponentFixture<ModalForm>;
+  let component: CategoryForm;
+  let fixture: ComponentFixture<CategoryForm>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ModalForm]
+      imports: [CategoryForm]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ModalForm);
+    fixture = TestBed.createComponent(CategoryForm);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
