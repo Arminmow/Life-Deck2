@@ -1,4 +1,4 @@
-<div class="activity-stats">
+<div *ngIf="activity" class="activity-stats">
   <app-activity-btn
     [activityId]="activity.id"
     [isRunning]="activity.isRunning"

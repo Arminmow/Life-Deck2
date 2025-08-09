@@ -34,14 +34,16 @@ export class EditCategoryForm implements OnInit {
   form!: FormGroup;
 
   ngOnInit(): void {
-    this.form = this.fb.group({
-      id: [this.category.id],
-      title: [
-        this.category.title,
-        [Validators.required, Validators.minLength(3)],
-      ],
-      icon: [this.category.icon],
-    });
+    if (this.category) {
+      this.form = this.fb.group({
+        id: [this.category.id],
+        title: [
+          this.category.title,
+          [Validators.required, Validators.minLength(3)],
+        ],
+        icon: [this.category.icon],
+      });
+    }
   }
 
   get titleControl() {
@@ -50,7 +52,10 @@ export class EditCategoryForm implements OnInit {
 
   submit() {
     if (this.form.valid) {
-      this.activityStore.updateCategoryEffect(this.category.id , this.form.value);
+      this.activityStore.updateCategoryEffect(
+        this.category.id,
+        this.form.value
+      );
     }
   }
 }

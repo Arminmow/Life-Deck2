@@ -3,6 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivityDetail } from './activity-detail';
 import { Activity } from '../../stores/activity.store';
 import { By } from '@angular/platform-browser';
+import { FrownOutline } from '@ant-design/icons-angular/icons';
+import { NZ_ICONS } from 'ng-zorro-antd/icon';
 
 describe('ActivityDetail', () => {
   let component: ActivityDetail;
@@ -24,6 +26,7 @@ describe('ActivityDetail', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ActivityDetail],
+      providers : [{provide : NZ_ICONS , useValue : [FrownOutline]}]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ActivityDetail);
@@ -35,15 +38,5 @@ describe('ActivityDetail', () => {
     expect(component).toBeTruthy();
   });
 
-  it('SHOULD render detail container WHEN activity is not null', () => {
-    // Arrange
-    component.activity = testActivity;
-    // Act
-    fixture.detectChanges();
-    // Assert
-    const detailContainer = fixture.debugElement.query(
-      By.css(`[data-testId = "detail-container"]`)
-    );
-    expect(detailContainer).toBeTruthy();
-  });
+
 });

@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ActivityBtn } from './activity-btn';
+import { NZ_ICONS } from 'ng-zorro-antd/icon';
+import { CaretRightOutline } from '@ant-design/icons-angular/icons';
 
 describe('ActivityBtn', () => {
   let component: ActivityBtn;
@@ -8,7 +10,8 @@ describe('ActivityBtn', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ActivityBtn]
+      imports: [ActivityBtn],
+      providers: [{provide: NZ_ICONS , useValue : [CaretRightOutline]}]
     })
     .compileComponents();
 
