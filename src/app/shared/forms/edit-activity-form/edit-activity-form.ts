@@ -35,17 +35,19 @@ export class EditActivityForm implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.form = this.fb.group({
-      id: [this.activity.id],
-      title: [
-        this.activity.title,
-        [Validators.required, Validators.minLength(3)],
-      ],
-      description: [this.activity.description],
-      icon: [this.activity.icon],
-      banner: [this.activity.banner],
-      timeSpent: [this.activity.timeSpent],
-    });
+    if (this.activity) {
+      this.form = this.fb.group({
+        id: [this.activity.id],
+        title: [
+          this.activity.title,
+          [Validators.required, Validators.minLength(3)],
+        ],
+        description: [this.activity.description],
+        icon: [this.activity.icon],
+        banner: [this.activity.banner],
+        timeSpent: [this.activity.timeSpent],
+      });
+    }
   }
 
   get titleControl() {

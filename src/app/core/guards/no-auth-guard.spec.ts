@@ -1,17 +1,21 @@
 import { TestBed } from '@angular/core/testing';
-import { CanActivateFn } from '@angular/router';
+import { NoAuthGuard } from './no-auth-guard';
 
-import { noAuthGuard } from './no-auth-guard';
-
-describe('noAuthGuard', () => {
-  const executeGuard: CanActivateFn = (...guardParameters) => 
-      TestBed.runInInjectionContext(() => noAuthGuard(...guardParameters));
+describe('NoAuthGuard', () => {
+  let guard: NoAuthGuard;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [
+        NoAuthGuard,
+        { provide: 'SupabaseService', useValue: {} },
+        { provide: 'Router', useValue: { createUrlTree: () => ({}) } },
+      ],
+    });
+    guard = TestBed.inject(NoAuthGuard);
   });
 
   it('should be created', () => {
-    expect(executeGuard).toBeTruthy();
+    expect(guard).toBeTruthy();
   });
 });

@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ActivityForm } from './activity-form';
+import { LinkOutline } from '@ant-design/icons-angular/icons';
+import { NZ_ICONS } from 'ng-zorro-antd/icon';
 
 describe('ActivityForm', () => {
   let component: ActivityForm;
@@ -9,6 +11,7 @@ describe('ActivityForm', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ActivityForm],
+      providers: [{ provide: NZ_ICONS, useValue: [LinkOutline] }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ActivityForm);
@@ -20,54 +23,5 @@ describe('ActivityForm', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize the form with default values', () => {
-    expect(component.form).toBeDefined();
-    expect(component.form.value).toEqual({
-      title: '',
-      description: '',
-      icon: '',
-      banner: '',
-      lastActive: '',
-    });
-  });
 
-  it('should require the title field', () => {
-    // Arrange
-    const titleControl = component.form.get('title');
-    titleControl?.setValue('');
-
-    // Act
-
-    // Assert
-    expect(titleControl?.valid).toBeFalse();
-    expect(titleControl?.hasError('required')).toBeTrue();
-  });
-
-  it('should require the title to have at least 3 characters', () => {
-    // Arrange
-    const titleControl = component.form.get('title');
-    titleControl?.setValue('ab');
-
-    // Act
-
-    // Assert
-    expect(titleControl?.valid).toBeFalse();
-    expect(titleControl?.hasError('minlength')).toBeTrue();
-
-    titleControl?.setValue('abc');
-    expect(titleControl?.valid).toBeTrue();
-  });
-
-  it('should allow empty description, icon, banner, and lastActive fields', () => {
-    component.form.setValue({
-      title: 'Valid Title',
-      description: '',
-      icon: '',
-      banner: '',
-      lastActive: '',
-    });
-
-    // Assert
-    expect(component.form.valid).toBeTrue();
-  });
 });

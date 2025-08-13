@@ -1,6 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MenuOutline, MenuFoldOutline, MenuUnfoldOutline } from '@ant-design/icons-angular/icons';
-
+import {
+  MenuOutline,
+  MenuFoldOutline,
+  MenuUnfoldOutline,
+  LogoutOutline,
+  FrownOutline,
+} from '@ant-design/icons-angular/icons';
 
 import { LayoutComponent } from './layout';
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -13,12 +18,20 @@ describe('Layout', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [LayoutComponent],
-      providers: [provideAnimations(), {
-        provide : NZ_ICONS,
-        useValue: [MenuOutline, MenuFoldOutline, MenuUnfoldOutline]
-      }]
-    })
-    .compileComponents();
+      providers: [
+        provideAnimations(),
+        {
+          provide: NZ_ICONS,
+          useValue: [
+            MenuOutline,
+            MenuFoldOutline,
+            MenuUnfoldOutline,
+            LogoutOutline,
+            FrownOutline,
+          ],
+        },
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(LayoutComponent);
     component = fixture.componentInstance;
