@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Activity, ActivityStore } from '../../../core/stores/activity.store';
+import { Activity, ActivityStore } from '../../../stores/activity/activity.store';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import {
   FormGroup,

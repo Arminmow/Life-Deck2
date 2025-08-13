@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { catchError, EMPTY, from, switchMap, tap } from 'rxjs';
-import { SupabaseService } from '../../shared/services/supabase/supabase.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { SupabaseService } from '../../services/supabase/supabase.service';
 
 export interface Activity {
   id: string;

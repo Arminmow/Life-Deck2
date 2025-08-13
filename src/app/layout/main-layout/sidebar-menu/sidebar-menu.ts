@@ -2,11 +2,11 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-import { Activity, ActivityStore, Category } from '../../stores/activity.store';
-import { PrettyDurationPipe } from '../../../shared/pipes/time-spent-pipe';
+import { Activity, ActivityStore, Category } from '../../../stores/activity/activity.store';
 import { map, Observable } from 'rxjs';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { CategoryActions } from '../category-actions/category-actions';
+import { CategoryActions } from '../../../components/category/category-actions/category-actions';
+import { PrettyDurationPipe } from '../../../pipes/time-spent/time-spent-pipe';
 
 @Component({
   selector: 'app-sidebar-menu',

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ActivityStats } from './activity-stats';
+
 
 describe('ActivityStats', () => {
   let component: ActivityStats;

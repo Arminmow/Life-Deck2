@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivityStore, Category } from '../../../core/stores/activity.store';
+import { ActivityStore, Category } from '../../../stores/activity/activity.store';
 import {
   FormGroup,
   NonNullableFormBuilder,

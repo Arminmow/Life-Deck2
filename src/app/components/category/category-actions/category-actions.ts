@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
-import { ActivityStore, Category } from '../../stores/activity.store';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AddToCategoryModal } from '../../../shared/modals/add-to-category-modal/add-to-category-modal';
 import { EditCategoryModal } from '../../../shared/modals/edit-category-modal/edit-category-modal';
+import { ActivityStore, Category } from '../../../stores/activity/activity.store';
 
 @Component({
   selector: 'app-category-actions',

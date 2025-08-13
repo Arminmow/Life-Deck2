@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Activity } from '../../stores/activity.store';
 import { CommonModule } from '@angular/common';
-import { ActivityStats } from './activity-stats/activity-stats';
+import { ActivityStats } from '../../../components/activity/activity-stats/activity-stats';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { ActivityActions } from './activity-actions/activity-actions';
 import { ActivityModal } from "../../../shared/modals/activity-modal/activity-modal";
+import { ActivityActions } from '../../../components/activity/activity-actions/activity-actions';
+import { Activity } from '../../../stores/activity/activity.store';
 
 @Component({
   selector: 'app-activity-detail',

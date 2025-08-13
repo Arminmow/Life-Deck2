@@ -9,7 +9,7 @@ import {
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { CommonModule } from '@angular/common';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { ActivityStore } from '../../../core/stores/activity.store';
+import { ActivityStore } from '../../../stores/activity/activity.store';
 
 @Component({
   selector: 'app-activity-form',

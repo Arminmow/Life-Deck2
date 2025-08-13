@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SidebarMenu } from './sidebar-menu';
+import { SidebarMenu } from '../../../core/layout/sidebar-menu/sidebar-menu';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
 describe('SidebarMenu', () => {

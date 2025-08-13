@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Activity } from '../../../stores/activity.store';
+import { Activity } from '../../../stores/activity/activity.store';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { ActivityBtn } from '../activity-btn/activity-btn';
 import { CommonModule } from '@angular/common';
-import { PrettyDurationPipe } from '../../../../shared/pipes/time-spent-pipe';
+import { ActivityBtn } from '../activity-btn/activity-btn';
+import { PrettyDurationPipe } from '../../../pipes/time-spent/time-spent-pipe';
 
 @Component({
   selector: 'app-activity-stats',

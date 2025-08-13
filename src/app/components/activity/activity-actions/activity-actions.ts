@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { Activity, ActivityStore } from '../../../stores/activity.store';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
-import { EditActivityForm } from '../../../../shared/forms/edit-activity-form/edit-activity-form';
 import { CommonModule } from '@angular/common';
+import { Activity, ActivityStore } from '../../../stores/activity/activity.store';
+import { EditActivityForm } from '../../../shared/forms/edit-activity-form/edit-activity-form';
 
 @Component({
   selector: 'app-activity-actions',

@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { ActivityStore } from '../../../stores/activity.store';
 import { CommonModule } from '@angular/common';
+import { ActivityStore } from '../../../stores/activity/activity.store';
 
 @Component({
   selector: 'app-activity-btn',
