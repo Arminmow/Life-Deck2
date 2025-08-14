@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Activity, ActivityStore } from '../../../stores/activity/activity.store';
+import {ActivityStore } from '../../../stores/activity/activity.store';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import {
   FormGroup,
@@ -11,6 +11,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { CommonModule } from '@angular/common';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { Activity } from '../../../models/activity.model';
 
 @Component({
   selector: 'app-edit-activity-form',

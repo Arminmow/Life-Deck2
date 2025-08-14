@@ -9,8 +9,9 @@ import {
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
-import { ActivityStore, Category } from '../../../stores/activity/activity.store';
+import { ActivityStore } from '../../../stores/activity/activity.store';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { Category } from '../../../models/category.model';
 
 @Component({
   selector: 'app-category-form',

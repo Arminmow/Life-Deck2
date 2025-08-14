@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Activity } from '../../../stores/activity/activity.store';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CommonModule } from '@angular/common';
 import { ActivityBtn } from '../activity-btn/activity-btn';
 import { PrettyDurationPipe } from '../../../pipes/time-spent/time-spent-pipe';
+import { Activity } from '../../../models/activity.model';
 
 @Component({
   selector: 'app-activity-stats',

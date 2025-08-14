@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivityStore, Category } from '../../../stores/activity/activity.store';
+import { ActivityStore } from '../../../stores/activity/activity.store';
 import {
   FormGroup,
   NonNullableFormBuilder,
@@ -10,6 +10,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { CommonModule } from '@angular/common';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { Category } from '../../../models/category.model';
 
 @Component({
   selector: 'app-edit-category-form',

@@ -2,29 +2,12 @@ import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { catchError, EMPTY, from, switchMap, tap } from 'rxjs';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { SupabaseService } from '../../services/supabase/supabase.service';
 import { ActivityService } from '../../services/activity/activity-service';
 import { CategoryService } from '../../services/category/category-service';
+import { Activity } from '../../models/activity.model';
+import { Category } from '../../models/category.model';
 
-export interface Activity {
-  id: string;
-  title: string;
-  description: string;
-  icon: string;
-  banner: string;
-  created: Date;
-  lastPlayed: Date | null;
-  lastSessionStart: Date | null;
-  isRunning: boolean;
-  timeSpent: number | null;
-  category_id: string | null;
-}
 
-export interface Category {
-  id: string;
-  title: string;
-  icon: string;
-}
 
 export interface ActivityState {
   activities: Activity[];
@@ -35,7 +18,6 @@ export interface ActivityState {
 @Injectable({ providedIn: 'root' })
 export class ActivityStore extends ComponentStore<ActivityState> {
   constructor(
-    private supabaseService: SupabaseService,
     private notification: NzNotificationService,
     private activityService: ActivityService,
     private categoryService: CategoryService

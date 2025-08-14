@@ -3,8 +3,9 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { CommonModule } from '@angular/common';
-import { Activity, ActivityStore } from '../../../stores/activity/activity.store';
+import { ActivityStore } from '../../../stores/activity/activity.store';
 import { EditActivityForm } from '../../../shared/forms/edit-activity-form/edit-activity-form';
+import { Activity } from '../../../models/activity.model';
 
 @Component({
   selector: 'app-activity-actions',

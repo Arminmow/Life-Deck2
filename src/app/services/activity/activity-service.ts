@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from '../auth/auth-service';
 import { SupabaseService } from '../supabase/supabase.service';
-import { Activity } from '../../stores/activity/activity.store';
+import { Activity } from '../../models/activity.model';
 
 @Injectable({
   providedIn: 'root',
