@@ -3,9 +3,9 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { CommonModule } from '@angular/common';
-import { ActivityStore } from '../../../stores/activity/activity.store';
 import { EditActivityForm } from '../../../shared/forms/edit-activity-form/edit-activity-form';
 import { Activity } from '../../../models/activity.model';
+import { ActivityEffects } from '../../../stores/activity/activity.effects';
 
 @Component({
   selector: 'app-activity-actions',
@@ -16,7 +16,7 @@ import { Activity } from '../../../models/activity.model';
 })
 export class ActivityActions {
   constructor(
-    private activityStore: ActivityStore,
+    private activityEffect : ActivityEffects,
     private modal: NzModalService
   ) {}
 
@@ -50,7 +50,7 @@ export class ActivityActions {
 
   remove() {
     console.log('bashe baba');
-    this.activityStore.removeActivitiesFromCategoryEffect([this.activity.id]);
+    this.activityEffect.removeActivitiesFromCategoryEffect([this.activity.id]);
   }
 
   showModal(): void {
@@ -62,6 +62,6 @@ export class ActivityActions {
   }
 
   delete() {
-    this.activityStore.removeActivityEffect(this.activity.id);
+    this.activityEffect.removeActivityEffect(this.activity.id);
   }
 }

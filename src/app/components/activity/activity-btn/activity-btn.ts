@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CommonModule } from '@angular/common';
-import { ActivityStore } from '../../../stores/activity/activity.store';
+import { ActivityEffects } from '../../../stores/activity/activity.effects';
 
 @Component({
   selector: 'app-activity-btn',
@@ -16,15 +16,15 @@ export class ActivityBtn {
   @Input() isRunning: boolean = false;
   loading: boolean = false;
 
-  constructor(private activityStore: ActivityStore) {}
+  constructor(private activityEffect : ActivityEffects) {}
 
   async handleClick() {
     this.loading = true;
     try {
       if (this.isRunning) {
-        await this.activityStore.stopActivityEffect(this.activityId);
+        await this.activityEffect.stopActivityEffect(this.activityId);
       } else {
-        await this.activityStore.startActivityEffect(this.activityId);
+        await this.activityEffect.startActivityEffect(this.activityId);
       }
     } catch (error) {
       console.error(error);

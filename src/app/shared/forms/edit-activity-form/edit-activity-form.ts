@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import {ActivityStore } from '../../../stores/activity/activity.store';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import {
   FormGroup,
@@ -12,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { Activity } from '../../../models/activity.model';
+import { ActivityEffects } from '../../../stores/activity/activity.effects';
 
 @Component({
   selector: 'app-edit-activity-form',
@@ -32,7 +32,7 @@ export class EditActivityForm implements OnInit {
   form!: FormGroup;
   constructor(
     private fb: NonNullableFormBuilder,
-    private activityStore: ActivityStore
+    private activityEffect : ActivityEffects
   ) {}
 
   ngOnInit(): void {
@@ -64,7 +64,7 @@ export class EditActivityForm implements OnInit {
       const updatedActivity: Activity = this.form.value;
       console.log(updatedActivity);
 
-      await this.activityStore.updateActivityEffect(updatedActivity);
+      await this.activityEffect.updateActivityEffect(updatedActivity);
       this.formSubmited.emit();
     }
   }

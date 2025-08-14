@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { Category } from '../../../models/category.model';
+import { ActivityEffects } from '../../../stores/activity/activity.effects';
 
 @Component({
   selector: 'app-add-to-category-modal',
@@ -24,7 +25,7 @@ import { Category } from '../../../models/category.model';
 })
 export class AddToCategoryModal {
   @Input() category!: Category;
-  constructor(public activityStore: ActivityStore) {}
+  constructor(public activityStore: ActivityStore , private activityEffect : ActivityEffects) {}
   addModalVisible: boolean = false;
   selectedActivities: string[] = [];
 
@@ -38,7 +39,7 @@ export class AddToCategoryModal {
 
   async submit() {
     console.log(this.selectedActivities);
-    await this.activityStore.addActivitiesToCategoryEffect(
+    await this.activityEffect.addActivitiesToCategoryEffect(
       this.category.id,
       this.selectedActivities
     );
