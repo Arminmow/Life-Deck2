@@ -4,6 +4,7 @@ import { catchError, EMPTY, from, switchMap, tap } from 'rxjs';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { SupabaseService } from '../../services/supabase/supabase.service';
 import { ActivityService } from '../../services/activity/activity-service';
+import { CategoryService } from '../../services/category/category-service';
 
 export interface Activity {
   id: string;
@@ -36,7 +37,8 @@ export class ActivityStore extends ComponentStore<ActivityState> {
   constructor(
     private supabaseService: SupabaseService,
     private notification: NzNotificationService,
-    private activityService: ActivityService
+    private activityService: ActivityService,
+    private categoryService: CategoryService
   ) {
     super({
       activities: [],
@@ -287,7 +289,7 @@ export class ActivityStore extends ComponentStore<ActivityState> {
   readonly loadCategories = this.effect<void>((trigger$) =>
     trigger$.pipe(
       switchMap(() =>
-        from(this.supabaseService.getCategories()).pipe(
+        from(this.categoryService.getCategories()).pipe(
           tap({
             next: (categories) => this.setCategories(categories),
             error: (err) => console.error('Error loading categories:', err),
@@ -302,7 +304,7 @@ export class ActivityStore extends ComponentStore<ActivityState> {
     category: Category & { activities: string[] }
   ): Promise<void> => {
     try {
-      const addedCat = await this.supabaseService.addCategory(category);
+      const addedCat = await this.categoryService.addCategory(category);
 
       this.addCategory(addedCat);
       if (category.activities.length > 0) {
@@ -322,7 +324,7 @@ export class ActivityStore extends ComponentStore<ActivityState> {
     activityIds: string[]
   ): Promise<void> => {
     try {
-      await this.supabaseService.addActivitiesToCategory(
+      await this.categoryService.addActivitiesToCategory(
         activityIds,
         categoryId
       );
@@ -341,7 +343,7 @@ export class ActivityStore extends ComponentStore<ActivityState> {
     activityIds: string[]
   ) => {
     try {
-      await this.supabaseService.removeActivitiesFromCategory(activityIds);
+      await this.categoryService.removeActivitiesFromCategory(activityIds);
 
       this.removeActivitiesFromCategory({ activityIds });
       this.notification.success('', 'Activity Removed successfully');
@@ -352,7 +354,7 @@ export class ActivityStore extends ComponentStore<ActivityState> {
 
   readonly deleteCategoryEffect = async (categoryId: string) => {
     try {
-      const unassignedActivities = await this.supabaseService.deleteCategory(
+      const unassignedActivities = await this.categoryService.deleteCategory(
         categoryId
       );
       this.deleteCategory(categoryId);
@@ -368,7 +370,7 @@ export class ActivityStore extends ComponentStore<ActivityState> {
     updatedCategory: Category
   ): Promise<void> => {
     try {
-      await this.supabaseService.updateCategory(category_id, updatedCategory);
+      await this.categoryService.updateCategory(category_id, updatedCategory);
 
       this.updateCategory({ category_id, updatedCategory });
       this.notification.success('', 'Category Updated successfully');
