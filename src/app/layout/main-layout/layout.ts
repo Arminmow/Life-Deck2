@@ -12,7 +12,7 @@ import { ActivityStore } from '../../stores/activity/activity.store';
 import { Route, Router } from '@angular/router';
 import { CategoryModal } from '../../shared/modals/category-modal/category-modal';
 import { ActivityDetail } from '../../components/activity/activity-detail/activity-detail';
-import { SupabaseService } from '../../services/supabase/supabase.service';
+import { AuthService } from '../../services/auth/auth-service';
 
 @Component({
   selector: 'app-layout',
@@ -40,7 +40,7 @@ export class LayoutComponent implements OnInit {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private supabaseService: SupabaseService,
+    private authService: AuthService,
     public activityStore: ActivityStore,
     private router: Router
   ) {}
@@ -59,7 +59,7 @@ export class LayoutComponent implements OnInit {
     // Check session on load
     const {
       data: { session },
-    } = await this.supabaseService.getSession();
+    } = await this.authService.getSession();
     this.user = session?.user?.email || "'Not logged in'";
   }
 
@@ -71,7 +71,7 @@ export class LayoutComponent implements OnInit {
     }
   }
   async signOut() {
-    await this.supabaseService.signOut();
+    await this.authService.signOut();
     this.router.navigate(['login']);
   }
 

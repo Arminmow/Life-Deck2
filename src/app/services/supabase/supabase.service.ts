@@ -19,35 +19,14 @@ export class SupabaseService {
     return this.supabase;
   }
 
-  async signInWithGoogle() {
-    const { error } = await this.supabase.auth.signInWithOAuth({
-      provider: 'google',
-    });
+ 
 
-    if (error) {
-      console.error('Error signing in:', error.message);
-    }
-  }
 
-  async signOut() {
-    const { error } = await this.supabase.auth.signOut();
-    if (error) console.error('signout error :', error);
-    alert('Signed out successfully');
-  }
 
-  getUser() {
-    return this.supabase.auth.getUser();
-  }
 
-  getSession() {
-    return this.supabase.auth.getSession();
-  }
 
-  onAuthStateChange(callback: (session: Session | null) => void) {
-    this.supabase.auth.onAuthStateChange((_event, session) => {
-      callback(session);
-    });
-  }
+
+  
 
   async addActivity(data: Activity) {
     const {

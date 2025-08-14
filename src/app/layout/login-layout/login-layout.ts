@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { SupabaseService } from '../../services/supabase/supabase.service';
+import { AuthService } from '../../services/auth/auth-service';
 
 @Component({
   selector: 'app-login-layout',
@@ -10,9 +10,9 @@ import { SupabaseService } from '../../services/supabase/supabase.service';
   styleUrl: './login-layout.scss',
 })
 export class LoginLayout {
-  constructor(private supabaseService: SupabaseService) {}
+  constructor(private authService: AuthService) {}
 
   async signIn() {
-    this.supabaseService.signInWithGoogle();
+    this.authService.signInWithGoogle();
   }
 }
