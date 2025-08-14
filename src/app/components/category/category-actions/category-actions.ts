@@ -8,6 +8,7 @@ import { AddToCategoryModal } from '../../../shared/modals/add-to-category-modal
 import { EditCategoryModal } from '../../../shared/modals/edit-category-modal/edit-category-modal';
 import { ActivityStore } from '../../../stores/activity/activity.store';
 import { Category } from '../../../models/category.model';
+import { CategoryStore } from '../../../stores/category/category.store';
 
 @Component({
   selector: 'app-category-actions',
@@ -31,7 +32,8 @@ export class CategoryActions {
 
   constructor(
     private modal: NzModalService,
-    public activityStore: ActivityStore
+    public activityStore: ActivityStore,
+    private categoryStore : CategoryStore
   ) {}
 
   showEditModal(): void {
@@ -39,7 +41,7 @@ export class CategoryActions {
   }
 
   delete(id: string) {
-    this.activityStore.deleteCategoryEffect(id);
+    this.categoryStore.deleteCategoryEffect(id);
   }
 
   confirmDelete(id: string): void {

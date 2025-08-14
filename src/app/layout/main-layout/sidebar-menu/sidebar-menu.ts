@@ -9,6 +9,7 @@ import { CategoryActions } from '../../../components/category/category-actions/c
 import { PrettyDurationPipe } from '../../../pipes/time-spent/time-spent-pipe';
 import { Activity } from '../../../models/activity.model';
 import { Category } from '../../../models/category.model';
+import { CategoryStore } from '../../../stores/category/category.store';
 
 @Component({
   selector: 'app-sidebar-menu',
@@ -29,13 +30,13 @@ export class SidebarMenu implements OnInit {
   activitiesByCategory: { [categoryId: string]: Observable<Activity[]> } = {};
   categoryTimes: { [categoryId: string]: Observable<number> } = {};
 
-  constructor(public activityStore: ActivityStore) {}
+  constructor(public activityStore: ActivityStore , private categoryStore : CategoryStore) {}
 
   ngOnInit(): void {
     this.activityStore.loadActivities();
-    this.activityStore.loadCategories();
+    this.categoryStore.loadCategories();
 
-    this.categories$ = this.activityStore.categories$;
+    this.categories$ = this.categoryStore.categories$;
 
     this.categories$.subscribe((categories) => {
       for (const category of categories) {
