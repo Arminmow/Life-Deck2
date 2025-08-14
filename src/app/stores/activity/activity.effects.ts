@@ -77,39 +77,41 @@ export class ActivityEffects {
       )
   );
 
-  readonly startActivityEffect = this.activityStore.effect<string>((id$) =>
-    id$.pipe(
-      switchMap((id) =>
-        from(this.activityService.startActivity(id)).pipe(
-          tap({
-            next: () => {
-              this.activityStore.startActivity(id);
-              this.notification.success('', 'Activity Started successfully');
-            },
-            error: (err) => console.error('Error starting activity:', err),
-          }),
-          catchError(() => EMPTY)
-        )
-      )
-    )
-  );
+  // I really gotta ask a pro about this 
 
-  readonly stopActivityEffect = this.activityStore.effect<string>((id$) =>
-    id$.pipe(
-      switchMap((id) =>
-        from(this.activityService.stopActivity(id)).pipe(
-          tap({
-            next: () => {
-              this.activityStore.stopActivity(id);
-              this.notification.success('', 'Activity Stopped successfully');
-            },
-            error: (err) => console.error('Error stopping activity:', err),
-          }),
-          catchError(() => EMPTY)
-        )
-      )
-    )
-  );
+  // readonly startActivityEffect = this.activityStore.effect<string>((id$) =>
+  //   id$.pipe(
+  //     switchMap((id) =>
+  //       from(this.activityService.startActivity(id)).pipe(
+  //         tap({
+  //           next: () => {
+  //             this.activityStore.startActivity(id);
+  //             this.notification.success('', 'Activity Started successfully');
+  //           },
+  //           error: (err) => console.error('Error starting activity:', err),
+  //         }),
+  //         catchError(() => EMPTY)
+  //       )
+  //     )
+  //   )
+  // );
+
+  // readonly stopActivityEffect = this.activityStore.effect<string>((id$) =>
+  //   id$.pipe(
+  //     switchMap((id) =>
+  //       from(this.activityService.stopActivity(id)).pipe(
+  //         tap({
+  //           next: () => {
+  //             this.activityStore.stopActivity(id);
+  //             this.notification.success('', 'Activity Stopped successfully');
+  //           },
+  //           error: (err) => console.error('Error stopping activity:', err),
+  //         }),
+  //         catchError(() => EMPTY)
+  //       )
+  //     )
+  //   )
+  // );
 
   readonly updateActivityEffect = this.activityStore.effect<Activity>(
     (activity$) =>
