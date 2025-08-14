@@ -25,7 +25,10 @@ import { ActivityEffects } from '../../../stores/activity/activity.effects';
 })
 export class AddToCategoryModal {
   @Input() category!: Category;
-  constructor(public activityStore: ActivityStore , private activityEffect : ActivityEffects) {}
+  constructor(
+    public activityStore: ActivityStore,
+    private activityEffect: ActivityEffects
+  ) {}
   addModalVisible: boolean = false;
   selectedActivities: string[] = [];
 
@@ -39,10 +42,10 @@ export class AddToCategoryModal {
 
   async submit() {
     console.log(this.selectedActivities);
-    await this.activityEffect.addActivitiesToCategoryEffect(
-      this.category.id,
-      this.selectedActivities
-    );
+    this.activityEffect.addActivitiesToCategoryEffect({
+      categoryId: this.category.id,
+      activityIds: this.selectedActivities,
+    });
     this.addModalVisible = false;
   }
 }
