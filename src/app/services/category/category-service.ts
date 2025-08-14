@@ -12,21 +12,19 @@ export class CategoryService {
     private authService: AuthService
   ) {}
 
-  async getCategories() {
-    const {
-      data: { user },
-      error: userError,
-    } = await this.authService.getUser();
+  private getUserOrThrowSync() {
+    const user = this.authService.getCurrentUser();
+    if (!user) throw new Error('User not authenticated');
+    return user;
+  }
 
-    if (userError || !user) {
-      console.error('User not authenticated:', userError);
-      return [];
-    }
+  async getCategories() {
+    const userId = this.getUserOrThrowSync().id;
 
     const { data, error } = await this.supabaseService.client
       .from('category')
       .select('*')
-      .eq('user_id', user.id)
+      .eq('user_id', userId)
       .order('title', { ascending: true });
     if (error) {
       console.error('Failed to fetch categories:', error.message);
@@ -36,13 +34,7 @@ export class CategoryService {
   }
 
   async addCategory(newCategory: Category & { activities: string[] }) {
-    const {
-      data: { user },
-      error: userError,
-    } = await this.authService.getUser();
-    if (userError || !user) {
-      throw new Error('User not authenticated');
-    }
+    const userId = this.getUserOrThrowSync().id;
 
     const { data, error } = await this.supabaseService.client
       .from('category')
@@ -50,7 +42,7 @@ export class CategoryService {
         {
           title: newCategory.title,
           icon: newCategory.icon,
-          user_id: user.id,
+          user_id: userId,
         },
       ])
       .select()
@@ -69,7 +61,8 @@ export class CategoryService {
       await this.supabaseService.client
         .from('category')
         .delete()
-        .eq('id', data.id);
+        .eq('id', data.id)
+        .eq('user_id', userId);
       alert('Failed to link activities, category rolled back.');
       throw linkError;
     }
@@ -78,19 +71,12 @@ export class CategoryService {
   }
 
   async addActivitiesToCategory(activities: string[], categoryId: string) {
-    const {
-      data: { user },
-      error: userError,
-    } = await this.authService.getUser();
-    if (userError || !user) {
-      throw new Error('User not authenticated');
-    }
-
+    const userId = this.getUserOrThrowSync().id;
     const { error } = await this.supabaseService.client
       .from('Activity')
       .update({ category_id: categoryId })
       .in('id', activities)
-      .eq('userId', user.id);
+      .eq('userId', userId);
 
     if (error) {
       console.error('Failed to add activities to category:', error);
@@ -100,19 +86,13 @@ export class CategoryService {
   }
 
   async removeActivitiesFromCategory(activities: string[]) {
-    const {
-      data: { user },
-      error: userError,
-    } = await this.authService.getUser();
-    if (userError || !user) {
-      throw new Error('User not authenticated');
-    }
+    const userId = this.getUserOrThrowSync().id;
 
     const { error } = await this.supabaseService.client
       .from('Activity')
       .update({ category_id: null })
       .in('id', activities)
-      .eq('userId', user.id);
+      .eq('userId', userId);
 
     if (error) {
       console.error('Failed to remove activities from category:', error);
@@ -122,20 +102,14 @@ export class CategoryService {
   }
 
   async deleteCategory(categoryId: string) {
-    const {
-      data: { user },
-      error: userError,
-    } = await this.authService.getUser();
-    if (userError || !user) {
-      throw new Error('User not authenticated');
-    }
+    const userId = this.getUserOrThrowSync().id;
 
     const { data: unassignedActivities, error: unassignError } =
       await this.supabaseService.client
         .from('Activity')
         .update({ category_id: null })
         .eq('category_id', categoryId)
-        .eq('userId', user.id)
+        .eq('userId', userId)
         .select();
 
     if (unassignError) {
@@ -147,7 +121,7 @@ export class CategoryService {
       .from('category')
       .delete()
       .eq('id', categoryId)
-      .eq('user_id', user.id);
+      .eq('user_id', userId);
 
     if (deleteError) {
       alert(deleteError.message);
@@ -158,19 +132,13 @@ export class CategoryService {
   }
 
   async updateCategory(categoryId: string, updatedData: Category) {
-    const {
-      data: { user },
-      error: userError,
-    } = await this.authService.getUser();
-    if (userError || !user) {
-      throw new Error('User not authenticated');
-    }
+    const userId = this.getUserOrThrowSync().id;
 
     const { error } = await this.supabaseService.client
       .from('category')
       .update(updatedData)
       .eq('id', categoryId)
-      .eq('user_id', user.id);
+      .eq('user_id', userId);
 
     if (error) {
       alert(error.message);

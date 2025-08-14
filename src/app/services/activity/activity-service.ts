@@ -12,40 +12,27 @@ export class ActivityService {
     private supabaseService: SupabaseService
   ) {}
 
+  private getUserOrThrowSync() {
+    const user = this.authService.getCurrentUser();
+    if (!user) throw new Error('User not authenticated');
+    return user;
+  }
+
   async getActivities() {
-    const {
-      data: { user },
-      error: userError,
-    } = await this.authService.getUser();
+    const userId = this.getUserOrThrowSync().id;
 
-    if (userError || !user) {
-      console.error('User not found or error fetching user:', userError);
-      return [];
-    }
-
-    const { data: activities, error } = await this.supabaseService.client
+    const { data, error } = await this.supabaseService.client
       .from('Activity')
       .select('*')
-      .eq('userId', user.id)
+      .eq('userId', userId)
       .order('created', { ascending: true });
 
-    if (error) {
-      console.error('Failed to fetch activities:', error.message);
-      return [];
-    }
-
-    return activities;
+    if (error) throw error;
+    return (data ?? []) as Activity[];
   }
 
   async addActivity(data: Activity) {
-    const {
-      data: { user },
-      error: userError,
-    } = await this.authService.getUser();
-
-    if (userError || !user) {
-      throw new Error('User not authenticated');
-    }
+    const userId = this.getUserOrThrowSync().id;
 
     const { error, data: inserted } = await this.supabaseService.client
       .from('Activity')
@@ -56,13 +43,12 @@ export class ActivityService {
         banner: data.banner,
         created: data.created,
         lastPlayed: data.lastPlayed,
-        userId: user.id,
+        userId: userId,
       })
       .select()
       .single();
 
     if (error) {
-      alert(error);
       throw new Error(error.message);
     }
 
@@ -70,27 +56,31 @@ export class ActivityService {
   }
 
   async removeActivity(id: string) {
+    const userId = this.getUserOrThrowSync().id;
+
     const { error } = await this.supabaseService.client
       .from('Activity')
       .delete()
+      .eq('userId', userId)
       .eq('id', id);
 
     if (error) {
-      alert(error);
       throw new Error(error.message);
     }
   }
 
   async updateActivity(activity: Activity) {
+    const userId = this.getUserOrThrowSync().id;
+
     const { data, error } = await this.supabaseService.client
       .from('Activity')
       .update(activity)
       .eq('id', activity.id)
+      .eq('userId', userId)
       .select()
       .single();
 
     if (error) {
-      alert(error);
       throw new Error(error.message);
     }
 
@@ -98,74 +88,56 @@ export class ActivityService {
   }
 
   async startActivity(id: string): Promise<void> {
-    try {
-      const {
-        data: { user },
-        error: userError,
-      } = await this.authService.getUser();
+    const userId = this.getUserOrThrowSync().id;
 
-      if (userError) throw new Error(`Auth error: ${userError.message}`);
-      if (!user) throw new Error('User is not authenticated.');
+    const { error: updateError } = await this.supabaseService.client
+      .from('Activity')
+      .update({
+        lastSessionStart: new Date(),
+        isRunning: true,
+      })
+      .eq('userId', userId)
+      .eq('id', id);
 
-      const { error: updateError } = await this.supabaseService.client
-        .from('Activity')
-        .update({
-          lastSessionStart: new Date(),
-          isRunning: true,
-        })
-        .eq('id', id);
-
-      if (updateError) throw new Error(`Update failed: ${updateError.message}`);
-    } catch (err: any) {
-      console.error('Failed to start activity:', err);
-      alert(`Failed to start activity: ${err.message || err}`);
-    }
+    if (updateError) throw new Error(`Update failed: ${updateError.message}`);
   }
 
   async stopActivity(id: string) {
-    try {
-      const {
-        data: { user },
-        error: userError,
-      } = await this.authService.getUser();
+    const userId = this.getUserOrThrowSync().id;
 
-      if (userError) throw new Error(`Auth error: ${userError.message}`);
-      if (!user) throw new Error('User is not authenticated.');
-
-      // Fetch the activity first to get lastSessionStart
-      const { data: activity, error: fetchError } = await this.supabaseService.client
+    // Fetch the activity first to get lastSessionStart
+    const { data: activity, error: fetchError } =
+      await this.supabaseService.client
         .from('Activity')
         .select('lastSessionStart, timeSpent')
         .eq('id', id)
+        .eq('userId', userId)
         .single();
 
-      if (fetchError)
-        throw new Error(`Failed to fetch activity: ${fetchError.message}`);
-      if (!activity?.lastSessionStart)
-        throw new Error('No session start time found.');
+    if (fetchError)
+      throw new Error(`Failed to fetch activity: ${fetchError.message}`);
+    if (!activity?.lastSessionStart)
+      throw new Error('No session start time found.');
 
-      const now = new Date();
-      const lastStart = new Date(Date.parse(activity.lastSessionStart));
-      const sessionDuration = Math.floor(
-        (now.getTime() - lastStart.getTime()) / 1000
-      ); // seconds
+    const now = new Date();
+    const lastStart = new Date(Date.parse(activity.lastSessionStart));
+    const sessionDuration = Math.floor(
+      (now.getTime() - lastStart.getTime()) / 1000
+    ); // seconds
 
-      const totalTime = (activity.timeSpent || 0) + sessionDuration;
+    const totalTime = (activity.timeSpent || 0) + sessionDuration;
 
-      const { error: updateError } = await this.supabaseService.client
-        .from('Activity')
-        .update({
-          lastSessionStart: null,
-          isRunning: false,
-          lastPlayed: now,
-          timeSpent: totalTime,
-        })
-        .eq('id', id);
+    const { error: updateError } = await this.supabaseService.client
+      .from('Activity')
+      .update({
+        lastSessionStart: null,
+        isRunning: false,
+        lastPlayed: now,
+        timeSpent: totalTime,
+      })
+      .eq('id', id)
+      .eq('userId', userId);
 
-      if (updateError) throw new Error(`Update failed: ${updateError.message}`);
-    } catch (err: any) {
-      console.error('Failed to stop activity:', err);
-      alert(`Failed to stop activity: ${err.message || err}`);
-    }
+    if (updateError) throw new Error(`Update failed: ${updateError.message}`);
   }
 }
