@@ -3,6 +3,7 @@ import { ComponentStore } from '@ngrx/component-store';
 import { catchError, EMPTY, from, switchMap, tap } from 'rxjs';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { SupabaseService } from '../../services/supabase/supabase.service';
+import { ActivityService } from '../../services/activity/activity-service';
 
 export interface Activity {
   id: string;
@@ -34,7 +35,8 @@ export interface ActivityState {
 export class ActivityStore extends ComponentStore<ActivityState> {
   constructor(
     private supabaseService: SupabaseService,
-    private notification: NzNotificationService
+    private notification: NzNotificationService,
+    private activityService: ActivityService
   ) {
     super({
       activities: [],
@@ -201,7 +203,7 @@ export class ActivityStore extends ComponentStore<ActivityState> {
   readonly loadActivities = this.effect<void>((trigger$) =>
     trigger$.pipe(
       switchMap(() =>
-        from(this.supabaseService.getActivities()).pipe(
+        from(this.activityService.getActivities()).pipe(
           tap({
             next: (activities) => this.setActivities(activities),
             error: (err) => console.error('Error loading activities:', err),
@@ -214,7 +216,7 @@ export class ActivityStore extends ComponentStore<ActivityState> {
 
   readonly addActivityEffect = async (newActivity: Activity): Promise<void> => {
     try {
-      const insertedActivity = await this.supabaseService.addActivity(
+      const insertedActivity = await this.activityService.addActivity(
         newActivity
       );
       this.addActivity(insertedActivity);
@@ -226,7 +228,7 @@ export class ActivityStore extends ComponentStore<ActivityState> {
 
   readonly removeActivityEffect = async (activityId: string): Promise<void> => {
     try {
-      await this.supabaseService.removeActivity(activityId);
+      await this.activityService.removeActivity(activityId);
       this.removeActivity(activityId);
       this.notification.success('', 'Activity Deleted successfully');
     } catch (error) {
@@ -250,7 +252,7 @@ export class ActivityStore extends ComponentStore<ActivityState> {
 
   readonly startActivityEffect = async (id: string): Promise<void> => {
     try {
-      await this.supabaseService.startActivity(id);
+      await this.activityService.startActivity(id);
       this.startActivity(id);
       this.notification.success('', 'Activity Started successfully');
     } catch (error) {
@@ -261,7 +263,7 @@ export class ActivityStore extends ComponentStore<ActivityState> {
 
   readonly stopActivityEffect = async (id: string): Promise<void> => {
     try {
-      await this.supabaseService.stopActivity(id);
+      await this.activityService.stopActivity(id);
       this.stopActivity(id);
       this.notification.success('', 'Activity Stopped successfully');
     } catch (error) {
@@ -272,7 +274,7 @@ export class ActivityStore extends ComponentStore<ActivityState> {
 
   readonly updateActivityEffect = async (activity: Activity) => {
     try {
-      const updatedActivity = await this.supabaseService.updateActivity(
+      const updatedActivity = await this.activityService.updateActivity(
         activity
       );
       this.updateActivity(updatedActivity);
