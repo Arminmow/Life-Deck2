@@ -9,8 +9,10 @@ import {
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
-import { ActivityStore, Category } from '../../../core/stores/activity.store';
+import { ActivityStore } from '../../../stores/activity/activity.store';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { Category } from '../../../models/category.model';
+import { CategoryStore } from '../../../stores/category/category.store';
 
 @Component({
   selector: 'app-category-form',
@@ -30,7 +32,8 @@ export class CategoryForm implements OnInit {
 
   constructor(
     private fb: NonNullableFormBuilder,
-    public activityStore: ActivityStore
+    public activityStore: ActivityStore,
+    private categoryStore : CategoryStore
   ) {}
   form!: FormGroup;
 
@@ -50,7 +53,7 @@ export class CategoryForm implements OnInit {
       return;
     }
     const newCategory: Category & { activities: string[] } = this.form.value;
-    await this.activityStore.addCategoryEffect(newCategory);
+    await this.categoryStore.addCategoryEffect(newCategory);
     this.form.reset();
     this.formSubmited.emit();
   }

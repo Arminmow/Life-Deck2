@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivityStore, Category } from '../../../core/stores/activity.store';
+import { ActivityStore } from '../../../stores/activity/activity.store';
 import {
   FormGroup,
   NonNullableFormBuilder,
@@ -10,6 +10,8 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { CommonModule } from '@angular/common';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { Category } from '../../../models/category.model';
+import { CategoryStore } from '../../../stores/category/category.store';
 
 @Component({
   selector: 'app-edit-category-form',
@@ -26,6 +28,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 export class EditCategoryForm implements OnInit {
   constructor(
     private activityStore: ActivityStore,
+    private categoryStore : CategoryStore,
     private fb: NonNullableFormBuilder
   ) {}
 
@@ -52,7 +55,7 @@ export class EditCategoryForm implements OnInit {
 
   submit() {
     if (this.form.valid) {
-      this.activityStore.updateCategoryEffect(
+      this.categoryStore.updateCategoryEffect(
         this.category.id,
         this.form.value
       );

@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Category } from '../../../core/stores/activity.store';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { EditCategoryForm } from '../../forms/edit-category-form/edit-category-form';
+import { Category } from '../../../models/category.model';
 
 @Component({
   selector: 'app-edit-category-modal',

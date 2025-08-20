@@ -9,7 +9,7 @@ import {
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { CommonModule } from '@angular/common';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { ActivityStore } from '../../../core/stores/activity.store';
+import { ActivityEffects } from '../../../stores/activity/activity.effects';
 
 @Component({
   selector: 'app-activity-form',
@@ -29,7 +29,7 @@ export class ActivityForm implements OnInit {
 
   constructor(
     private fb: NonNullableFormBuilder,
-    private activityStore: ActivityStore
+    private activityEffect : ActivityEffects
   ) {}
 
   form!: FormGroup;
@@ -52,7 +52,7 @@ export class ActivityForm implements OnInit {
     try {
       const formValue = this.form.value;
 
-      await this.activityStore.addActivityEffect({
+      await this.activityEffect.addActivityEffect({
         id: '',
         title: formValue.title,
         description: formValue.description,
