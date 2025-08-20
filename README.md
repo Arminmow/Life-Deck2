@@ -1,5 +1,8 @@
 # 🧩 Life Deck — Track Your Real-Life Activities
 
+[Check it out](https://life-deck-2.netlify.app/)
+
+
 **Life Deck** is a simple, manual activity tracker for your real life—like a personal time log or a "Steam Library" for everything you do.
 
 Add activities such as reading, working out, gaming, studying, and track how much time you spend on each.  
