@@ -17,7 +17,7 @@
       <div class="stat-item-value">
         <span class="stat-title">Last active</span>
         <span>
-          {{ activity.lastPlayed ? (activity.lastPlayed | date: 'd MMMM yyyy') :
+          {{ activity.lastPlayed ? (activity.lastPlayed | timeAgo) :
           'Not activated yet' }}
         </span>
       </div>
