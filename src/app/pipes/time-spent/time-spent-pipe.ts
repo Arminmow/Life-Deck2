@@ -3,7 +3,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({
   name: 'timeSpent',
 })
-export class PrettyDurationPipe implements PipeTransform {
+export class TimeSpent implements PipeTransform {
   transform(seconds: number | null | undefined): string {
     if (!seconds || seconds < 60) return '0m';
 
