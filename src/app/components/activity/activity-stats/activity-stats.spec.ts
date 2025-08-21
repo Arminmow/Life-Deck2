@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivityStats } from './activity-stats';
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Activity } from '../../../models/activity.model';
 import {
   FieldTimeOutline,
@@ -9,7 +9,7 @@ import {
 } from '@ant-design/icons-angular/icons';
 import { NZ_ICONS } from 'ng-zorro-antd/icon';
 import { By } from '@angular/platform-browser';
-import { TimeAgoPipe } from '../../../pipes/timeAgo/time-ago-pipe';
+import { ActivityBtn } from '../activity-btn/activity-btn';
 
 /** -------------------- STUB CHILD COMPONENT -------------------- */
 
@@ -54,7 +54,12 @@ describe('ActivityStats', () => {
           useValue: [FieldTimeOutline, HistoryOutline, CalendarOutline],
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ActivityStats, {
+        remove: { imports: [ActivityBtn] },
+        add: { imports: [ActivityBtnStub] },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(ActivityStats);
     component = fixture.componentInstance;
