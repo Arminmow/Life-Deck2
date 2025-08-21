@@ -1,7 +1,7 @@
-<ng-container *ngIf="activity ; else noActivity" >
+<ng-container *ngIf="activity ; else noActivity">
   <div class="activity-banner-wrapper" data-testId="detail-container">
     <img
-      [src]="activity.banner"
+      [src]="activity.banner || 'default-banner.png'"
       alt="Activity Banner"
       class="activity-banner"
     />
@@ -15,7 +15,7 @@
 </ng-container>
 
 <ng-template #noActivity>
-  <div class="no-activity-wrapper">
+  <div class="no-activity-wrapper" data-testId="no-activity-container">
     <i nz-icon nzType="frown" nzTheme="outline" class="no-activity-icon"></i>
     <h2 class="no-activity-title">No Activity Selected</h2>
     <p class="no-activity-subtitle">
