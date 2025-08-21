@@ -1,4 +1,4 @@
-<div *ngIf="activity" class="activity-stats">
+<div *ngIf="activity" class="activity-stats" data-testId="activity-stats">
   <app-activity-btn
     [activityId]="activity.id"
     [isRunning]="activity.isRunning"
@@ -8,7 +8,7 @@
       <nz-icon class="stats-icon" nzType="field-time" nzTheme="outline" />
       <div class="stat-item-value">
         <span class="stat-title">Time spent</span>
-        <span>{{activity.timeSpent | timeSpent}}</span>
+        <span data-testId="timeSpent">{{activity.timeSpent | timeSpent}}</span>
       </div>
     </div>
 
@@ -16,7 +16,7 @@
       <nz-icon class="stats-icon" nzType="history" nzTheme="outline" />
       <div class="stat-item-value">
         <span class="stat-title">Last active</span>
-        <span>
+        <span data-testId="lastPlayed">
           {{ activity.lastPlayed ? (activity.lastPlayed | timeAgo) :
           'Not activated yet' }}
         </span>
@@ -27,7 +27,7 @@
       <nz-icon class="stats-icon" nzType="calendar" nzTheme="outline" />
       <div class="stat-item-value">
         <span class="stat-title">First created</span>
-        <span>{{activity.created | date: 'd MMMM yyyy'}}</span>
+        <span data-testId="createdDate">{{activity.created | date: 'd MMMM yyyy'}}</span>
       </div>
     </div>
   </div>
