@@ -1,8 +1,8 @@
-import { PrettyDurationPipe } from './time-spent-pipe';
+import { TimeSpent } from './time-spent-pipe';
 
 describe('TimeSpentPipe', () => {
   it('create an instance', () => {
-    const pipe = new PrettyDurationPipe();
+    const pipe = new TimeSpent();
     expect(pipe).toBeTruthy();
   });
 });

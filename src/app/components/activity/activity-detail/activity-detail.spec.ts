@@ -1,10 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ActivityDetail } from './activity-detail';
-import { Activity } from '../../stores/activity.store';
-import { By } from '@angular/platform-browser';
 import { FrownOutline } from '@ant-design/icons-angular/icons';
 import { NZ_ICONS } from 'ng-zorro-antd/icon';
+import { Activity } from '../../../models/activity.model';
 
 describe('ActivityDetail', () => {
   let component: ActivityDetail;

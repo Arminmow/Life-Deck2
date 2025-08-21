@@ -7,9 +7,9 @@ import {
   FrownOutline,
 } from '@ant-design/icons-angular/icons';
 
-import { LayoutComponent } from '../../core/layout/layout/layout';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { NZ_ICONS } from 'ng-zorro-antd/icon';
+import { LayoutComponent } from './layout';
 
 describe('Layout', () => {
   let component: LayoutComponent;
