@@ -1,5 +1,11 @@
 <div class="controls-wrapper">
-  <button class="control-btn" nz-button nzType="primary" (click)="showModal()">
+  <button
+    data-testId="modal-btn"
+    class="control-btn"
+    nz-button
+    nzType="primary"
+    (click)="showModal()"
+  >
     <nz-icon nzType="edit" nzTheme="outline" />
   </button>
 
@@ -15,6 +21,7 @@
 
   <ng-container *ngIf="activity?.category_id">
     <button
+      data-testId="remove-btn"
       class="control-btn"
       nzDanger
       nz-button

@@ -49,7 +49,6 @@ export class ActivityActions {
   }
 
   remove() {
-    console.log('bashe baba');
     this.activityEffect.removeActivitiesFromCategoryEffect([this.activity.id]);
   }
 
