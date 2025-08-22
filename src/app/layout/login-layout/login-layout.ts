@@ -13,6 +13,6 @@ export class LoginLayout {
   constructor(private authService: AuthService) {}
 
   async signIn() {
-    this.authService.signInWithGoogle();
+    await this.authService.signInWithGoogle();
   }
 }
