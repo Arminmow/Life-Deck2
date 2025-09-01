@@ -28,7 +28,7 @@
         <div class="activity-title-with-icon">
           <img [src]="activity.icon" class="activity-icon" />
           <div class="active-info-wrapper">
-            <span class="activity-title">{{ activity.title }}</span>
+            <span class="activity-title">{{ activity.title | truncatePipe }}</span>
             <span>{{activity.timeSpent | timeSpent}}</span>
           </div>
         </div>

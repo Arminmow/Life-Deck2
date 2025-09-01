@@ -11,6 +11,7 @@ import { Activity } from '../../../models/activity.model';
 import { Category } from '../../../models/category.model';
 import { CategoryStore } from '../../../stores/category/category.store';
 import { ActivityEffects } from '../../../stores/activity/activity.effects';
+import { TruncatePipe } from "../../../pipes/truncate/truncate-pipe-pipe";
 
 @Component({
   selector: 'app-sidebar-menu',
@@ -21,7 +22,8 @@ import { ActivityEffects } from '../../../stores/activity/activity.effects';
     TimeSpent,
     NzIconModule,
     CategoryActions,
-  ],
+    TruncatePipe
+],
   templateUrl: './sidebar-menu.html',
   styleUrl: './sidebar-menu.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
