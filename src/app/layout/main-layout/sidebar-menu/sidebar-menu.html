@@ -8,9 +8,9 @@
   >
     <ng-template #categoryTitle>
       <div class="activity-title-with-icon">
-        <img [src]="category.icon" class="activity-icon" />
+        <img [src]="category.icon" class="activity-icon" loading="lazy"/>
         <div class="active-info-wrapper">
-          <span class="activity-title">{{ category.title }}</span>
+          <span class="activity-title">{{ category.title | truncatePipe}}</span>
           <span class="activity-duration"
             >{{ categoryTimes[category.id] | async | timeSpent }}</span
           >
@@ -26,7 +26,7 @@
         [ngClass]="{'active' : activity.isRunning}"
       >
         <div class="activity-title-with-icon">
-          <img [src]="activity.icon" class="activity-icon" />
+          <img [src]="activity.icon" class="activity-icon" loading="lazy"/>
           <div class="active-info-wrapper">
             <span class="activity-title">{{ activity.title | truncatePipe }}</span>
             <span>{{activity.timeSpent | timeSpent}}</span>
@@ -47,7 +47,7 @@
       [ngClass]="{'active' : activity.isRunning}"
     >
       <div class="activity-title-with-icon">
-        <img [src]="activity.icon" class="activity-icon" />
+        <img [src]="activity.icon" class="activity-icon" loading="lazy"/>
         <div class="active-info-wrapper">
           <span class="activity-title">{{ activity.title }}</span>
           <span>{{activity.timeSpent | timeSpent}}</span>
