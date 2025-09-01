@@ -23,41 +23,28 @@ import { CategoryStore } from '../../../stores/category/category.store';
   ],
   templateUrl: './category-actions.html',
   styleUrl: './category-actions.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CategoryActions {
   @Input() category!: Category;
 
-  editModalVisible: boolean = false;
-
   constructor(
     private modal: NzModalService,
-    public activityStore: ActivityStore,
-    private categoryStore : CategoryStore
+    private categoryStore: CategoryStore
   ) {}
 
-  showEditModal(): void {
-    this.editModalVisible = true;
+  delete() {
+    this.categoryStore.deleteCategoryEffect(this.category.id);
   }
 
-  delete(id: string) {
-    this.categoryStore.deleteCategoryEffect(id);
-  }
-
-  confirmDelete(id: string): void {
+  confirmDelete(): void {
     this.modal.confirm({
       nzTitle: 'Are you sure you want to delete this category?',
       nzOkText: 'Yes, delete it',
       nzOkType: 'primary',
       nzOkDanger: true,
-      nzOnOk: () => this.delete(id),
+      nzOnOk: () => this.delete(),
       nzCancelText: 'Cancel',
     });
-  }
-
-  get log() {
-    console.log('Category actions Rendered');
-
-    return true;
   }
 }

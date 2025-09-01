@@ -10,11 +10,11 @@ export class TimeAgoPipe implements PipeTransform {
     const date = new Date(value);
     if (isNaN(date.getTime())) return '';
 
-    const now = new Date();
+    const now = Date.now();
     const seconds = Math.floor((+now - +date) / 1000);
 
     if (seconds < 0) {
-      return 'Bruh!';
+      return 'Future!?';
     }
 
     const intervals: Record<string, number> = {
