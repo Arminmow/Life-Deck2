@@ -25,7 +25,7 @@ export class ActivityService {
       .from('Activity')
       .select('*')
       .eq('userId', userId)
-      .order('created', { ascending: true });
+      .order('timeSpent', { ascending: false });
 
     if (error) throw error;
     return (data ?? []) as Activity[];
