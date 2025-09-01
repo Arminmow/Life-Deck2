@@ -22,3 +22,42 @@
   justify-content: center;
   border-radius: 0.5rem;
 }
+
+/* Time Spent Form */
+.time-spent-form-item {
+  margin-bottom: 1.5rem;
+
+  .time-spent-label {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #333;
+    padding-right: 1rem;
+    width: 120px;
+
+    @media (max-width: 480px) {
+      width: 100%;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .time-spent-control {
+    display: flex;
+    flex-wrap: wrap;
+
+    .time-spent-inputs {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+
+      .time-spent-input {
+        width: 5rem;
+        min-width: 1rem;
+
+        @media (max-width: 480px) {
+          width: 100%;
+        }
+      }
+    }
+  }
+}

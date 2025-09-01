@@ -17,10 +17,16 @@ export class TimeAgoPipe implements PipeTransform {
       return 'Future!?';
     }
 
+    const oneDay = 86400;
+
+    // If more than or equal to 1 day → always return days
+    if (seconds >= oneDay) {
+      const days = Math.floor(seconds / oneDay);
+      return `${days} day${days > 1 ? 's' : ''} ago`;
+    }
+
+    // Otherwise → keep normal sub-day handling
     const intervals: Record<string, number> = {
-      year: 31536000,
-      month: 2592000,
-      day: 86400,
       hour: 3600,
       minute: 60,
       second: 1,
@@ -32,6 +38,7 @@ export class TimeAgoPipe implements PipeTransform {
         return `${interval} ${key}${interval > 1 ? 's' : ''} ago`;
       }
     }
+
     return 'just now';
   }
 }

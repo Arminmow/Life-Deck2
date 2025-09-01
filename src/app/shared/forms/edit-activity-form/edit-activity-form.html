@@ -1,4 +1,10 @@
-<form *ngIf="activity" nz-form [formGroup]="form" nzLayout="vertical" (submit)="submit()">
+<form
+  *ngIf="activity"
+  nz-form
+  [formGroup]="form"
+  nzLayout="vertical"
+  (submit)="submit()"
+>
   <nz-form-item>
     <nz-form-label nzRequired nzFor="title">Title</nz-form-label>
     <nz-form-control [nzErrorTip]="titleError">
@@ -56,21 +62,40 @@
     </nz-form-control>
   </nz-form-item>
 
-  <nz-form-item>
-    <nz-form-label nzFor="banner">Time Spent (in seconds)</nz-form-label>
-    <nz-form-control>
-      <nz-input-group
-        ><nz-input-number
-          nz-input
-          formControlName="timeSpent"
-          id="banner"
-          placeholder="Image URL to use as banner"
-          autocomplete="off"
-        />
-      </nz-input-group>
+  <nz-form-item class="time-spent-form-item">
+    <nz-form-label class="time-spent-label">Time Spent</nz-form-label>
+    <nz-form-control class="time-spent-control">
+      <div class="time-spent-inputs">
+        <nz-input-number
+          class="time-spent-input"
+          formControlName="hours"
+          [nzMin]="0"
+          [nzMax]="23"
+          [nzStep]="1"
+          placeholder="Hours"
+        ></nz-input-number>
+        <span class="time-unit">h</span>
+
+        <nz-input-number
+          class="time-spent-input"
+          formControlName="minutes"
+          [nzMin]="0"
+          [nzMax]="59"
+          [nzStep]="1"
+          placeholder="Minutes"
+        ></nz-input-number>
+        <span class="time-unit">m</span>
+      </div>
     </nz-form-control>
   </nz-form-item>
-  <button nz-button nzType="primary" [disabled]="form.invalid" type="submit" class="submit-btn">
+
+  <button
+    nz-button
+    nzType="primary"
+    [disabled]="form.invalid"
+    type="submit"
+    class="submit-btn"
+  >
     Edit Activity
   </button>
 </form>
