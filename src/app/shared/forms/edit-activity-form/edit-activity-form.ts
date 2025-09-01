@@ -32,11 +32,15 @@ export class EditActivityForm implements OnInit {
   form!: FormGroup;
   constructor(
     private fb: NonNullableFormBuilder,
-    private activityEffect : ActivityEffects
+    private activityEffect: ActivityEffects
   ) {}
 
   ngOnInit(): void {
     if (this.activity) {
+      const totalSeconds = this.activity.timeSpent || 0;
+      const hours = Math.floor(totalSeconds / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+
       this.form = this.fb.group({
         id: [this.activity.id],
         title: [
@@ -46,7 +50,8 @@ export class EditActivityForm implements OnInit {
         description: [this.activity.description],
         icon: [this.activity.icon],
         banner: [this.activity.banner],
-        timeSpent: [this.activity.timeSpent],
+        hours: [hours],
+        minutes: [minutes],
       });
     }
   }
@@ -56,15 +61,17 @@ export class EditActivityForm implements OnInit {
   }
 
   async submit() {
-    console.log('Submitting...');
-
     if (this.form.valid) {
-      console.log('OK');
+      const { hours, minutes, ...rest } = this.form.value;
+      // Convert to seconds
+      const timeSpent = hours * 3600 + minutes * 60;
 
-      const updatedActivity: Activity = this.form.value;
-      console.log(updatedActivity);
+      const updatedActivity: Activity = {
+        ...rest,
+        timeSpent,
+      };
 
-      await this.activityEffect.updateActivityEffect(updatedActivity);
+      this.activityEffect.updateActivityEffect(updatedActivity);
       this.formSubmited.emit();
     }
   }
