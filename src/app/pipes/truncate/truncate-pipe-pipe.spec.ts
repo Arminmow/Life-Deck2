@@ -26,15 +26,15 @@ describe('TruncatePipe', () => {
   });
 
   it('should return the same text if length equals limit', () => {
-    const value = '123456789012345'; // 15 chars
+    const value = '123456789012'; // 12 chars
     const result = pipe.transform(value);
     expect(result).toBe(value);
   });
 
   it('should truncate text longer than default limit (15)', () => {
-    const value = 'This text is definitely longer than fifteen chars';
+    const value = 'This text is definitely longer than 12 chars';
     const result = pipe.transform(value);
-    expect(result).toBe('This text is de...');
+    expect(result).toBe('This text is...');
   });
 
   it('should truncate text using a custom limit', () => {

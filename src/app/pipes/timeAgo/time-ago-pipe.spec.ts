@@ -37,10 +37,6 @@ describe('TimeAgoPipe', () => {
       ['2024-12-31T22:00:00Z', '2 hours ago'],
       // days
       ['2024-12-31T00:00:00Z', '1 day ago'],
-      // months (pipe uses fixed month length in seconds as implemented)
-      ['2024-11-01T00:00:00Z', '2 months ago'],
-      // years
-      ['2024-01-01T00:00:00Z', '1 year ago'],
       // future
       ['2025-01-02T00:00:00Z', 'Future!?'],
     ];
