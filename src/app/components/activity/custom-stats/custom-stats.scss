@@ -57,6 +57,18 @@
   background-color: #0d1c31;
 }
 
+.stats-container {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+  border: 1px dashed #686666;
+  border-radius: 0.5rem;
+  padding: 2rem;
+  background-color: #0d1c31;
+}
+
 .add-btn {
   aspect-ratio: 1/1;
   border-radius: 0.5rem;

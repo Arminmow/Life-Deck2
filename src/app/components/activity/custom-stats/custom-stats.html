@@ -5,12 +5,27 @@
     <ng-container
       *ngIf="activity.customStats && (activity.customStats | keyvalue)?.length; else noCustomStats"
     >
-      <div
-        class="stat-row"
-        *ngFor="let stat of activity.customStats | keyvalue"
-      >
-        <span class="label">{{ stat.key }}</span>
-        <span class="value">{{ stat.value }}</span>
+      <div class="stats-container">
+        <div
+          class="stat-row"
+          *ngFor="let stat of activity.customStats | keyvalue"
+        >
+          <span class="label">{{ stat.key }}</span>
+          <span class="value">{{ stat.value }}</span>
+        </div>
+
+        <button
+          class="add-btn"
+          nz-button
+          nzType="primary"
+          nz-popover
+          [(nzPopoverVisible)]="visible"
+          nzPopoverTrigger="click"
+          [nzPopoverContent]="contentTemplate"
+          nzPopoverPlacement="right"
+        >
+          +
+        </button>
       </div>
     </ng-container>
   </ng-container>
@@ -30,21 +45,32 @@
       >
         Add One
       </button>
-      <ng-template #contentTemplate>
-        <form nz-form>
-          <nz-form-item class="input-container">
-            <nz-form-control>
-              <input class="ant-input" nz-input placeholder="Stat Name" />
-            </nz-form-control>
-          </nz-form-item>
-          <nz-form-item>
-            <nz-form-control>
-              <input class="ant-input" nz-input placeholder="Initial Value" />
-            </nz-form-control>
-          </nz-form-item>
-          <button nz-button (click)="clickMe()">+</button>
-        </form>
-      </ng-template>
     </div>
   </ng-template>
 </nz-card>
+
+<ng-template #contentTemplate>
+  <form [formGroup]="form" nz-form>
+    <nz-form-item class="input-container">
+      <nz-form-control>
+        <input
+          formControlName="statName"
+          class="ant-input"
+          nz-input
+          placeholder="Stat Name"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <input
+          formControlName="initialValue"
+          class="ant-input"
+          nz-input
+          placeholder="Initial Value"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <button nz-button (click)="clickMe($event)">+</button>
+  </form>
+</ng-template>
