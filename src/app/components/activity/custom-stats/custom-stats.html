@@ -1,16 +1,50 @@
 <nz-card class="stats-card" nzBordered="false">
   <div class="card-title">Custom Stats</div>
 
-  <div class="stat-row">
-    <span class="label">Deaths</span>
-    <span class="value">2</span>
-  </div>
-  <div class="stat-row">
-    <span class="label">Gold</span>
-    <span class="value">1200</span>
-  </div>
-  <div class="stat-row">
-    <span class="label">Has been beat</span>
-    <span class="value">No</span>
-  </div>
+  <ng-container *ngIf="activityStore.selectedActivity$ | async as activity">
+    <ng-container
+      *ngIf="activity.customStats && (activity.customStats | keyvalue)?.length; else noCustomStats"
+    >
+      <div
+        class="stat-row"
+        *ngFor="let stat of activity.customStats | keyvalue"
+      >
+        <span class="label">{{ stat.key }}</span>
+        <span class="value">{{ stat.value }}</span>
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #noCustomStats>
+    <div class="no-stats">
+      <span>No custom stats available</span>
+      <button
+        class="add-btn"
+        nz-button
+        nzType="primary"
+        nz-popover
+        [(nzPopoverVisible)]="visible"
+        nzPopoverTrigger="click"
+        [nzPopoverContent]="contentTemplate"
+        nzPopoverPlacement="right"
+      >
+        Add One
+      </button>
+      <ng-template #contentTemplate>
+        <form nz-form>
+          <nz-form-item class="input-container">
+            <nz-form-control>
+              <input class="ant-input" nz-input placeholder="Stat Name" />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control>
+              <input class="ant-input" nz-input placeholder="Initial Value" />
+            </nz-form-control>
+          </nz-form-item>
+          <button nz-button (click)="clickMe()">+</button>
+        </form>
+      </ng-template>
+    </div>
+  </ng-template>
 </nz-card>

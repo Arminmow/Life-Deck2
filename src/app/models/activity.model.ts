@@ -10,6 +10,7 @@ export interface Activity {
   isRunning: boolean;
   timeSpent: number | null;
   category_id: string | null;
+  customStats?: any;
 }
 
 export interface ActivityState {
