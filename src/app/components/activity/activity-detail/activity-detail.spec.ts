@@ -19,6 +19,12 @@ class ActivityActionsStub {
 }
 
 @Component({
+  selector: 'app-custom-stats',
+  template: ''
+})
+class AppCustomStatsStub {}
+
+@Component({
   selector: 'app-activity-modal',
   template: '',
 })
@@ -62,6 +68,7 @@ describe('ActivityDetail', () => {
             CommonModule,
             AppActivityModalStub,
             AppActivityStatsStub,
+            AppCustomStatsStub,
           ],
         },
       })
