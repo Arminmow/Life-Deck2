@@ -1,0 +1,141 @@
+.stats-card {
+  max-width: 20%;
+  margin-top: 1.5rem;
+  background-color: #001529;
+  border-radius: 1rem;
+  color: #f0f2f5;
+  // box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+  padding: 0;
+
+  .card-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #40a9ff; /* accent color for title */
+    margin-bottom: 16px;
+  }
+
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .label {
+      font-size: 15px;
+      font-weight: 500;
+      color: #d9d9d9;
+    }
+
+    .value {
+      font-size: 16px;
+      font-weight: 600;
+      color: #40a9ff;
+    }
+  }
+
+  /* Responsive: remove max-width on small screens */
+  @media (max-width: 768px) {
+    max-width: 100%;
+    margin: 1.5rem 0;
+  }
+}
+
+.no-stats {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  border: 1px dashed #686666;
+  border-radius: 0.5rem;
+  padding: 2rem;
+  background-color: #0d1c31;
+}
+
+.stats-container {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+  border: 1px dashed #686666;
+  border-radius: 0.5rem;
+  padding: 2rem;
+  background-color: #0d1c31;
+}
+
+.add-btn {
+  aspect-ratio: 1/1;
+  border-radius: 0.5rem;
+}
+
+.ant-input {
+  width: 12rem;
+  height: 2.5rem;
+  background-color: #001529;
+  border: none;
+  color: #d9d9d9;
+}
+
+.input-container {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+::ng-deep {
+  .ant-popover {
+    /* Popover container */
+    .ant-popover-inner {
+      background-color: #0d1c31;
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+      padding: 0.3rem;
+      border: 1px solid #40a9ff;
+    }
+
+    /* Popover arrow */
+    .ant-popover-arrow {
+      border-color: #001529;
+    }
+
+    /* Form labels */
+    .ant-form-item-label > label {
+      color: #d9d9d9;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    /* Button */
+    .ant-btn {
+      background-color: #40a9ff; /* Blue accent */
+      border-color: #40a9ff;
+      color: #fff;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      height: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%; /* Full-width for consistency */
+      &:hover,
+      &:focus {
+        background-color: #69b1ff; /* Lighter blue on hover */
+        border-color: #69b1ff;
+      }
+    }
+
+    /* Form item spacing */
+    .ant-form-item {
+      margin-bottom: 1rem; /* Consistent spacing */
+    }
+  }
+}

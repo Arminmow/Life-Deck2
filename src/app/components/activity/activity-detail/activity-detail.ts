@@ -6,6 +6,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { ActivityModal } from "../../../shared/modals/activity-modal/activity-modal";
 import { ActivityActions } from '../../../components/activity/activity-actions/activity-actions';
 import { Activity } from '../../../models/activity.model';
+import { CustomStats } from "../custom-stats/custom-stats";
 
 @Component({
   selector: 'app-activity-detail',
@@ -15,7 +16,8 @@ import { Activity } from '../../../models/activity.model';
     NzButtonModule,
     NzIconModule,
     ActivityActions,
-    ActivityModal
+    ActivityModal,
+    CustomStats
 ],
   templateUrl: './activity-detail.html',
   styleUrl: './activity-detail.scss',
