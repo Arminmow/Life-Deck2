@@ -1,10 +1,11 @@
 .stats-card {
-  max-width: 35%;
+  max-width: 20%;
   margin-top: 1.5rem;
   background-color: #001529;
-  border-radius: 16px;
+  border-radius: 1rem;
   color: #f0f2f5;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+  // box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+  padding: 0;
 
   .card-title {
     font-size: 18px;
