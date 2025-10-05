@@ -71,8 +71,14 @@
 }
 
 .add-btn {
-  aspect-ratio: 1/1;
+  width: 45%;
   border-radius: 0.5rem;
+}
+
+.btn-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .ant-input {

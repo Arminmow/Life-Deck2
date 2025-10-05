@@ -6,7 +6,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AddToCategoryModal } from '../../../shared/modals/add-to-category-modal/add-to-category-modal';
 import { EditCategoryModal } from '../../../shared/modals/edit-category-modal/edit-category-modal';
-import { ActivityStore } from '../../../stores/activity/activity.store';
 import { Category } from '../../../models/category.model';
 import { CategoryStore } from '../../../stores/category/category.store';
 
