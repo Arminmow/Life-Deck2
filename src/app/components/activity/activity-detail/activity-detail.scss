@@ -1,8 +1,12 @@
 .activity-banner-wrapper {
   position: relative;
   width: 100%;
-  height: 30%; 
+  height: 40%; 
   overflow: hidden;
+  @media (max-width: 576px) {
+    border-radius: 0;
+    height: 30%; 
+  }
 }
 
 .activity-banner {

@@ -43,6 +43,8 @@ export class CustomStats implements OnInit {
 
   form!: FormGroup;
   activity!: Activity | null;
+  isEditing: boolean = false;
+  visible: boolean = false;
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -55,14 +57,19 @@ export class CustomStats implements OnInit {
     });
   }
 
-  visible: boolean = false;
+  handleEdit(e: MouseEvent) {
+    if (this.isEditing) {
+      this.handleUpdate(e);
+    }
+    this.isEditing = !this.isEditing;
+  }
 
-  clickMe(e: MouseEvent): void {
+  handleUpdate(e: MouseEvent): void {
     e.preventDefault();
 
     if (this.form.valid && this.activity) {
       const updatedActivity: Activity = {
-        ...this.activity, // now TS knows activity is defined
+        ...this.activity,
         id: this.activity.id, // ensure id is included
         customStats: {
           ...this.activity.customStats,
@@ -74,6 +81,5 @@ export class CustomStats implements OnInit {
     }
 
     this.visible = false;
-    console.log(this.form.value);
   }
 }

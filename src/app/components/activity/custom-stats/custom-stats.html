@@ -14,18 +14,28 @@
           <span class="value">{{ stat.value }}</span>
         </div>
 
-        <button
-          class="add-btn"
-          nz-button
-          nzType="primary"
-          nz-popover
-          [(nzPopoverVisible)]="visible"
-          nzPopoverTrigger="click"
-          [nzPopoverContent]="contentTemplate"
-          nzPopoverPlacement="right"
-        >
-          +
-        </button>
+        <div class="btn-container">
+          <button
+            class="add-btn"
+            nz-button
+            nzType="primary"
+            nz-popover
+            [(nzPopoverVisible)]="visible"
+            nzPopoverTrigger="click"
+            [nzPopoverContent]="contentTemplate"
+            nzPopoverPlacement="right"
+          >
+            +
+          </button>
+          <button
+            nz-button
+            (click)="handleEdit($event)"
+            class="add-btn"
+            nzType="primary"
+          >
+            {{isEditing ? 'Save' : 'Edit'}}
+          </button>
+        </div>
       </div>
     </ng-container>
   </ng-container>
@@ -71,6 +81,6 @@
         />
       </nz-form-control>
     </nz-form-item>
-    <button nz-button (click)="clickMe($event)">+</button>
+    <button nz-button (click)="handleUpdate($event)">+</button>
   </form>
 </ng-template>

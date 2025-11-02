@@ -1,5 +1,5 @@
 .stats-card {
-  max-width: 20%;
+  max-width: 30%;
   margin-top: 1.5rem;
   background-color: #001529;
   border-radius: 1rem;
@@ -71,8 +71,14 @@
 }
 
 .add-btn {
-  aspect-ratio: 1/1;
+  width: 45%;
   border-radius: 0.5rem;
+}
+
+.btn-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .ant-input {
